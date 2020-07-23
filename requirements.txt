@@ -4,3 +4,4 @@ sklearn
 requests
 joblib
 jinja2
+pickle5
