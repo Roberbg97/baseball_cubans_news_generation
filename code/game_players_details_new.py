@@ -4,7 +4,7 @@ import requests
 #import dryscrape
 import json
 
-with open('../cubans.json', 'r') as json_data:
+with open('./cubans.json', 'r') as json_data:
     cubans_players = json.load(json_data)
     json_data.close()
 
