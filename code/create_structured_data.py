@@ -12,7 +12,7 @@ def get_outstandings():
         players_details = json.load(json_data)
         json_data.close()
 
-    model = joblib.load('../classifier_lr_1.sav')
+    model = joblib.load('./classifier_lr_1.sav')
 
     data = {}
     for player in players_details['hitters']:
