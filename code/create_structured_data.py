@@ -5,14 +5,17 @@ import numpy as np
 from notice_generator import Player, Play
 from notice_generator.stats_player import Highlights_Player
 #from stats_player import Highlights_Player
+import os
+try:
+    MODULE = os.path.dirname(os.path.realpath(__file__))
+except:
+    MODULE = ""
 
 def get_outstandings():
 
-    with open('game_day_data_1.json', 'r') as json_data:
-        players_details = json.load(json_data)
-        json_data.close()
+    players_details = json.load(open(os.path.join(MODULE,'game_day_data_1.json')))
 
-    model = joblib.load('classifier_lr_1.sav')
+    model = joblib.load(os.path.join(MODULE, 'classifier_lr_1.sav'))
 
     data = {}
     for player in players_details['hitters']:
@@ -165,9 +168,7 @@ def flow(players_details, sorted_for_outstandings):
 
     #print(sorted_oustandings_players)
 
-    with open('game_day_data_1.json', 'r') as json_data:
-        players_details = json.load(json_data)
-        json_data.close()
+    players_details = json.load(open(os.path.join(MODULE, 'game_day_data_1.json')))
 
     title, new = get_new(players_details, sorted_for_outstandings)
 

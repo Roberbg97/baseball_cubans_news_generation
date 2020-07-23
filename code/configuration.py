@@ -32,6 +32,6 @@ title, text = config()
 
 template = template.render(title=title, text=text)
 
-with open(os.path.join(MODULE,'index.html'), 'w') as h:
+with open(os.path.join(MODULE,'..','index.html'), 'w') as h:
     h.write(template)
     h.close()

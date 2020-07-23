@@ -1,10 +1,14 @@
 from bs4 import BeautifulSoup
 from bs4 import Comment
 import requests
-#import dryscrape
 import json
+import os
+try:
+    MODULE = os.path.dirname(os.path.realpath(__file__))
+except:
+    MODULE = ""
 
-with open('./cubans.json', 'r') as json_data:
+with open(os.path.join(MODULE, 'cubans.json'), 'r') as json_data:
     cubans_players = json.load(json_data)
     json_data.close()
 
@@ -384,7 +388,7 @@ def flow():
         convert_pitcher(p, pd)
 
 
-    with open('game_day_data_1.json', 'w') as json_data:
+    with open(os.path.join(MODULE,'game_day_data_1.json'), 'w') as json_data:
         json.dump(players_details, json_data)
         json_data.close()
 
