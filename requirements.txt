@@ -3,3 +3,4 @@ lxml
 sklearn
 requests
 joblib
+jinja2
