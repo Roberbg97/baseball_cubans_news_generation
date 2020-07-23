@@ -1,4 +1,4 @@
-from sklearn.externals import joblib
+import joblib
 import json
 import numpy as np
 #from data_structure import *
