@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "my-package"
+version = "0.1.0"
+description = ""
+authors = ["Roberbg97 <mail@mail.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.6"
+requests = "^2.21.0"
+lxml = "^4.1.1"
+beautifulsoup4 = "^4.6.0"
+jinja = "^2.10"
+joblib = "^0.13.2"
+scikit-learn = "^0.20.2"
+
+
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
