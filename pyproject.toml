@@ -9,7 +9,7 @@ python = ">=3.6"
 requests = "^2.21.0"
 lxml = "^4.1.1"
 beautifulsoup4 = "^4.6.0"
-jinja = "^2.10"
+Jinja2 = "^2.10"
 joblib = "^0.13.2"
 scikit-learn = "^0.20.2"
 
