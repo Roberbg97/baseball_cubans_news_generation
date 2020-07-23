@@ -20,9 +20,8 @@ jobs:
         python-version: 3.8
     - name: Install dependencies
       run: |
-        apt-get update -y && apt-get install -y \
         python -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        pip install -r requirements.txt; fi
     - name: Update html with new
       run: |
         python code/configuration.py
