@@ -15,7 +15,7 @@ def config():
     return nt.get_text()
 
 env = Environment(
-    loader = FileSystemLoader('../templates'),
+    loader = FileSystemLoader('./templates'),
     autoescape = select_autoescape(['html', 'xml'])
 )
 
