@@ -24,15 +24,20 @@ def get_links_games(session, base_url):
     games_links = []
 
     print("visiting games links...")
-    r = session.get(base_url+"/boxes/?month=5&day=27&year=2019")
+    #r = session.get(base_url+"/boxes/?month=7&day=23&year=2020")
+    r = session.get(base_url)
     print("visited")
 
     bsObj = BeautifulSoup(r.text, 'lxml')
 
-    games_refs = bsObj.findAll('td', {'class': 'right gamelink'})
+    scores = bsObj.find('div', {'id': 'scores'})
 
-    for l in games_refs[1:]:
+    games_refs = scores.findAll('td', {'class': 'right gamelink'})
+
+    for l in games_refs:
         games_links.append(l.a['href'])
+
+    print(games_links)
 
     return games_links
 
@@ -58,7 +63,7 @@ def get_game_score(bsObj):
     divs = scorebox.findAll('div')
 
     game_details[away]['season_score'] = divs[5].get_text()
-    game_details[home]['season_score'] = divs[12].get_text()
+    game_details[home]['season_score'] = divs[11].get_text()
 
     return game_details
 

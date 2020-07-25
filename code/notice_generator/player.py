@@ -177,6 +177,9 @@ class Player:
 
         ps.append(ic)
 
+        plays.sort()
+        plays.reverse()
+
         for p in plays:
             if p.wpa >= 4:
                 ps.append(p.get_text_play())

@@ -96,9 +96,14 @@ class Runs(Action):
             ['carrera', 'carreras'],
             ['anotación', 'anotaciones']
         ]
+        comp_batter = [
+            ['carrera anotada', 'carreras anotadas'],
+            ['anotación', 'anotaciones']
+        ]
+
         l = [
             'ninguna anotación',
-            'ninguna carrera'
+            'ninguna carrera anotada'
         ]
         i = 1
         if cant == 1:
@@ -110,7 +115,7 @@ class Runs(Action):
             if cant == 0:
                 return random.choice(l)
             else:
-                text = str(cant) + ' ' + random.choice(comp)[i]
+                text = str(cant) + ' ' + random.choice(comp_batter)[i]
 
         else:
             if self._player_dict['position'] == 'P':
@@ -138,7 +143,10 @@ class Runs(Action):
                 if cant == 0:
                     return ''
                 else:
-                    text = 'anotó ' + str(cant) + ' carreras'
+                    i = 1
+                    if cant == 1:
+                        i = 0
+                    text = 'anotó ' + str(cant) + ' ' + random.choice(comp)[i]
 
         return text
 
@@ -291,9 +299,14 @@ class RBI(Action):
             if cant == 0:
                 text = 'no impulsó carreras'
             else:
+                i = 1
+                if cant == 1:
+                    i = 0
+                comp_rbi = ['carrera', 'carreras']
+
                 c = [
-                    'empujó ' + str(cant) + ' carreras',
-                    'impulsó ' + str(cant) + ' carreras'
+                    'empujó ' + str(cant) + ' ' + comp_rbi[i],
+                    'impulsó ' + str(cant) + ' ' + comp_rbi[i]
                 ]
                 text = random.choice(c)
 
@@ -310,8 +323,7 @@ class IP(Entity):
         ip = self._player_dict['IP']
 
         comp = [
-            'entradas',
-            'innings'
+            'entradas', 'innings'
         ]
         c = [
             ['lanzadas', 'de labor'],
