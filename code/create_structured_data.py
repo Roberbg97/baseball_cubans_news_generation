@@ -131,11 +131,7 @@ def get_title(player_details, outstandings):
 
     return title
 
-def get_first_paragraph(outstandings):
-    
-    with open('games_details.json', 'r') as g:
-        games_details = json.load(g)
-        g.close()
+def get_first_paragraph(outstandings, games_details):
 
     date = gyd()
 
@@ -183,7 +179,7 @@ def get_new(player_details, sorted_for_outstandings, top_players):
 
     new = ''
 
-    t = get_first_paragraph(sorted_for_outstandings)
+    t = get_first_paragraph(sorted_for_outstandings, top_players)
 
     new += t + '\n\n'
 
