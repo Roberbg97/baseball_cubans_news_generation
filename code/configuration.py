@@ -28,9 +28,9 @@ env = Environment(
 
 template = env.get_template('principal_page_template.html')
 
-title, text = config()
+title, paragraphs = config()
 
-template = template.render(title=title, text=text)
+template = template.render(title=title, paragraphs=paragraphs)
 
 with open(os.path.join(MODULE,'..','index.html'), 'w') as h:
     h.write(template)

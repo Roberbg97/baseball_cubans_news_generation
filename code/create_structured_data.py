@@ -181,7 +181,7 @@ def get_new(player_details, sorted_for_outstandings, top_players):
 
     t = get_first_paragraph(sorted_for_outstandings, top_players)
 
-    paragraphs.appenD(t)
+    paragraphs.append(t)
 
     print(t)
     print()
