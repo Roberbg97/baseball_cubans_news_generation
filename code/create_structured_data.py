@@ -177,11 +177,11 @@ def get_first_paragraph(outstandings, games_details):
 
 def get_new(player_details, sorted_for_outstandings, top_players):
 
-    new = ''
+    paragraphs = []
 
     t = get_first_paragraph(sorted_for_outstandings, top_players)
 
-    new += t + '\n\n'
+    paragraphs.appenD(t)
 
     print(t)
     print()
@@ -202,20 +202,21 @@ def get_new(player_details, sorted_for_outstandings, top_players):
             report = p.get_report()
             print(report)
             print()
-            new += report + '\n\n'
+            paragraphs.append(report)
         else:
             minors += p.get_minority_report()
 
     title = get_title(player_details, outstandings)
 
     print(minors)
-    new += minors
+
+    paragraphs.append(minors)
 
     print()
 
     print(title)
 
-    return (title, new)
+    return (title, paragraphs)
 
 def flow(players_details, sorted_for_outstandings):
     #outstandings_data = get_outstandings()
