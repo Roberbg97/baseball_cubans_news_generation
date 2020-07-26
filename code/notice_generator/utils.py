@@ -1,3 +1,5 @@
+import datetime
+
 player_position = {
     '1B': ['el primera base', 'el inicialista'],
     '2B': ['el segunda base', 'el camarero'],
@@ -37,3 +39,31 @@ direction = {
     'C': ['el receptor', 'el catcher'],
     'P': ['el pitcher', 'el lanzador']
 }
+
+month = {
+    1: 'enero',
+    2: 'febrero',
+    3: 'marzo',
+    4: 'abril',
+    5: 'mayo',
+    6: 'junio',
+    7: 'julio',
+    8: 'agosto',
+    9: 'septiembre',
+    10: 'octubre',
+    11: 'noviembre',
+    12: 'diciembre'
+}
+
+def get_yesterday_date():
+    today = datetime.date.today() 
+    oneday = datetime.timedelta(days=1) 
+    yesterday = today - oneday
+
+    a = ['ro de ', ' de ']
+
+    i = 1
+    if yesterday.day == 1:
+        i = 0
+
+    return str(yesterday.day) + a[i] + month[yesterday.month]

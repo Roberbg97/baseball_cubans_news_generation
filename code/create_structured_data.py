@@ -1,10 +1,12 @@
 import joblib
 import json
 import numpy as np
+import random
 #from data_structure import *
 from notice_generator import Player, Play
 from notice_generator.stats_player import Highlights_Player
 #from stats_player import Highlights_Player
+from notice_generator.utils import get_yesterday_date as gyd
 import os
 try:
     MODULE = os.path.dirname(os.path.realpath(__file__))
@@ -129,20 +131,77 @@ def get_title(player_details, outstandings):
 
     return title
 
-def get_new(player_details, sorted_for_outstandings):
+def get_first_paragraph(outstandings):
+    
+    with open('games_details.json', 'r') as g:
+        games_details = json.load(g)
+        g.close()
+
+    date = gyd()
+
+    text = ''
+
+    fo = [
+        'En la jornada del ' + date + ' de las Grandes Ligas se disputaron ' + str(len(games_details)) + \
+        ' encuentros de béisbol.',
+        'El ' + date + ' se jugaron ' + str(len(games_details)) + ' encuentros en las Grandes Ligas.'
+    ]
+
+    if len(games_details) == 0:
+        return 'En la jornada del ' + date + ' de las Grandes Ligas no se celebraron juegos de béisbol.\n'
+    
+    if len(games_details) == 1:
+        text += 'En la jornada del ' + date + ' de la MLB se disputó solo un encuentro.'
+
+    else:
+        text += random.choice(fo)
+
+    outs = []
+
+    for coef, player, o in outstandings:
+        if o == 1:
+            outs.append(player)
+
+    verb = [
+        [' tuvieron particpación ', ' jugaron '],
+        [' tuvo participación ', ' jugó ']
+    ]
+
+    sust = [
+        ' jugadores cubanos ', ' jugador cubano, que fue ' + outstandings[0][1]
+    ]
+
+    i = 0
+    if len(outstandings) == 1:
+        i = 1
+
+    text += ' En esta jornada' + random.choice(verb)[i] + str(len(outstandings)) + sust[i] + '.'
+
+    return text
+
+def get_new(player_details, sorted_for_outstandings, top_players):
 
     new = ''
+
+    t = get_first_paragraph(sorted_for_outstandings)
+
+    new += t + '\n\n'
+
+    print(t)
+    print()
 
     minors = ''
 
     outstandings = []
+
+    tops = top_players[-1]
 
     for coef, player, o in sorted_for_outstandings:
         if player in player_details['pitchers']:
             p = Player(player, player_details['pitchers'][player])
         else:
             p = Player(player, player_details['hitters'][player])
-        if o == 1:
+        if o == 1 or (player in tops):
             outstandings.append(player)
             report = p.get_report()
             print(report)
@@ -168,9 +227,11 @@ def flow(players_details, sorted_for_outstandings):
 
     #print(sorted_oustandings_players)
 
+    top_players = json.load(open(os.path.join(MODULE, 'games_details.json'), 'r'))
+
     players_details = json.load(open(os.path.join(MODULE, 'game_day_data_1.json')))
 
-    title, new = get_new(players_details, sorted_for_outstandings)
+    title, new = get_new(players_details, sorted_for_outstandings, top_players)
 
     return (title, new)
 

@@ -13,6 +13,8 @@ with open(os.path.join(MODULE, 'cubans.json'), 'r') as json_data:
     json_data.close()
 
 players_details = {}
+all_games_details = []
+top_players = []
 players_details['hitters'] = {}
 players_details['pitchers'] = {}
 
@@ -36,8 +38,6 @@ def get_links_games(session, base_url):
 
     for l in games_refs:
         games_links.append(l.a['href'])
-
-    print(games_links)
 
     return games_links
 
@@ -64,6 +64,45 @@ def get_game_score(bsObj):
 
     game_details[away]['season_score'] = divs[5].get_text()
     game_details[home]['season_score'] = divs[11].get_text()
+
+    # Nuevo: Agregando los jugadores de las 5 mejores jugadas del juego
+    comments = bsObj.find_all(string=lambda text: isinstance(text, Comment))
+    for i in comments:
+        bs = BeautifulSoup(i, 'lxml')
+        top_plays = bs.find('table', {'id': 'top_plays'})
+        if top_plays is not None:
+            top_plays = top_plays.tbody.findAll('tr')
+            break
+    
+    winner = 't'
+    if game_details[home]['score'] > game_details[away]['score']:
+        winner = 'b'
+
+    players = []
+
+    for p in top_plays:
+        inning = p.find('th', {'data-stat': 'inning'}).get_text()
+        pitcher = p.find('td', {'data-stat': 'pitcher'}).get_text()
+        batter = p.find('td', {'data-stat': 'batter'}).get_text()
+        wwpa = p.find('td', {'data-stat': 'win_probability_added'}).get_text()
+
+        inning = inning[0]
+        wwpa = int(wwpa[:-1])
+
+        if winner == inning:
+            if wwpa > 0:
+                players.append(batter)
+            else:
+                players.append(pitcher)
+        else:
+            if wwpa > 0:
+                players.append(pitcher)
+            else:
+                players.append(batter)
+
+    top_players.extend(players)
+
+    all_games_details.append(game_details)
 
     return game_details
 
@@ -395,6 +434,15 @@ def flow():
 
     with open(os.path.join(MODULE,'game_day_data_1.json'), 'w') as json_data:
         json.dump(players_details, json_data)
+        json_data.close()
+
+    for i in range(len(top_players)):
+        top_players[i] = top_players[i].replace('\u00a0', ' ')
+
+    all_games_details.append(top_players)
+
+    with open(os.path.join(MODULE,'games_details.json'), 'w') as json_data:
+        json.dump(all_games_details, json_data)
         json_data.close()
 
 #flow()
