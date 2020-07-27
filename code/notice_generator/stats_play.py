@@ -11,7 +11,7 @@ class Inning(Stats):
     def get_text(self):
         inning = self._play_dict['inning']
         i = inning[0]
-        n = int(inning[1])
+        n = int(inning[1:])
 
         male = [
             'inning',
@@ -381,6 +381,7 @@ class WPA(Stats):
 class Event(Stats):
     def __init__(self, player_name, player_dict, play_dict):
         super().__init__(player_name, player_dict, play_dict)
+        self._player_dict = player_dict
 
     def get_text(self):
         event = self._play_dict['play_desc']['event']
@@ -475,7 +476,7 @@ class Event(Stats):
             ]
             text = random.choice(l)
 
-        elif event == 'Flyball':
+        elif 'Flyball' in event and self._player_dict['position'] == 'P':
             intro = [
                 'provocó que ' + batter + ' fallara',
                 'hizo fallar a ' + batter,
@@ -490,6 +491,9 @@ class Event(Stats):
             ]
             text = random.choice(intro) + ' con ' + \
             random.choice(act)
+
+        elif 'Sacrifice' in event and self._player_dict['position'] != 'P':
+            text = 'elevó un fly de sacrificio'
 
         elif event == 'Lineout':
             intro = [
