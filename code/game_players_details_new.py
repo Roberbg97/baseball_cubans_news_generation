@@ -73,7 +73,7 @@ def get_game_score(bsObj):
         if top_plays is not None:
             top_plays = top_plays.tbody.findAll('tr')
             break
-    
+
     winner = 't'
     if game_details[home]['score'] > game_details[away]['score']:
         winner = 'b'

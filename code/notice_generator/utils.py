@@ -56,8 +56,8 @@ month = {
 }
 
 def get_yesterday_date():
-    today = datetime.date.today() 
-    oneday = datetime.timedelta(days=1) 
+    today = datetime.date.today()
+    oneday = datetime.timedelta(days=1)
     yesterday = today - oneday
 
     a = ['ro de ', ' de ']
