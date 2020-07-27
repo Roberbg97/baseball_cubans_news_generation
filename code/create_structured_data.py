@@ -21,6 +21,8 @@ def get_outstandings():
 
     data = {}
     for player in players_details['hitters']:
+        if len(players_details['hitters'][player]['plays']) == 0:
+            continue 
         data[player] = {}
         x = players_details['hitters'][player]['wpa_bat']
         y = players_details['hitters'][player]['leverage_index_avg']
@@ -28,6 +30,8 @@ def get_outstandings():
         data[player]['stats'] = [float(x), float(y), float(z)]
 
     for player in players_details['pitchers']:
+        if len(players_details['pitchers'][player]['plays']) == 0:
+            continue
         data[player] = {}
         x = players_details['pitchers'][player]['wpa_def']
         y = players_details['pitchers'][player]['leverage_index_avg']
@@ -127,7 +131,7 @@ def get_title(player_details, outstandings):
     for t in list_of_h:
         title += t + '. '
 
-    title += ' Resumen de cubanos MLB.'
+    title += 'Resumen de cubanos MLB.'
 
     return title
 

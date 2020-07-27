@@ -590,7 +590,7 @@ class Highlights_Player(Highlights):
 
                 eb = double + triple + hr
 
-                l.append(name + 'disparó ' + str(eb) + ' extrabases')
+                l.append(name + ' disparó ' + str(eb) + ' extrabases')
                 l.append('juego de ' + str(h) + ' extrabases para ' + name)
 
                 templates_stats['EB'] = l

@@ -63,7 +63,7 @@ def get_game_score(bsObj):
     divs = scorebox.findAll('div')
 
     game_details[away]['season_score'] = divs[5].get_text()
-    game_details[home]['season_score'] = divs[11].get_text()
+    game_details[home]['season_score'] = divs[12].get_text()
 
     # Nuevo: Agregando los jugadores de las 5 mejores jugadas del juego
     comments = bsObj.find_all(string=lambda text: isinstance(text, Comment))
@@ -316,6 +316,8 @@ def get_play_description(play):
     elif ':' in event:
         event_splitted = event.split(':')
         play_details['event'] = event_splitted[0]
+        if 'Sacrifice' in event_splitted[1]:
+            play_details['event'] += ' Sacrifice'
         direction_details = event_splitted[1].lstrip().split('(')[0].split()[0].split('/')[0]
 
 
@@ -344,6 +346,9 @@ def convert_player(player, player_details):
 
     if not 'position' in player_details:
         player_details['position'] = 'P'
+
+    if len(player_details['plays']) == 0:
+        return
 
     player_details['team'], player_details['rival_team'] = _get_team_and_rival(player, player_details)
     player_details['result'] = _win_or_lose(player_details)
