@@ -20,6 +20,7 @@ class Scrapper_BR(Scrapper):
         self._ss = requests.Session()
         self._ss.headers['User-Agent'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Safari/537.36'
         self._base_url = 'https://www.baseball-reference.com'
+        self._data = {}
         self._data['players_details'] = {}
         self._data['all_games_details'] = []
         self._data['top_players'] = []
@@ -308,6 +309,9 @@ class Scrapper_BR(Scrapper):
 
         if not 'position' in player_details:
             player_details['position'] = 'P'
+
+        if len(player_details['plays']) == 0:
+            return
 
         player_details['team'], player_details['rival_team'] = self._get_team_and_rival(player, player_details)
         player_details['result'] = self._win_or_lose(player_details)

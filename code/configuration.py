@@ -4,20 +4,28 @@ try:
 except:
     MODULE = ""
 
-from first_algorithms_flow import Scrapper_BR, Outstandings_LR, New_Templates
+import json
+from first_algorithms_flow import Outstandings_LR, New_Templates
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+from notice_pipeline.scrapper import Scrapper_BR
 
 
 def config():
-    s = Scrapper_BR()
 
-    player_details = s.scraping()
+    cubans = json.load(open(os.path.join(MODULE, 'cubans.json'), 'r'))
+
+    #s = Scrapper_BR()
+    s = Scrapper_BR(cubans)
+
+    #player_details = s.scraping()
+    d = s._scrap()
 
     o = Outstandings_LR()
 
     sfo = o.get_sorted_outstandings()
 
-    nt = New_Templates(player_details, sfo)
+    #nt = New_Templates(player_details, sfo)
+    nt = New_Templates(d['game_day_data'], sfo)
 
     return nt.get_text()
 
