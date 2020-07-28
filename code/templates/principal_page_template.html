@@ -9,6 +9,9 @@
     <p> {{ p }} </p>
     {% endfor %}
 
-    <a href="code/past_news_pages/new_26-7-2020.html">Enlace de la noticia para prueba.</a>
+    {% for pn in past_news %}
+    <a href= "{{ "code/past_news_pages/" + pn[0] + ".html" }}">{{ pn[1] }}</a>
+    {% endfor %}
+
 </body>
 </html>
