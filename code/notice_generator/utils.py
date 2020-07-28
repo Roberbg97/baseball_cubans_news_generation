@@ -10,7 +10,9 @@ player_position = {
     'CF': ['el jardinero central', 'el center fielder'],
     'RF': ['el jardinero derecho', 'el rigth fielder'],
     'P' : ['el lanzador', 'el pitcher'],
-    'DH': ['el bateador designado', 'el designado']
+    'DH': ['el bateador designado', 'el designado'],
+    'PH': ['el bateador emergente', 'el emergente'],
+    'PR': ['el corredor emergente', 'el corredor sustitudo']
 }
 
 ordinal = {

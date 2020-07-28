@@ -22,10 +22,10 @@ def config():
 
     o = Outstandings_LR()
 
-    sfo = o.get_sorted_outstandings()
+    sfo = o.get_sorted_outstandings(d['game_day_data'])
 
     #nt = New_Templates(player_details, sfo)
-    nt = New_Templates(d['game_day_data'], sfo)
+    nt = New_Templates(d['game_day_data'], sfo, d['all_games_details'])
 
     return nt.get_text()
 

@@ -49,7 +49,7 @@ class Scrapper_BR(Scrapper):
         divs = scorebox.findAll('div')
 
         game_details[away]['season_score'] = divs[5].get_text()
-        game_details[home]['season_score'] = divs[11].get_text()
+        game_details[home]['season_score'] = divs[12].get_text()
 
         # Nuevo: Agregando los jugadores de las 5 mejores jugadas del juego
         comments = bsObj.find_all(string=lambda text: isinstance(text, Comment))

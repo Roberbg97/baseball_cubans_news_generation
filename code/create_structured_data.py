@@ -13,9 +13,9 @@ try:
 except:
     MODULE = ""
 
-def get_outstandings():
+def get_outstandings(players_details):
 
-    players_details = json.load(open(os.path.join(MODULE,'game_day_data_1.json')))
+    #players_details = json.load(open(os.path.join(MODULE,'game_day_data_1.json')))
 
     model = joblib.load(os.path.join(MODULE, 'classifier_lr_1.sav'))
 
@@ -37,6 +37,8 @@ def get_outstandings():
         y = players_details['pitchers'][player]['leverage_index_avg']
         z = players_details['pitchers'][player]['re24_def']
         data[player]['stats'] = [float(x), float(y), float(z)]
+
+    print(data)
 
     coefs = model.coef_
     for player in data:
@@ -142,9 +144,9 @@ def get_first_paragraph(outstandings, games_details):
     text = ''
 
     fo = [
-        'En la jornada del ' + date + ' de las Grandes Ligas se disputaron ' + str(len(games_details)) + \
+        'En la jornada del ' + date + ' de las Grandes Ligas se disputaron ' + str(len(games_details) - 1) + \
         ' encuentros de béisbol.',
-        'El ' + date + ' se jugaron ' + str(len(games_details)) + ' encuentros en las Grandes Ligas.'
+        'El ' + date + ' se jugaron ' + str(len(games_details) - 1) + ' encuentros en las Grandes Ligas.'
     ]
 
     if len(games_details) == 0:
@@ -202,6 +204,7 @@ def get_new(player_details, sorted_for_outstandings, top_players):
         else:
             p = Player(player, player_details['hitters'][player])
         if o == 1 or (player in tops):
+
             outstandings.append(player)
             report = p.get_report()
             print(report)
@@ -222,15 +225,15 @@ def get_new(player_details, sorted_for_outstandings, top_players):
 
     return (title, paragraphs)
 
-def flow(players_details, sorted_for_outstandings):
+def flow(players_details, sorted_for_outstandings, top_players):
     #outstandings_data = get_outstandings()
     #sorted_for_outstandings = sort_for_outstandings(outstandings_data)
 
     #print(sorted_oustandings_players)
 
-    top_players = json.load(open(os.path.join(MODULE, 'games_details.json'), 'r'))
+    #top_players = json.load(open(os.path.join(MODULE, 'games_details.json'), 'r'))
 
-    players_details = json.load(open(os.path.join(MODULE, 'game_day_data_1.json')))
+    #players_details = json.load(open(os.path.join(MODULE, 'game_day_data_1.json')))
 
     title, new = get_new(players_details, sorted_for_outstandings, top_players)
 
