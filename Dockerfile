@@ -3,11 +3,11 @@ ADD ./code /app
 WORKDIR /app
 
 # We are installing a dependency here directly into our app source dir
-RUN apt-get update
-RUN apt-get install libxml2-dev libxslt-dev python3-dev gcc -y
+#RUN apt-get update
+#RUN apt-get install libxml2-dev libxslt-dev python3-dev gcc -y
 RUN pip3 install --target=/app Cython
 RUN pip3 install --target=/app requests==2.21.0
-RUN pip3 install --target=/app lxml==4.1.1
+#RUN pip3 install --target=/app lxml==4.1.1
 RUN pip3 install --target=/app beautifulsoup4==4.6.0
 RUN pip3 install --target=/app Jinja2==2.10
 RUN pip3 install --target=/app joblib==0.13.2
