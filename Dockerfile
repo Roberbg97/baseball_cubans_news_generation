@@ -1,9 +1,9 @@
 FROM python:3-slim AS builder
 ADD ./code /app
-COPY ./requirements.txt /app/requirements.txt
 WORKDIR /app
 
 # We are installing a dependency here directly into our app source dir
+RUN apt-get install libxml2-dev libxslt-dev python3-dev gcc
 RUN pip3 install --target=/app Cython
 RUN pip3 install --target=/app requests==2.21.0
 RUN pip3 install --target=/app lxml==4.1.1
