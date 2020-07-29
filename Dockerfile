@@ -5,7 +5,12 @@ WORKDIR /app
 
 # We are installing a dependency here directly into our app source dir
 RUN pip3 install --target=/app Cython
-RUN pip3 install --target=/app -r requirements.txt
+RUN pip3 install --target=/app requests==2.21.0
+RUN pip3 install --target=/app lxml==4.1.1
+RUN pip3 install --target=/app beautifulsoup4==4.6.0
+RUN pip3 install --target=/app Jinja2==2.10
+RUN pip3 install --target=/app joblib==0.13.2
+RUN pip3 install --target=/app "scikit-learn==0.20.2"
 
 # A distroless container image with Python and some basics like SSL certificates
 # https://github.com/GoogleContainerTools/distroless
