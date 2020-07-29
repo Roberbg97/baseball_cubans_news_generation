@@ -11,6 +11,8 @@ RUN pip3 install --target=/app requests==2.21.0
 RUN pip3 install --target=/app beautifulsoup4==4.6.0
 RUN pip3 install --target=/app Jinja2==2.10
 RUN pip3 install --target=/app joblib==0.13.2
+RUN pip3 install --target=/app numpy==1.19.1
+RUN pip3 install --target=/app scipy==1.5.1
 RUN pip3 install --target=/app "scikit-learn==0.20.2"
 
 # A distroless container image with Python and some basics like SSL certificates
