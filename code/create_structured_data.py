@@ -22,7 +22,7 @@ def get_outstandings(players_details):
     data = {}
     for player in players_details['hitters']:
         if len(players_details['hitters'][player]['plays']) == 0:
-            continue 
+            continue
         data[player] = {}
         x = players_details['hitters'][player]['wpa_bat']
         y = players_details['hitters'][player]['leverage_index_avg']
@@ -37,8 +37,6 @@ def get_outstandings(players_details):
         y = players_details['pitchers'][player]['leverage_index_avg']
         z = players_details['pitchers'][player]['re24_def']
         data[player]['stats'] = [float(x), float(y), float(z)]
-
-    print(data)
 
     coefs = model.coef_
     for player in data:
@@ -60,6 +58,8 @@ def sort_for_outstandings(data):
 
     sorted_players.sort()
     sorted_players.reverse()
+
+    print(sorted_players)
 
     return sorted_players
 
@@ -197,6 +197,8 @@ def get_new(player_details, sorted_for_outstandings, top_players):
     outstandings = []
 
     tops = top_players[-1]
+
+    print(sorted_for_outstandings)
 
     for coef, player, o in sorted_for_outstandings:
         if player in player_details['pitchers']:

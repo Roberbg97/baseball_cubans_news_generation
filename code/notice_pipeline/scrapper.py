@@ -115,7 +115,7 @@ class Scrapper_BR(Scrapper):
             name = link.get_text()
             if name not in filter_players:
                 continue
-            if name in players_details:
+            if name in players_details['hitters']:
                 name = name + '_2'
             players_p[name] = 'batter'
             players_details['hitters'][name] = {}
@@ -148,7 +148,7 @@ class Scrapper_BR(Scrapper):
             impact = name_and_impact.replace(name, '')
             if name not in filter_players:
                 continue
-            if name in players_details.keys():
+            if name in players_details['pitchers']:
                 name = name + '_2'
             players_p[name] = 'pitcher'
             players_details['pitchers'][name] = {}
@@ -187,6 +187,10 @@ class Scrapper_BR(Scrapper):
                 players_details['hitters'][batter]['plays'].append( details )
             if pitcher in players and players[pitcher] == 'pitcher':
                 players_details['pitchers'][pitcher]['plays'].append( details )
+            if (batter + '_2') in players and players[(batter + '_2')] == 'batter':
+                players_details['hitters'][(batter + '_2')]['plays'].append( details )
+            if (pitcher + '_2') in players and players[(pitcher + '_2')] == 'pitcher':
+                players_details['pitchers'][(pitcher + '_2')]['plays'].append( details )
 
     def _get_play_description(self, play):
         play_details = {}
