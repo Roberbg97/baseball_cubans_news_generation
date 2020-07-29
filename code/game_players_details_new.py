@@ -8,6 +8,12 @@ try:
 except:
     MODULE = ""
 
+PARSER = 'lxml'
+try:
+    import lxml
+except ImportError:
+    PARSER = 'html.parser'
+
 with open(os.path.join(MODULE, 'cubans.json'), 'r') as json_data:
     cubans_players = json.load(json_data)
     json_data.close()
@@ -30,7 +36,7 @@ def get_links_games(session, base_url):
     r = session.get(base_url)
     print("visited")
 
-    bsObj = BeautifulSoup(r.text, 'lxml')
+    bsObj = BeautifulSoup(r.text, PARSER)
 
     scores = bsObj.find('div', {'id': 'scores'})
 
@@ -68,7 +74,7 @@ def get_game_score(bsObj):
     # Nuevo: Agregando los jugadores de las 5 mejores jugadas del juego
     comments = bsObj.find_all(string=lambda text: isinstance(text, Comment))
     for i in comments:
-        bs = BeautifulSoup(i, 'lxml')
+        bs = BeautifulSoup(i, PARSER)
         top_plays = bs.find('table', {'id': 'top_plays'})
         if top_plays is not None:
             top_plays = top_plays.tbody.findAll('tr')
@@ -128,7 +134,7 @@ def get_cubans_players(game_bsObj, game_details):
 def _get_hitters(name_team, game_bsObj, players_p, game_details):
     comments = game_bsObj.find_all(string=lambda text: isinstance(text, Comment))
     for i in comments:
-        bs = BeautifulSoup(i, 'lxml')
+        bs = BeautifulSoup(i, PARSER)
         players = bs.find('table', {'id': name_team + 'batting'})
         if players is not None:
             players = players.tbody.findAll('tr')
@@ -163,7 +169,7 @@ def _get_hitters(name_team, game_bsObj, players_p, game_details):
 def _get_pitchers(name_team, game_bsObj, players_p, game_details):
     comments = game_bsObj.find_all(string=lambda text: isinstance(text, Comment))
     for i in comments:
-        bs = BeautifulSoup(i, 'lxml')
+        bs = BeautifulSoup(i, PARSER)
         players = bs.find('table', {'id': name_team + 'pitching'})
         if players is not None:
             players = players.tbody.findAll('tr')
@@ -196,7 +202,7 @@ def _get_pitchers(name_team, game_bsObj, players_p, game_details):
 def _get_plays(players, game_bsObj):
     comments = game_bsObj.find_all(string=lambda text: isinstance(text, Comment))
     for i in comments:
-        bs = BeautifulSoup(i, 'lxml')
+        bs = BeautifulSoup(i, PARSER)
         plays = bs.find('table', {'id': 'play_by_play'})
         if plays is not None:
             plays = plays.tbody.findAll('tr')
@@ -401,7 +407,7 @@ def flow():
     for l in games_links:
         print('visiting game', cont)
         r = session.get(base_url+l)
-        bsObj = BeautifulSoup(r.text, 'lxml')
+        bsObj = BeautifulSoup(r.text, PARSER)
         game_details = get_game_score(bsObj)
         get_cubans_players(bsObj, game_details)
         cont += 1
