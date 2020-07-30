@@ -54,7 +54,7 @@ class Scrapper_BR(Scrapper):
         # Nuevo: Agregando los jugadores de las 5 mejores jugadas del juego
         comments = bsObj.find_all(string=lambda text: isinstance(text, Comment))
         for i in comments:
-            bs = BeautifulSoup(i, 'lxml')
+            bs = BeautifulSoup(i, PARSER)
             top_plays = bs.find('table', {'id': 'top_plays'})
             if top_plays is not None:
                 top_plays = top_plays.tbody.findAll('tr')
