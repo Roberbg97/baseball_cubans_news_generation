@@ -199,7 +199,7 @@ class Player:
         plays.reverse()
 
         for p in plays:
-            if p.wpa >= 4 and p.play_dict['play_desc']['event'] != 'DISCARD':
+            if p.wpa > 5 and p.play_dict['play_desc']['event'] != 'DISCARD':
                 ps.append(p.get_text_play())
 
         gp = self.get_general_player_stats()

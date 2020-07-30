@@ -425,8 +425,6 @@ class Scrapper_BR(Scrapper):
 
         self._data['all_games_details'].append(top_players)
 
-        print(players_details['hitters']['José Abreu_2'])
-
         return {'all_games_details': self._data['all_games_details'],
                 'game_day_data': players_details}
 

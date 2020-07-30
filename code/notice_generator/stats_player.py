@@ -569,11 +569,11 @@ class Highlights_Player(Highlights):
                 b = ['vez', 'veces']
 
                 i = 1
-                if rbi == 1:
+                if r == 1:
                     i = 0
 
-                l.append(name + ' anotó ' + str(rbi) + ' ' + a[i])
-                l.append(name + ' también pisó ' + str(rbi) + b[i] + ' el home')
+                l.append(name + ' anotó ' + str(r) + ' ' + a[i])
+                l.append(name + ' también pisó ' + str(r) + b[i] + ' el home')
 
                 templates_stats['R'] = l
 

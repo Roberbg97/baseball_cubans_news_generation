@@ -25,7 +25,10 @@ ordinal = {
     9: ['noveno', 'novena'],
     10: ['décimo', 'décima'],
     11: ['onceno', 'oncena'],
-    12: ['duodécimo', 'duodécima']
+    12: ['duodécimo', 'duodécima'],
+    13: ['décimo tercer', 'décimo tercera'],
+    14: ['décimo cuarto', 'décimo cuarta'],
+    15: ['décimo quinto', 'décimo quinta']
 }
 
 direction = {
