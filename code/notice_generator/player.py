@@ -8,9 +8,19 @@ class Player:
         self.dict_classes = {}
         self.player_dict = player_dict
         self.player_name = player_name
+        self.first_game = False
+        self.second_game = False
         self.init_classes()
 
     def init_classes(self):
+
+        if '_1' in self.player_name:
+            self.first_game = True
+            self.player_name = self.player_name.replace('_1', '')
+
+        if '_2' in self.player_name:
+            self.second_game = True
+            self.player_name = self.player_name.replace('_2', '')
 
         self.dict_classes['player_name'] = Player_name(self.player_name, self.player_dict)
         self.dict_classes['position'] = Position(self.player_name, self.player_dict)
@@ -163,6 +173,14 @@ class Player:
             random.choice(act) + ' ' + random.choice(ll) + ' ' + \
             text2
 
+        if self.first_game:
+            text = text[:-2]
+            text += ', en el priner juego de los dos celebrados por su equipo en la jornada. '
+
+        if self.second_game:
+            text = text[:-2]
+            text += ', en el segundo juego de los dos celebrados por su equipo en la jornada. '
+
         return text
 
     def get_report(self):
@@ -235,6 +253,12 @@ class Player:
         general_stats = fc + general_stats
 
         text = self.player_name + ' ' + general_stats[:-2] + ', ' + text2
+
+        if self.first_game:
+            text = text[:-2] + ', en el primero de dos encuentros disputados. '
+        
+        if self.second_game:
+            text = text[:-2] + ', en el segundo de dos encuentros disputados. '
 
         return text
 

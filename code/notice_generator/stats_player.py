@@ -412,7 +412,8 @@ class Highlights_Player(Highlights):
         super().__init__(player_name, player_dict)
 
     def get_dict_of_texts(self):
-        name = self._player_name
+        name = self._player_name.replace('_1', '')
+        name = name.replace('_2', '')
         templates_stats = {}
 
         if self._player_dict['position'] == 'P':

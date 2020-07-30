@@ -48,12 +48,13 @@ class Renderer():
 
         # Renderizando en las noticias pasadas
 
-        principal_template = env.get_template('past_news_templates.html')
 
-        principal_template = principal_template.render(title=self._title, paragraphs=self._paragraphs)
-
-        with open(os.path.join(self._base_file, 'past_news_pages', name + '.html'), 'w') as h:
-            h.write(principal_template)
+        for name in past_news:
+            principal_template = env.get_template('past_news_templates.html')
+            principal_template = principal_template.render(title=past_news[name]['title'],\
+            paragraphs=past_news[name]['paragraphs'])
+            with open(os.path.join(self._base_file, 'past_news_pages', name + '.html'), 'w') as h:
+                h.write(principal_template)
 
         principal_template = env.get_template('principal_page_template.html')
 
@@ -62,4 +63,3 @@ class Renderer():
 
         with open(os.path.join(self._base_file, 'index.html'), 'w') as h:
             h.write(principal_template)
-            

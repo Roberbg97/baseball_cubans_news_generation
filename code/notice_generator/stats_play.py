@@ -276,7 +276,7 @@ class Runs_Play_Result(Stats):
                     'a favor de'
                 ]
                 l = [
-                    'acercar a' + random.choice(t) + ' en ' + \
+                    'acercar a ' + random.choice(t) + ' en ' + \
                     random.choice(comp) + ' ' + str(result_score) + \
                     ' a ' + str(current_rival_score),
                     'poner el juego ' + str(result_score) + ' a ' + \

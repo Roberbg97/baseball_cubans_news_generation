@@ -86,6 +86,14 @@ class Scrapper_BR(Scrapper):
                 else:
                     players.append(batter)
 
+        past_games_teams = []
+        for gd in self._data['all_games_details']:
+            past_games_teams.extend(list(gd.keys()))
+
+        if away in past_games_teams and home in past_games_teams:
+            for i in range(len(players)):
+                players[i] = players[i] + '_2'
+
         self._data['top_players'].extend(players)
 
         self._data['all_games_details'].append(game_details)
@@ -116,6 +124,8 @@ class Scrapper_BR(Scrapper):
             if name not in filter_players:
                 continue
             if name in players_details['hitters']:
+                players_details['hitters'][name + '_1'] = players_details['hitters'][name]
+                players_details['hitters'].pop(name)
                 name = name + '_2'
             players_p[name] = 'batter'
             players_details['hitters'][name] = {}
@@ -149,6 +159,8 @@ class Scrapper_BR(Scrapper):
             if name not in filter_players:
                 continue
             if name in players_details['pitchers']:
+                players_details['pitchers'][name + '_1'] = players_details['pitchers'][name]
+                players_details['pitchers'].pop(name)
                 name = name + '_2'
             players_p[name] = 'pitcher'
             players_details['pitchers'][name] = {}
@@ -255,9 +267,9 @@ class Scrapper_BR(Scrapper):
         batter = play_1['batter']
         pitcher = play_1['pitcher']
         teams = list(player_details['game_details'].keys())
-        if batter == player and top_or_bottom == 't':
+        if batter in player and top_or_bottom == 't':
             return (teams[0], teams[1])
-        elif pitcher == player and top_or_bottom == 'b':
+        elif pitcher in player and top_or_bottom == 'b':
             return (teams[0], teams[1])
         return (teams[1], teams[0])
 
@@ -412,6 +424,8 @@ class Scrapper_BR(Scrapper):
             top_players[i] = top_players[i].replace('\u00a0', ' ')
 
         self._data['all_games_details'].append(top_players)
+
+        print(players_details['hitters']['José Abreu_2'])
 
         return {'all_games_details': self._data['all_games_details'],
                 'game_day_data': players_details}

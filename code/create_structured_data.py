@@ -59,7 +59,7 @@ def sort_for_outstandings(data):
     sorted_players.sort()
     sorted_players.reverse()
 
-    print(sorted_players)
+    #print(sorted_players)
 
     return sorted_players
 
@@ -159,14 +159,19 @@ def get_first_paragraph(outstandings, games_details):
         text += random.choice(fo)
 
     outs = []
+    total = set()
 
     for coef, player, o in outstandings:
+        player = player.replace('_1', '')
+        player = player.replace('_2', '')
         if o == 1:
             outs.append(player)
+        total.add(player)
+        
 
     verb = [
-        [' tuvieron particpación ', ' jugaron '],
-        [' tuvo participación ', ' jugó ']
+        [' tuvieron particpación ', ' tuvo participación '],
+        [' jugaron ', ' jugó ']
     ]
 
     sust = [
@@ -174,10 +179,10 @@ def get_first_paragraph(outstandings, games_details):
     ]
 
     i = 0
-    if len(outstandings) == 1:
+    if len(total) == 1:
         i = 1
 
-    text += ' En esta jornada' + random.choice(verb)[i] + str(len(outstandings)) + sust[i] + '.'
+    text += ' En esta jornada' + random.choice(verb)[i] + str(len(total)) + sust[i] + '.'
 
     return text
 
