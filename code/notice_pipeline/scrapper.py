@@ -79,8 +79,8 @@ class Scrapper_BR(Scrapper):
             inning = p.find('th', {'data-stat': 'inning'}).get_text()
             pitcher = p.find('td', {'data-stat': 'pitcher'}).get_text()
             batter = p.find('td', {'data-stat': 'batter'}).get_text()
-            batter = self.delete_tilde(batter)
-            pitcher = self.delete_tilde(pitcher)
+            #batter = self.delete_tilde(batter)
+            #pitcher = self.delete_tilde(pitcher)
             wwpa = p.find('td', {'data-stat': 'win_probability_added'}).get_text()
 
             inning = inning[0]
@@ -132,7 +132,7 @@ class Scrapper_BR(Scrapper):
             if pos == 'P':
                 continue
             name = link.get_text()
-            name = self.delete_tilde(name)
+            #name = self.delete_tilde(name)
             if len(filter_players) > 0 and name not in filter_players:
                 continue
             print(name)
@@ -169,7 +169,7 @@ class Scrapper_BR(Scrapper):
             name_and_impact = position.get_text().lstrip()
             name = link.get_text()
             impact = name_and_impact.replace(name, '')
-            name = self.delete_tilde(name)
+            #name = self.delete_tilde(name)
             if len(filter_players) > 0 and name not in filter_players:
                 continue
             print(name)
@@ -208,8 +208,8 @@ class Scrapper_BR(Scrapper):
                 details[pd['data-stat']] = pd.get_text()
             details['batter'] = details['batter'].replace('\xa0', ' ')
             details['pitcher'] = details['pitcher'].replace('\xa0', ' ')
-            details['batter'] = self.delete_tilde(details['batter'])
-            details['pitcher'] = self.delete_tilde(details['pitcher'])
+            #details['batter'] = self.delete_tilde(details['batter'])
+            #details['pitcher'] = self.delete_tilde(details['pitcher'])
             batter = details['batter']
             pitcher = details['pitcher']
             if batter in players and players[batter] == 'batter':
