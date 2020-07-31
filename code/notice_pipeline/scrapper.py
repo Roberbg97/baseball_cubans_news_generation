@@ -27,6 +27,15 @@ class Scrapper_BR(Scrapper):
         self._data['players_details']['hitters'] = {}
         self._data['players_details']['pitchers'] = {}
 
+    def delete_tilde(self, s):
+        s = s.replace('á', 'a')
+        s = s.replace('é', 'e')
+        s = s.replace('í', 'i')
+        s = s.replace('ó', 'o')
+        s = s.replace('ú', 'u')
+        s = s.replace('ñ', 'n')
+        return s
+
     def _get_game_score(self, bsObj):
 
         game_details = {}
@@ -70,6 +79,8 @@ class Scrapper_BR(Scrapper):
             inning = p.find('th', {'data-stat': 'inning'}).get_text()
             pitcher = p.find('td', {'data-stat': 'pitcher'}).get_text()
             batter = p.find('td', {'data-stat': 'batter'}).get_text()
+            batter = self.delete_tilde(batter)
+            pitcher = self.delete_tilde(pitcher)
             wwpa = p.find('td', {'data-stat': 'win_probability_added'}).get_text()
 
             inning = inning[0]
@@ -121,8 +132,10 @@ class Scrapper_BR(Scrapper):
             if pos == 'P':
                 continue
             name = link.get_text()
-            if name not in filter_players:
+            name = self.delete_tilde(name)
+            if len(filter_players) > 0 and name not in filter_players:
                 continue
+            print(name)
             if name in players_details['hitters']:
                 players_details['hitters'][name + '_1'] = players_details['hitters'][name]
                 players_details['hitters'].pop(name)
@@ -156,8 +169,10 @@ class Scrapper_BR(Scrapper):
             name_and_impact = position.get_text().lstrip()
             name = link.get_text()
             impact = name_and_impact.replace(name, '')
-            if name not in filter_players:
+            name = self.delete_tilde(name)
+            if len(filter_players) > 0 and name not in filter_players:
                 continue
+            print(name)
             if name in players_details['pitchers']:
                 players_details['pitchers'][name + '_1'] = players_details['pitchers'][name]
                 players_details['pitchers'].pop(name)
@@ -193,6 +208,8 @@ class Scrapper_BR(Scrapper):
                 details[pd['data-stat']] = pd.get_text()
             details['batter'] = details['batter'].replace('\xa0', ' ')
             details['pitcher'] = details['pitcher'].replace('\xa0', ' ')
+            details['batter'] = self.delete_tilde(details['batter'])
+            details['pitcher'] = self.delete_tilde(details['pitcher'])
             batter = details['batter']
             pitcher = details['pitcher']
             if batter in players and players[batter] == 'batter':

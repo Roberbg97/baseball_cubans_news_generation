@@ -210,7 +210,7 @@ def get_new(player_details, sorted_for_outstandings, top_players):
             p = Player(player, player_details['pitchers'][player])
         else:
             p = Player(player, player_details['hitters'][player])
-        if o == 1 or (player in tops):
+        if o == 1:
 
             outstandings.append(player)
             report = p.get_report()

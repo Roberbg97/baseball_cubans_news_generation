@@ -14,10 +14,14 @@ except:
 
 def config():
 
-    cubans = json.load(open(os.path.join(MODULE, 'cubans.json'), 'r'))
+    #cubans = json.load(open(os.path.join(MODULE, 'cubans.json'), 'r'))
 
     parser = ConfigParser()
     parser.read(os.path.join(MODULE, '..', 'config.ini'))
+
+    scraping_players_module = parser.get('country', 'module')
+    scraping_players_class = parser.get('country', 'class')
+    scraping_players_country = parser.get('country', 'country')
 
     scraping_module = parser.get('scraping', 'module')
     scraping_class = parser.get('scraping', 'class')
@@ -30,6 +34,13 @@ def config():
 
     render_module = parser.get('render', 'module')
     render_class = parser.get('render', 'class')
+
+    module = import_module(scraping_players_module)
+    class_ = getattr(module, scraping_players_class)
+    c = class_(scraping_players_country)
+
+    cubans = c.get_players()
+    print(cubans)
 
     module = import_module(scraping_module)
     class_ = getattr(module, scraping_class)
