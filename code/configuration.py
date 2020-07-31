@@ -17,7 +17,7 @@ def config():
     #cubans = json.load(open(os.path.join(MODULE, 'cubans.json'), 'r'))
 
     parser = ConfigParser()
-    parser.read(os.path.join(MODULE, '..', 'config.ini'))
+    parser.read(os.path.join(MODULE, 'config.ini'))
 
     scraping_players_module = parser.get('country', 'module')
     scraping_players_class = parser.get('country', 'class')
