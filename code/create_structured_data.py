@@ -2,6 +2,7 @@ import joblib
 import json
 import numpy as np
 import random
+from configparser import ConfigParser
 #from data_structure import *
 from notice_generator import Player, Play
 from notice_generator.stats_player import Highlights_Player
@@ -64,8 +65,8 @@ def sort_for_outstandings(data):
     return sorted_players
 
 def get_title(player_details, outstandings):
-    title = ''
 
+    '''
     list_of_h = []
 
     stats_pitchers = {
@@ -136,6 +137,193 @@ def get_title(player_details, outstandings):
     title += 'Resumen de cubanos MLB.'
 
     return title
+    '''
+    parser = ConfigParser()
+    parser.read(os.path.join(MODULE, 'config.ini'))
+
+    country = parser.get('country', 'country')
+
+    if country != 'Cuba':
+        pass
+
+    else:
+        hitters = []
+        pitchers = []
+
+        prom_all = 0
+
+        for coef, player, o in outstandings:
+            prom_all += coef
+            if player in player_details['hitters']:
+                hitters.append((coef, player, o))
+            else:
+                pitchers.append((coef, player, o))
+
+        prom_bat = 0
+        prom_pit = 0
+
+        for coef, _, _ in hitters:
+            prom_bat += coef
+
+        for coef, _, _ in pitchers:
+            prom_pit += coef
+        
+
+        if len(hitters) > 0:
+            prom_bat /= len(hitters)
+
+        if len(pitchers) > 0:
+            prom_pit /= len(pitchers)
+
+        text = ''
+
+        if len(outstandings) == 0:
+            title = 'Sin participación cubana en jornada de las Grandes Ligas.'
+
+
+        elif outstandings[0][2] == 1:
+            if len(outstandings) > 1 and outstandings[1][2] == 1:
+                name_1 = outstandings[0][1]
+                name_2 = outstandings[1][1]
+
+                text += name_1 + ' y ' + name_2 + ', '
+
+                text += random.choice(
+                    [
+                        'los mejores jugadores ' + random.choice(['por Cuba ', 'cubanos ']),
+                        'los más destacados ' + random.choice(['por Cuba ', 'por la armada cubana '])
+                    ]
+                )
+
+            else:
+                if outstandings[0] in hitters:
+                    name = outstandings[0][1]
+                    team = player_details['hitters'][name]['team']
+
+                    hits = player_details['hitters'][name]['H']
+                    hr = player_details['hitters'][name]['HR']
+                    rbi = player_details['hitters'][name]['RBI']
+                    r = player_details['hitters'][name]['R']
+
+                    stats = [
+                        (hits, 'Con ' + str(hits) + random.choice([' hits, ', ' imparables, '])),
+                        (hr, 'Con ' + str(hr) + random.choice([' jonrones, ', ' cuadrangulares, '])),
+                        (rbi, 'Con ' + str(rbi) + ' carreras implusadas, '),
+                        (r, 'Con ' + str(r) + ' carreras anotadas')
+                    ]
+
+                    stats.sort()
+                    stats.reverse()
+
+                    text += stats[0][1]
+
+                    if prom_bat > 1.25:
+                        name = outstandings[0][1]
+
+                        text += name + ' '
+                        text += random.choice(
+                            [
+                                'lidera a ' + team,
+                                'entre los mejores de ' + team
+                            ]
+                        ) + \
+                        random.choice(
+                            [
+                                ' en jornada destacada para la ofensiva cubana.',
+                                ' en buen día para los bateadores cubanos.'
+                            ]
+                        )
+
+                        return text
+
+                    elif prom_bat < 0.5:
+                        text += name + ' '
+                        text += random.choice(
+                            [
+                                'saca la cara por los bateadores cubanos en jornada de las Grandes Ligas.',
+                                'sobresale en mal día para los bateadores cubanos.',
+                                'resalta entre los bateadores cubanos en Grandes Ligas de béisbol.'
+                            ]
+                        )
+                        return text
+                    else:
+                        text += name + ' '
+                        text += random.choice(
+                            [
+                                'destaca entre los bateadores cubanos',
+                                'lidera ofensiva cubana'
+                            ]
+                        )
+                else:
+                    name = outstandings[0][1]
+                    team = player_details['pitchers'][name]['team']
+                    team_rival = player_details['pitchers'][name]['rival_team']
+
+                    if prom_pit > 1.25:
+                        text += random.choice(
+                            [
+                                'Buena salida de ' + name + ' para ' + team,
+                                name + ' dominante frente a ' + team_rival
+                            ]
+                        ) + random.choice(
+                            [
+                                ' en jornada destacada para el pitcheo cubano.',
+                                ' en una buena jornada para el pitcheo cubano.',
+                                ' en un buen día para el pitcheo cubano.'
+                            ]
+                        )
+                        return text
+
+                    elif prom_pit < 0.5:
+                        text += name + ' '
+                        text += random.choice(
+                            [
+                                'salva la honra por los lanzadores cubanos en la jornada de las Grandes Ligas.',
+                                'sobresale en mal día para los lanzadores cubanos.',
+                                'resalta entre los lanzadores cubanos en Grandes Ligas de béisbol.'
+                            ]
+                        )
+                        return text
+                    else:
+                        text += name + ' '
+                        text += random.choice(
+                            [
+                                ', dominante',
+                                ' lidera la ofensiva cubana'
+                            ]
+                        )
+
+        else:
+            if prom_all > 1.00:
+                text += random.choice(
+                    [
+                        'Jornada positiva para los cubanos en Grandes Ligas de béisbol.',
+                        'Buena actuación de los cubanos en jornada de la MLB.',
+                        'Actuaciones destacables para jugadores cubanos en las Grandes Ligas.'
+                    ]
+                )
+                return text
+            else:
+                text += random.choice(
+                    [
+                        'Poco destaque de jugadores cubanos en las Grandes Ligas.',
+                        'Jugadores cubanos con pobres resultados en jornada de la MLB.',
+                        'Discreta actuación de los cubanos en las Grandes Ligas de béisbol.'
+                    ]
+                )
+                return text
+
+        text += random.choice(
+            [
+                ' en jornada de las Grandes Ligas de béisbol.',
+                ' en una jornada más de la MLB',
+                ' en la MLB.',
+                ' en las Grandes Ligas.'
+            ]
+        )
+
+    return text
+
 
 def get_first_paragraph(outstandings, games_details):
 
@@ -220,7 +408,7 @@ def get_new(player_details, sorted_for_outstandings, top_players):
         else:
             minors += p.get_minority_report()
 
-    title = get_title(player_details, outstandings)
+    title = get_title(player_details, sorted_for_outstandings)
 
     print(minors)
 

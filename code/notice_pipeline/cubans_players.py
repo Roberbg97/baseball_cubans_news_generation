@@ -54,9 +54,6 @@ class Scrapper_for_country:
         r = session.get(base_url + '/bio/Cuba_born.shtml')
         bsObj = BeautifulSoup(r.text, PARSER)
 
-        with open('x.html', 'w') as x:
-            x.write(r.text)
-
         hitters = bsObj.find('table', {'id': 'bio_batting'}).tbody.find_all('tr')
 
         comments = bsObj.find_all(string=lambda text: isinstance(text, Comment))
