@@ -76,7 +76,7 @@ def config():
 
     r.render()
 
-    return nt.get_text()
+    return (title, paragraphs)
 
 '''
 env = Environment(
