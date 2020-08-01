@@ -167,7 +167,7 @@ def get_title(player_details, outstandings):
 
         for coef, _, _ in pitchers:
             prom_pit += coef
-        
+
 
         if len(hitters) > 0:
             prom_bat /= len(hitters)
@@ -179,6 +179,7 @@ def get_title(player_details, outstandings):
 
         if len(outstandings) == 0:
             title = 'Sin participación cubana en jornada de las Grandes Ligas.'
+            return title
 
 
         elif outstandings[0][2] == 1:
@@ -355,7 +356,10 @@ def get_first_paragraph(outstandings, games_details):
         if o == 1:
             outs.append(player)
         total.add(player)
-        
+
+    if len(outstandings) == 0:
+        text += ' En esta jornada no hubo participación cubana.'
+        return text
 
     verb = [
         [' tuvieron particpación ', ' tuvo participación '],

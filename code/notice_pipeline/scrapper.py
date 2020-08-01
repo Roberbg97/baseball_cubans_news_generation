@@ -27,15 +27,6 @@ class Scrapper_BR(Scrapper):
         self._data['players_details']['hitters'] = {}
         self._data['players_details']['pitchers'] = {}
 
-    def delete_tilde(self, s):
-        s = s.replace('á', 'a')
-        s = s.replace('é', 'e')
-        s = s.replace('í', 'i')
-        s = s.replace('ó', 'o')
-        s = s.replace('ú', 'u')
-        s = s.replace('ñ', 'n')
-        return s
-
     def _get_game_score(self, bsObj):
 
         game_details = {}
@@ -387,9 +378,13 @@ class Scrapper_BR(Scrapper):
         # get links games
         games_links = []
         r = session.get(base_url)
+        #r = session.get(base_url + '/boxes/?month=7&day=30&year=2020')
         bsObj = BeautifulSoup(r.text, PARSER)
         scores = bsObj.find('div', {'id': 'scores'})
+        #games_refs = scores.findAll('td', {'class': 'right gamelink'})
+        #scores = bsObj.find('div', {'class': 'game_summaries'})
         games_refs = scores.findAll('td', {'class': 'right gamelink'})
+
         for l in games_refs:
             games_links.append(l.a['href'])
 
