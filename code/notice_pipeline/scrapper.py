@@ -213,6 +213,8 @@ class Scrapper_BR(Scrapper):
                 players_details['pitchers'][(pitcher + '_2')]['plays'].append( details )
 
     def _get_play_description(self, play):
+        if isinstance(play, dict):
+            return play
         play_details = {}
         play_details['event'] = ''
         play_details['direction'] = ''

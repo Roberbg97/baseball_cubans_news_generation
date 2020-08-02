@@ -66,78 +66,6 @@ def sort_for_outstandings(data):
 
 def get_title(player_details, outstandings):
 
-    '''
-    list_of_h = []
-
-    stats_pitchers = {
-        'SC': 0,
-        'W': 0,
-        'SV': 0,
-        'R': 0,
-        'K': 0,
-        'NHNR': 0
-    }
-
-    stats_hitters = {
-        'PG': 0,
-        'HR': 0,
-        'RBI': 0,
-        'R': 0,
-        'H': 0,
-        'EB': 0
-    }
-
-    for player in outstandings:
-        if player in player_details['pitchers']:
-            h = Highlights_Player(player, player_details['pitchers'][player])
-            d = h.get_dict_of_texts()
-            if 'NHNR' in d:
-                list_of_h.append(d[ 'NHNR' ][ stats_pitchers[ 'NHNR' ] ])
-                stats_pitchers[ 'NHNR' ] += 1
-            elif 'W' in d:
-                list_of_h.append(d[ 'W' ][ stats_pitchers[ 'W' ] ])
-                stats_pitchers[ 'W' ] += 1
-            elif 'SV' in d:
-                list_of_h.append(d[ 'SV' ][ stats_pitchers[ 'SV' ] ])
-                stats_pitchers[ 'SV' ] += 1
-            elif 'SC' in d:
-                list_of_h.append(d[ 'SC' ][ stats_pitchers[ 'SC' ] ])
-                stats_pitchers[ 'SC' ] += 1
-            elif 'R' in d:
-                list_of_h.append(d[ 'R' ][ stats_pitchers[ 'R' ] ])
-                stats_pitchers[ 'R' ] += 1
-            elif 'K' in d:
-                list_of_h.append(d[ 'K' ][ stats_pitchers[ 'K' ] ])
-                stats_pitchers[ 'K' ] += 1
-        else:
-            h = Highlights_Player(player, player_details['hitters'][player])
-            d = h.get_dict_of_texts()
-            if 'PG' in d:
-                list_of_h.append(d[ 'PG' ][ stats_hitters[ 'PG' ] ])
-                stats_hitterd[ 'PG' ] += 1
-            elif 'HR' in d:
-                list_of_h.append(d[ 'HR' ][ stats_hitters[ 'HR' ] ])
-                stats_hitters[ 'HR' ] += 1
-            elif 'EB' in d:
-                list_of_h.append(d[ 'EB' ][ stats_hitters[ 'EB' ] ])
-                stats_hitters[ 'EB' ] += 1
-            elif 'RBI' in d:
-                list_of_h.append(d[ 'RBI' ][ stats_hitters[ 'RBI' ] ])
-                stats_hitters[ 'RBI' ] += 1
-            elif 'R' in d:
-                list_of_h.append(d[ 'R' ][ stats_hitters[ 'R' ] ])
-                stats_hitters[ 'R' ] += 1
-            elif 'H' in d:
-                list_of_h.append(d[ 'H' ][ stats_hitters[ 'H' ] ])
-                stats_hitters[ 'H' ] += 1
-
-    for t in list_of_h:
-        title += t + '. '
-
-    title += 'Resumen de cubanos MLB.'
-
-    return title
-    '''
     parser = ConfigParser()
     parser.read(os.path.join(MODULE, 'config.ini'))
 
@@ -325,7 +253,6 @@ def get_title(player_details, outstandings):
 
     return text
 
-
 def get_first_paragraph(outstandings, games_details):
 
     date = gyd()
@@ -377,6 +304,9 @@ def get_first_paragraph(outstandings, games_details):
     text += ' En esta jornada' + random.choice(verb)[i] + str(len(total)) + sust[i] + '.'
 
     return text
+
+def get_game_summary():
+    pass
 
 def get_new(player_details, sorted_for_outstandings, top_players):
 

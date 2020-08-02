@@ -33,6 +33,9 @@ class Player:
         for play in self.player_dict['plays']:
             self.dict_classes['plays'].append(Play(self.player_name, self.player_dict, play))
 
+    def rbi_on_play(self, play):
+        return self.player_dict['position'] != 'P' and play.play_dict['play_desc']['RBI'] > 0
+
     def get_general_player_stats(self):
 
         text = ''
@@ -199,7 +202,7 @@ class Player:
         plays.reverse()
 
         for p in plays:
-            if p.wpa > 5 and p.play_dict['play_desc']['event'] != 'DISCARD':
+            if (p.wpa >= 5 or self.rbi_on_play(p)) and p.play_dict['play_desc']['event'] != 'DISCARD':
                 ps.append(p.get_text_play())
 
         gp = self.get_general_player_stats()
@@ -346,12 +349,6 @@ class Play:
                 'Esto le permitió'
             ]
 
-            #TODO: revisar esto q no se usa
-            # x = np.random.randint(len(complements))
-            # y = np.random.randint(len(complements))
-            # while y == x:
-            #     y = np.random.randint(len(complements))
-
         else:
             entity = self.dict_classes['referring'].text
 
@@ -375,19 +372,11 @@ class Play:
                 self.dict_classes['outs_play_result'].text
             ]
 
-            #score_result = self.dict_classes['score_result'].text
-            #outs_play_result = self.dict_classes['outs_play_result'].text
-
 
             while '' in reaction:
                 reaction.remove('')
 
             comp_after_event = self.dict_classes['play_desc']['direction'].text
-
-            #contents = [
-            #    [],
-            #    []
-            #]
 
             react = [
                 'para',
@@ -399,13 +388,6 @@ class Play:
                 'Gracias a ello consiguió',
                 'Esto le permitió'
             ]
-
-            #TODO: revisar esto q no se usa
-            # x = np.random.randint(len(complements))
-            # y = np.random.randint(len(complements))
-            # while y == x:
-            #     y = np.random.randint(len(complements))
-
 
         text = [
             entity + ', ' + comp[1] + ', ' + action + ' ' + comp_after_event + \
