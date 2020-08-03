@@ -68,6 +68,15 @@ def config():
     #nt = New_Templates(d['game_day_data'], sfo, d['all_games_details'])
 
     title, paragraphs = nt.get_text()
+    
+    '''
+    j = {}
+    j['title'] = title
+    j['paragraphs'] = paragraphs
+    json.dump(j, open('c.json', 'w'))
+
+    return (title, paragraphs)
+    '''
 
     module = import_module(render_module)
     class_ = getattr(module, render_class)

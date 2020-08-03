@@ -51,6 +51,36 @@ class Scrapper_BR(Scrapper):
         game_details[away]['season_score'] = divs[5].get_text()
         game_details[home]['season_score'] = divs[12].get_text()
 
+        scorebox_meta = bsObj.find('div', {'class': 'scorebox_meta'}).find_all('div')[2]
+
+        stadium = scorebox_meta.get_text()
+        stadium = stadium.replace('Venue: ', '')
+
+        game_details['stadium'] = stadium
+
+        game_details['uod'] = 1
+        for game in self._data['all_games_details']:
+            if away in game and home in game:
+                game['uod'] = 2
+                game_details['uod'] = 3
+                break
+
+        linescore = bsObj.find('div', {'class': 'linescore_wrap'}).tfoot.get_text()
+
+        wls = linescore.split('•')
+        win = wls[0].split('WP:')[1][1:].split('(')[0].rstrip()
+        lose = wls[1].split('LP:')[1][1:].split('(')[0].rstrip()
+        sv = ''
+        if len(wls) > 2:
+            sv = wls[2].split('SV:')[1][1:].split('(')[0].rstrip()
+
+        game_details['WP'] = win
+        game_details['LP'] = lose
+        if sv != '':
+            game_details['SV'] = sv
+
+
+        '''
         # Nuevo: Agregando los jugadores de las 5 mejores jugadas del juego
         comments = bsObj.find_all(string=lambda text: isinstance(text, Comment))
         for i in comments:
@@ -66,6 +96,8 @@ class Scrapper_BR(Scrapper):
 
         players = []
 
+
+        
         for p in top_plays:
             inning = p.find('th', {'data-stat': 'inning'}).get_text()
             pitcher = p.find('td', {'data-stat': 'pitcher'}).get_text()
@@ -97,6 +129,7 @@ class Scrapper_BR(Scrapper):
                 players[i] = players[i] + '_2'
 
         self._data['top_players'].extend(players)
+        '''
 
         self._data['all_games_details'].append(game_details)
 
@@ -126,7 +159,6 @@ class Scrapper_BR(Scrapper):
             #name = self.delete_tilde(name)
             if len(filter_players) > 0 and name not in filter_players:
                 continue
-            print(name)
             if name in players_details['hitters']:
                 players_details['hitters'][name + '_1'] = players_details['hitters'][name]
                 players_details['hitters'].pop(name)
@@ -163,7 +195,6 @@ class Scrapper_BR(Scrapper):
             #name = self.delete_tilde(name)
             if len(filter_players) > 0 and name not in filter_players:
                 continue
-            print(name)
             if name in players_details['pitchers']:
                 players_details['pitchers'][name + '_1'] = players_details['pitchers'][name]
                 players_details['pitchers'].pop(name)
@@ -433,12 +464,6 @@ class Scrapper_BR(Scrapper):
             self._convert_player(p, pd)
             self._convert_pitcher(p, pd)
 
-        top_players = self._data['top_players']
-        for i in range(len(top_players)):
-            top_players[i] = top_players[i].replace('\u00a0', ' ')
-
-        self._data['all_games_details'].append(top_players)
-
         return {'all_games_details': self._data['all_games_details'],
                 'game_day_data': players_details}
-
+                

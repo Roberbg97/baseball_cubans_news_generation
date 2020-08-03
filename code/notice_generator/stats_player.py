@@ -189,7 +189,7 @@ class AB(Entity):
         i = 1
         if ab == 1:
             i = 0
-        text = 'en ' + str(ab) + random.choice(comp)[i]
+        text = 'en ' + str(ab) + ' ' + random.choice(comp)[i]
         return text
 
 # Entity

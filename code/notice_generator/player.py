@@ -33,12 +33,34 @@ class Player:
         for play in self.player_dict['plays']:
             self.dict_classes['plays'].append(Play(self.player_name, self.player_dict, play))
 
+    def _last_name(self):
+        n = self.player_name.split()
+        text = ''
+        for i in n[1:]:
+            text += i + ' '
+        return text.rstrip()
+
     def rbi_on_play(self, play):
         return self.player_dict['position'] != 'P' and play.play_dict['play_desc']['RBI'] > 0
+
+    def _rbi_and_runs(self):
+        r = self.player_dict['R']
+        rbi = self.player_dict['RBI']
+
+        r_text = self.dict_classes['runs']['entity'].text
+        rbi_text = self.dict_classes['RBI']['entity'].text
+
+        if r > 0 and rbi > 0:
+            return r_text + ' y ' + rbi_text
+        elif r > 0:
+            return r_text
+        else:
+            return rbi_text
 
     def get_general_player_stats(self):
 
         text = ''
+        last_name = self._last_name()
         self.dict_classes['hits'] = {}
         self.dict_classes['runs'] = {}
 
@@ -69,32 +91,51 @@ class Player:
             if self.player_dict['Double'] > 0:
                 ads.append(self.dict_classes['Double'])
 
-            ads.append(self.dict_classes['BB'])
+            #ads.append(self.dict_classes['BB'])
 
-            values = [self.player_dict['RBI'], self.player_dict['R'], self.player_dict['H']]
+            r = self.player_dict['R']
+            rbi = self.player_dict['RBI']
 
-            l = [
-                [self.dict_classes['RBI']['action'], self.dict_classes['runs']['entity'], self.dict_classes['hits']['entity']],
-                [self.dict_classes['runs']['action'], self.dict_classes['RBI']['entity'], self.dict_classes['hits']['entity']],
-                [self.dict_classes['hits']['action'], self.dict_classes['RBI']['entity'], self.dict_classes['runs']['entity']]
-            ]
+            rbi_and_runs = self._rbi_and_runs()
 
-            ll = l[values.index(max(values))]
+            #text = ll[0].text + ', con ' + ll[1].text
+            text_1 = ''
 
-            ll.extend(ads)
+            if len(ads) == 1:
+                text_1 += ads[0].text
+            elif ads:
+                text_1 += ads[0].text
+                for i in range(1, len(ads)):
+                    if i == len(ads) - 1:
+                        text_1 += ' y ' + ads[i].text
+                    else:
+                        text_1 += ', ' + ads[i].text
 
-            text = ll[0].text + ', con ' + ll[1].text
+            text = random.choice(
+                [
+                    last_name + ' ' + self.dict_classes['hits']['action'].text + \
+                    ' ' + self.dict_classes['AB'].text,
+                    last_name + ', ' + self.dict_classes['AB'].text + ', ' + \
+                    self.dict_classes['hits']['action'].text
+                ]
+            )
 
-            for i in range(2, len(ll)):
-                if i == len(ll) - 1:
-                    text += ' y ' + ll[i].text + '. '
-                else:
-                    text += ', ' + ll[i].text
+            if r > 0 or rbi > 0:
+                text += random.choice(
+                    [
+                        '. Aportó ' + rbi_and_runs + ' a la causa de su equipo',
+                        ', en el juego tuvo ' + rbi_and_runs
 
-            fc = text[0].upper()
+                    ]
+                )
 
-            text = text[1:]
-            text = fc + text
+            if ads:
+                text += random.choice(
+                    [
+                        '. Además, conectó ' + text_1,
+                        ', con ' + text_1
+                    ]
+                )
 
         else:
             self.dict_classes['impact'] = Impact(self.player_name, self.player_dict)
@@ -103,7 +144,7 @@ class Player:
             self.dict_classes['batters_faced'] = Batters_faced(self.player_name, self.player_dict)
 
 
-            text = self.dict_classes['IP'].text + ' ' + \
+            text = self.dict_classes['IP'].text + ' ' + self._last_name() + ' ' + \
             self.dict_classes['batters_faced'].text + ', ' + \
             self.dict_classes['runs']['action'].text + ', ' + \
             self.dict_classes['hits']['action'].text + ', con ' + \
@@ -111,14 +152,7 @@ class Player:
 
             impact = self.dict_classes['impact'].text
             if impact != '':
-                text += ', y ' + impact + '. '
-            else:
-                text += '. '
-
-            fc = text[0].upper()
-
-            text = text[1:]
-            text = fc + text
+                text += ', y ' + impact
 
         return text
 
@@ -210,10 +244,13 @@ class Player:
         if self.player_dict['position'] != 'P':
             fc = gp[0].lower()
 
+            '''
             gp = gp[1:]
             gp = fc + gp
 
             gp = 'En el juego ' + gp
+            '''
+        gp += '. '
 
         ps.insert(2, gp)
 
