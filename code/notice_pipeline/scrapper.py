@@ -79,58 +79,6 @@ class Scrapper_BR(Scrapper):
         if sv != '':
             game_details['SV'] = sv
 
-
-        '''
-        # Nuevo: Agregando los jugadores de las 5 mejores jugadas del juego
-        comments = bsObj.find_all(string=lambda text: isinstance(text, Comment))
-        for i in comments:
-            bs = BeautifulSoup(i, PARSER)
-            top_plays = bs.find('table', {'id': 'top_plays'})
-            if top_plays is not None:
-                top_plays = top_plays.tbody.findAll('tr')
-                break
-
-        winner = 't'
-        if game_details[home]['score'] > game_details[away]['score']:
-            winner = 'b'
-
-        players = []
-
-
-        
-        for p in top_plays:
-            inning = p.find('th', {'data-stat': 'inning'}).get_text()
-            pitcher = p.find('td', {'data-stat': 'pitcher'}).get_text()
-            batter = p.find('td', {'data-stat': 'batter'}).get_text()
-            #batter = self.delete_tilde(batter)
-            #pitcher = self.delete_tilde(pitcher)
-            wwpa = p.find('td', {'data-stat': 'win_probability_added'}).get_text()
-
-            inning = inning[0]
-            wwpa = int(wwpa[:-1])
-
-            if winner == inning:
-                if wwpa > 0:
-                    players.append(batter)
-                else:
-                    players.append(pitcher)
-            else:
-                if wwpa > 0:
-                    players.append(pitcher)
-                else:
-                    players.append(batter)
-
-        past_games_teams = []
-        for gd in self._data['all_games_details']:
-            past_games_teams.extend(list(gd.keys()))
-
-        if away in past_games_teams and home in past_games_teams:
-            for i in range(len(players)):
-                players[i] = players[i] + '_2'
-
-        self._data['top_players'].extend(players)
-        '''
-
         self._data['all_games_details'].append(game_details)
 
         return game_details
@@ -159,10 +107,18 @@ class Scrapper_BR(Scrapper):
             #name = self.delete_tilde(name)
             if len(filter_players) > 0 and name not in filter_players:
                 continue
+            '''
             if name in players_details['hitters']:
                 players_details['hitters'][name + '_1'] = players_details['hitters'][name]
                 players_details['hitters'].pop(name)
                 name = name + '_2'
+            '''
+            print(game_details['uod'])
+            if game_details['uod'] == 2:
+                name = name + '_1'
+            if game_details['uod'] == 3:
+                name = name + '_2'
+            print(name)
             players_p[name] = 'batter'
             players_details['hitters'][name] = {}
             players_details['hitters'][name]['position'] = pos
@@ -195,10 +151,18 @@ class Scrapper_BR(Scrapper):
             #name = self.delete_tilde(name)
             if len(filter_players) > 0 and name not in filter_players:
                 continue
+            '''
             if name in players_details['pitchers']:
                 players_details['pitchers'][name + '_1'] = players_details['pitchers'][name]
                 players_details['pitchers'].pop(name)
                 name = name + '_2'
+            '''
+            print(game_details['uod'])
+            if game_details['uod'] == 2:
+                name = name + '_1'
+            if game_details['uod'] == 3:
+                name = name + '_2'
+            print(name)
             players_p[name] = 'pitcher'
             players_details['pitchers'][name] = {}
             players_details['pitchers'][name]['position'] = 'P'
@@ -238,6 +202,10 @@ class Scrapper_BR(Scrapper):
                 players_details['hitters'][batter]['plays'].append( details )
             if pitcher in players and players[pitcher] == 'pitcher':
                 players_details['pitchers'][pitcher]['plays'].append( details )
+            if (batter + '_1') in players and players[(batter + '_1')] == 'batter':
+                players_details['hitters'][(batter + '_1')]['plays'].append( details )
+            if (pitcher + '_1') in players and players[(pitcher + '_1')] == 'pitcher':
+                players_details['pitchers'][(pitcher + '_1')]['plays'].append( details )
             if (batter + '_2') in players and players[(batter + '_2')] == 'batter':
                 players_details['hitters'][(batter + '_2')]['plays'].append( details )
             if (pitcher + '_2') in players and players[(pitcher + '_2')] == 'pitcher':
@@ -411,7 +379,7 @@ class Scrapper_BR(Scrapper):
         # get links games
         games_links = []
         r = session.get(base_url)
-        #r = session.get(base_url + '/boxes/?month=7&day=30&year=2020')
+        #r = session.get(base_url + '/boxes/?month=8&day=3&year=2020')
         bsObj = BeautifulSoup(r.text, PARSER)
         scores = bsObj.find('div', {'id': 'scores'})
         #games_refs = scores.findAll('td', {'class': 'right gamelink'})
@@ -419,12 +387,16 @@ class Scrapper_BR(Scrapper):
         games_refs = scores.findAll('td', {'class': 'right gamelink'})
 
         for l in games_refs:
+            link = l.a['href']
             games_links.append(l.a['href'])
-
-        for l in games_links:
-            r = session.get(base_url+l)
+            r = session.get(base_url+link)
             bsObj = BeautifulSoup(r.text, PARSER)
-            game_details = self._get_game_score(bsObj)
+            self._get_game_score(bsObj)
+
+        for i in range(len(games_links)):
+            r = session.get(base_url+games_links[i])
+            bsObj = BeautifulSoup(r.text, PARSER)
+            game_details = self._data['all_games_details'][i]
             # get filter players
             away_team = list(game_details.keys())[0]
             home_team = list(game_details.keys())[1]
@@ -463,6 +435,7 @@ class Scrapper_BR(Scrapper):
             pd = players_details['pitchers'][p]
             self._convert_player(p, pd)
             self._convert_pitcher(p, pd)
+
 
         return {'all_games_details': self._data['all_games_details'],
                 'game_day_data': players_details}

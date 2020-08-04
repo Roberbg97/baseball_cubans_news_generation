@@ -73,10 +73,16 @@ def config():
     j = {}
     j['title'] = title
     j['paragraphs'] = paragraphs
-    json.dump(j, open('c.json', 'w'))
+    
+    jj = json.load(open('past_news.json', 'r'))
+
+    jj['new_3-8-2020'] = j
+
+    json.dump(jj, open('past_news.json', 'w'))
 
     return (title, paragraphs)
     '''
+    
 
     module = import_module(render_module)
     class_ = getattr(module, render_class)

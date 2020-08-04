@@ -154,9 +154,16 @@ class Player:
             if impact != '':
                 text += ', y ' + impact
 
+            '''
+            fc = text[0]
+            text = text[1:]
+            fc = fc.upper()
+            text = fc + text
+            '''
+
         return text
 
-    def get_initial_sentence(self):
+    def get_initial_sentence(self, i):
         text = ''
         l = [
             'tuvo una destacada labor en su encuentro, ',
@@ -212,21 +219,30 @@ class Player:
 
         if self.first_game:
             text = text[:-2]
-            text += ', en el priner juego de los dos celebrados por su equipo en la jornada. '
+            text += ', en el primer juego de los dos celebrados por su equipo en la jornada. '
 
         if self.second_game:
             text = text[:-2]
             text += ', en el segundo juego de los dos celebrados por su equipo en la jornada. '
 
+        if i > 0:
+            text = random.choice(
+                [
+                    'En este juego también se destacó ' + self.player_name + '. ',
+                    self.player_name + \
+                    ' fue otro de los jugadores cubanos que se destacó en este encuentro. '
+                ]
+            )
+
         return text
 
-    def get_report(self):
+    def get_report(self, i):
         self.dict_classes['plays'].sort()
 
         plays = self.dict_classes['plays']
         text = ''
 
-        ic = self.get_initial_sentence()
+        ic = self.get_initial_sentence(i)
 
         ps = []
 
@@ -240,6 +256,11 @@ class Player:
                 ps.append(p.get_text_play())
 
         gp = self.get_general_player_stats()
+
+        fc = gp[0]
+        gp = gp[1:]
+        fc = fc.upper()
+        gp = fc + gp
 
         if self.player_dict['position'] != 'P':
             fc = gp[0].lower()

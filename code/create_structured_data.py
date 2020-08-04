@@ -125,6 +125,9 @@ def get_title(player_details, outstandings):
                 name_1 = outstandings[0][1]
                 name_2 = outstandings[1][1]
 
+                name_1 = name_1.replace('_1', '').replace('_2', '')
+                name_2 = name_2.replace('_1', '').replace('_2', '')
+
                 text += name_1 + ' y ' + name_2 + ', '
 
                 text += random.choice(
@@ -137,6 +140,7 @@ def get_title(player_details, outstandings):
             else:
                 if outstandings[0] in hitters:
                     name = outstandings[0][1]
+                    name = name.replace('_1', '').replace('_2', '')
                     team = player_details['hitters'][name]['team']
 
                     hits = player_details['hitters'][name]['H']
@@ -270,9 +274,9 @@ def get_first_paragraph(outstandings, games_details):
     text = ''
 
     fo = [
-        'En la jornada del ' + date + ' de las Grandes Ligas se disputaron ' + str(len(games_details) - 1) + \
+        'En la jornada del ' + date + ' de las Grandes Ligas se disputaron ' + str(len(games_details)) + \
         ' encuentros de béisbol.',
-        'El ' + date + ' se jugaron ' + str(len(games_details) - 1) + ' encuentros en las Grandes Ligas.'
+        'El ' + date + ' se jugaron ' + str(len(games_details)) + ' encuentros en las Grandes Ligas.'
     ]
 
     if len(games_details) == 0:
@@ -314,6 +318,74 @@ def get_first_paragraph(outstandings, games_details):
     text += ' En esta jornada' + random.choice(verb)[i] + str(len(total)) + sust[i] + '.'
 
     return text
+
+def _sort_games(all_games):
+
+    for i in all_games:
+        i['checked'] = False
+
+    all_games_sorted = []
+    last = []
+
+    for game in all_games:
+        if game['checked']:
+            continue
+        if game['players']['home'] or game['players']['away']:
+            away = list(game.keys())[0]
+            home = list(game.keys())[1]
+            if game['players']['home'] and game['players']['home'][0][1] == 1 and not game['checked']:
+                game['checked'] = True
+                all_games_sorted.append(game)
+                if game['uod'] == 2 or game['uod'] == 3:
+                    index = 5 - game['uod']
+                    for g in all_games:
+                        x = (list(game.keys())[0], list(game.keys())[1])
+                        y = (list(g.keys())[0], list(g.keys())[1])
+                        if ((x[0] == y[0] and x[1] == y[1]) or (x[1] == y[0] and x[0] == y[1])) and g['uod'] == index:
+                            if g['players']['home'] or g['players']['away']:
+                                g['checked'] = True
+                                all_games_sorted.append(g)
+            elif game['players']['away'] and game['players']['away'][0][1] == 1 and not game['checked']:
+                game['checked'] = True
+                all_games_sorted.append(game)
+                if game['uod'] == 2 or game['uod'] == 3:
+                    index = 5 - game['uod']
+                    for g in all_games:
+                        x = (list(game.keys())[0], list(game.keys())[1])
+                        y = (list(g.keys())[0], list(g.keys())[1])
+                        if ((x[0] == y[0] and x[1] == y[1]) or (x[1] == y[0] and x[0] == y[1])) and g['uod'] == index:
+                            if g['players']['home'] or g['players']['away']:
+                                g['checked'] = True
+                                all_games_sorted.append(g)
+            else:
+                last.append(game)
+
+    all_games_sorted.extend(last)
+
+    return all_games_sorted
+
+def generate_game(game):
+    paragraphs = []
+    outstandings = []
+    have_not_outstandings = False
+    for p, o in game['players']['home']:
+        if o == 1:
+            outstandings.append(p)
+        else:
+            have_not_outstandings = True
+    for p, o in game['players']['away']:
+        if o == 1:
+            outstandings.append(p)
+        else:
+            have_not_outstandings = True
+
+    for i in range(len(outstandings)):
+        paragraphs.append(outstandings[i].get_report(i))
+
+    if have_not_outstandings:
+        paragraphs.append(get_game_summary(game))
+
+    return paragraphs
 
 def get_game_summary(game):
 
@@ -591,10 +663,8 @@ def get_new(player_details, sorted_for_outstandings, games_details):
 
     paragraphs.append(t)
 
-    print(t)
-    print()
-
-    minors = ''
+    #print(t)
+    #print()
 
     outstandings = []
 
@@ -607,18 +677,20 @@ def get_new(player_details, sorted_for_outstandings, games_details):
             p = Player(player, player_details['pitchers'][player])
         else:
             p = Player(player, player_details['hitters'][player])
+        '''
         if o == 1:
-
             outstandings.append(player)
             report = p.get_report()
-            print(report)
-            print()
+            #print(report)
+            #print()
             paragraphs.append(report)
         else:
             minors += p.get_minority_report()
+        '''
         all_players.append((player, o, p))
 
-    summaries = []
+    #summaries = []
+    all_games = []
 
     for game in games_details:
         game['players'] = {}
@@ -634,9 +706,17 @@ def get_new(player_details, sorted_for_outstandings, games_details):
                 if game['uod'] == 1 or (game['uod'] == 2 and p.first_game) or \
                 (game['uod'] == 3 and p.second_game):
                     game['players']['home'].append((p, o))
+        all_games.append(game)
+
+    all_games = _sort_games(all_games)
 
     title = get_title(player_details, sorted_for_outstandings)
 
+    for g in all_games:
+        ps = generate_game(g)
+        paragraphs.extend(ps)
+
+    '''
     for game in games_details:
         have_not_outstandings = False
         for p, o in game['players']['home']:
@@ -647,15 +727,18 @@ def get_new(player_details, sorted_for_outstandings, games_details):
                 have_not_outstandings = True
         if have_not_outstandings:
             summaries.append(get_game_summary(game))
+    '''
 
 
     #print(minors)
 
     #paragraphs.append(minors)
-    paragraphs.extend(summaries)
-    for s in summaries:
-        print(s)
+    #paragraphs.extend(summaries)
+
+    for p in paragraphs:
+        print(p)
         print()
+
 
     print()
 
