@@ -44,7 +44,7 @@ def config():
 
     module = import_module(scraping_module)
     class_ = getattr(module, scraping_class)
-    s = class_(cubans)
+    s = class_(list(cubans.keys()))
 
     #s = Scrapper_BR(cubans)
 
@@ -62,7 +62,7 @@ def config():
 
     module = import_module(gen_module)
     class_ = getattr(module, gen_class)
-    nt = class_(d['game_day_data'], sfo, d['all_games_details'])
+    nt = class_(d['game_day_data'], sfo, d['all_games_details'], cubans)
 
     #nt = New_Templates(player_details, sfo)
     #nt = New_Templates(d['game_day_data'], sfo, d['all_games_details'])
@@ -76,7 +76,7 @@ def config():
     
     jj = json.load(open('past_news.json', 'r'))
 
-    jj['new_3-8-2020'] = j
+    jj['new_23-7-2020'] = j
 
     json.dump(jj, open('past_news.json', 'w'))
 

@@ -76,25 +76,39 @@ class Scrapper_for_country:
                 break
 
         players = []
+        players_team = {}
+
         for h in hitters:
             if 'class' not in h:
                 name = h.find('td', {'data-stat': 'player'}).a.get_text()
+                link = h.find('td', {'data-stat': 'player'}).a['href']
                 year_max = h.find('td', {'data-stat': 'year_max'}).get_text()
                 year_max = int(year_max)
                 if year_max == year:
-                    players.append(name)
+                    if name not in players:
+                        players.append(name)
+                        players_team[name] = link
 
         for p in pitchers:
             if 'class' not in p:
                 name = p.find('td', {'data-stat': 'player'}).a.get_text()
+                link = p.find('td', {'data-stat': 'player'}).a['href']
                 year_max = p.find('td', {'data-stat': 'year_max'}).get_text()
                 year_max = int(year_max)
                 if year_max == year:
-                    players.append(name)
+                    if name not in players:
+                        players.append(name)
+                        players_team[name] = link
 
-        return players
+        for p in players:
+            r = session.get(base_url + players_team[p])
+            bsObj = BeautifulSoup(r.text, PARSER)
+            team = bsObj.find('div', {'id': 'info'}).find_all('p')[3].a.get_text()
+            players_team[p] = team
+
+        return players_team
 
 
-s = Scrapper_for_country('Cuba')
+#s = Scrapper_for_country('Cuba')
 #s._scrap()
-#print(s.get_players())
+#s.get_players()

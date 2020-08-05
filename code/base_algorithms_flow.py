@@ -17,10 +17,11 @@ class Outstandings(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
 class New(metaclass=abc.ABCMeta):
-    def __init__(self, player_details, sorted_for_outstandings, games_details):
+    def __init__(self, player_details, sorted_for_outstandings, games_details, players_teams):
         self.player_details = player_details
         self.sorted_for_outstandings = sorted_for_outstandings
         self.games_details = games_details
+        self.players_teams = players_teams
 
     @abc.abstractmethod
     def get_text(self):

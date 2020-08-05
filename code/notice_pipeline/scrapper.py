@@ -379,7 +379,7 @@ class Scrapper_BR(Scrapper):
         # get links games
         games_links = []
         r = session.get(base_url)
-        #r = session.get(base_url + '/boxes/?month=8&day=3&year=2020')
+        #r = session.get(base_url + '/boxes/?month=7&day=23&year=2020')
         bsObj = BeautifulSoup(r.text, PARSER)
         scores = bsObj.find('div', {'id': 'scores'})
         #games_refs = scores.findAll('td', {'class': 'right gamelink'})

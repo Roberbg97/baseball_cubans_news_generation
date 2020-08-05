@@ -516,7 +516,7 @@ def get_game_summary(game):
                         ' vió acción en la victoria de ' + winner_team + ' sobre ' + loser_team + \
                         ' ' + winner_score + ' por ' + loser_score + '.',
                         all_players[0] + \
-                        ' fue el cubanos que jugó en el encuentro que enfrentó a los equipos de ' + \
+                        ' fue el cubano que jugó en el encuentro que enfrentó a los equipos de ' + \
                         winner_team + ' y ' + loser_team + ', con victoria para el primero.'
                     ]
                 )
@@ -655,7 +655,218 @@ def get_game_summary(game):
 
     return initial_sentence + ' ' + rest_of_paragraph
 
-def get_new(player_details, sorted_for_outstandings, games_details):
+def get_game_without_cubans(game):
+    uod = game['uod']
+
+    away_team = list(game.keys())[0]
+    home_team = list(game.keys())[1]
+
+    stadium = game['stadium']
+
+    winner_team = ''
+    loser_team = ''
+
+    winner_score = ''
+    loser_score = ''
+
+    if game[away_team]['score'] > game[home_team]['score']:
+        winner_team = away_team
+        loser_team = home_team
+        winner_score = str(game[away_team]['score'])
+        loser_score = str(game[home_team]['score'])
+    else:
+        winner_team = home_team
+        loser_team = away_team
+        winner_score = str(game[home_team]['score'])
+        loser_score = str(game[away_team]['score'])
+
+    winner_pitcher = game['WP']
+    loser_pitcher = game['LP']
+    saver_pitcher = ''
+    if 'SV' in game:
+        saver_pitcher = game['SV']
+
+    player_team = ''
+    if not game['players']['home']:
+        player_team = away_team
+    elif not game['players']['away']:
+        player_team = home_team
+
+    all_players = []
+    for p in game['players']['home']:
+        all_players.append(p)
+    for p in game['players']['away']:
+        all_players.append(p)
+
+    text = ''
+
+    if uod == 1:
+        if player_team != '':
+            if len(all_players) > 1:
+                text = random.choice(
+                    [
+                        winner_team + ' venció ' + winner_score + ' por ' + loser_score + \
+                        ' al conjunto de ' + loser_team + '. Los jugadores cubanos que juegan para ' + \
+                        player_team + ', ' + _get_list_players_text(all_players) + ', no tuvieron ' + \
+                        'participación en el encuentro.',
+                        _get_list_players_text(all_players) + ' no vieron acción en el encuentro de ' + \
+                        'su equipo, ' + player_team + '. En este encuentro, ' + winner_team + ' se llevó ' + \
+                        'la victoria ' + winner_score + ' por ' + loser_score + ' frente a ' + loser_team + '.',
+                        'Los cubanos ' + _get_list_players_text(all_players) + \
+                        ' no disputaron el enfrentamiento de ' + winner_team + ' y ' + loser_team + \
+                        ', con victoria para el primero.'
+                    ]
+                )
+            else:
+                text = random.choice(
+                    [
+                        winner_team + ' venció ' + winner_score + ' por ' + loser_score + \
+                        ' al conjunto de ' + loser_team + '. El jugador cubano que juega para ' + \
+                        player_team + ', ' + all_players[0] + ', no tuvo ' + \
+                        'participación en el encuentro.',
+                        all_players[0] + ' no vió acción en el encuentro de ' + \
+                        'su equipo, ' + player_team + '. En este encuentro, ' + winner_team + ' se llevó ' + \
+                        'la victoria ' + winner_score + ' por ' + loser_score + ' frente a ' + loser_team + '.',
+                        'El cubano ' + all_players[0] + \
+                        ' no disputó el enfrentamiento de ' + winner_team + ' y ' + loser_team + \
+                        ', con victoria para el primero.'
+                    ]
+                )
+        else:
+            text = random.choice(
+                [
+                    winner_team + ' venció ' + winner_score + ' por ' + loser_score + \
+                    ' al conjunto de ' + loser_team + '. Los cubanos ' + \
+                    _get_list_players_text(all_players) + ', que juegan para los equipos ' + \
+                    'implicados, no tuvieron participación en el encuentro.',
+                    _get_list_players_text(all_players) + ' no vieron acción en el encuentro de ' + \
+                    'sus respectivos equipos. En este encuentro, ' + winner_team + ' se llevó ' + \
+                    'la victoria ' + winner_score + ' por ' + loser_score + ' frente a ' + loser_team + '.',
+                    'Los cubanos ' + _get_list_players_text(all_players) + \
+                    ' no disputaron el enfrentamiento de ' + winner_team + ' y ' + loser_team + \
+                    ', con victoria para el primero.'
+                ]
+            )
+    elif uod == 2:
+        if player_team != '':
+            if len(all_players) > 1:
+                text = random.choice(
+                    [
+                        winner_team + ' venció ' + winner_score + ' por ' + loser_score + \
+                        ' al conjunto de ' + loser_team + \
+                        ' en el primer encuentro del doble disputado ' + \
+                        'entre estos dos equipos. Los jugadores cubanos que juegan para ' + \
+                        player_team + ', ' + _get_list_players_text(all_players) + ', no tuvieron ' + \
+                        'participación en el encuentro.',
+                        _get_list_players_text(all_players) + ' no vieron acción en el primer encuentro ' + \
+                        'del doble de su equipo, ' + player_team + '. En este encuentro, ' + winner_team + \
+                        ' se llevó la victoria ' + winner_score + ' por ' + loser_score + ' frente a ' + \
+                        loser_team + '.',
+                        'Los cubanos ' + _get_list_players_text(all_players) + \
+                        ' no disputaron el primer enfrentamiento de ' + winner_team + ' y ' + loser_team + \
+                        ' en la doble jornada, con victoria para el primero.'
+                    ]
+                )
+            else:
+                text = random.choice(
+                    [
+                        winner_team + ' venció ' + winner_score + ' por ' + loser_score + \
+                        ' al conjunto de ' + loser_team + \
+                        ' en el primer encuentro del doble disputado ' + \
+                        'entre estos dos equipos. El jugador cubano que juega para ' + \
+                        player_team + ', ' + all_players[0] + ', no tuvo ' + \
+                        'participación en el encuentro.',
+                        all_players[0] + ' no vió acción en el primer encuentro ' + \
+                        'del doble de su equipo, ' + player_team + '. En este encuentro, ' + winner_team + \
+                        ' se llevó la victoria ' + winner_score + ' por ' + loser_score + ' frente a ' + \
+                        loser_team + '.',
+                        'El cubano ' + all_players[0] + \
+                        ' no disputó el primer enfrentamiento de ' + winner_team + ' y ' + loser_team + \
+                        ' en la doble jornada, con victoria para el primero.'
+                    ]
+                )
+        else:
+            text = random.choice(
+                [
+                    winner_team + ' venció ' + winner_score + ' por ' + loser_score + \
+                    ' al conjunto de ' + loser_team + \
+                    ' en el primer encuentro del doble disputado ' + \
+                    'entre estos dos equipos. Los cubanos ' + \
+                    _get_list_players_text(all_players) + ', no tuvieron ' + \
+                    'participación en el encuentro.',
+                    _get_list_players_text(all_players) + ' no vieron acción en el primer encuentro ' + \
+                    'del doble celebrado entre ' + winner_team + ' y ' + loser_team + \
+                    '. En este encuentro, ' + winner_team + \
+                    ' se llevó la victoria ' + winner_score + ' por ' + loser_score + ' frente a ' + \
+                    loser_team + '.',
+                    'Los cubanos ' + _get_list_players_text(all_players) + \
+                    ' no disputaron el primer enfrentamiento de ' + winner_team + ' y ' + loser_team + \
+                    ' en la doble jornada, con victoria para el primero.'
+                ]
+            )
+    else:
+        if player_team != '':
+            if len(all_players) > 1:
+                text = random.choice(
+                    [
+                        'En el segundo encuentro del doble, ' + _get_list_players_text(all_players) + \
+                        ' tampoco disputaron el encuentro de su equipo. En esta ocasión, la victoria ' + \
+                        'fue para ' + winner_team + ' ' + winner_score + ' por ' + loser_score + '.',
+                        'Los cubanos tampoco vieron acción en el segundo encuentro, en el cual ' + \
+                        winner_team + ' le ganó a ' + loser_team + ' ' + winner_score + ' por ' + loser_score \
+                        + '.'
+                    ]
+                )
+            else:
+                text = random.choice(
+                    [
+                        'En el segundo encuentro del doble, ' + all_players[0] + \
+                        ' tampoco disputó el encuentro de su equipo. En esta ocasión, la victoria ' + \
+                        'fue para ' + winner_team + ' ' + winner_score + ' por ' + loser_score + '.',
+                        'El cubano tampoco vió acción en el segundo encuentro, en el cual ' + \
+                        winner_team + ' le ganó a ' + loser_team + ' ' + winner_score + ' por ' + loser_score \
+                        + '.'
+                    ]
+                )
+        else:
+            text = random.choice(
+                    [
+                        'En el segundo encuentro del doble, ' + _get_list_players_text(all_players) + \
+                        ' tampoco disputaron el encuentro de sus equipos. En esta ocasión, la victoria ' + \
+                        'fue para ' + winner_team + ' ' + winner_score + ' por ' + loser_score + '.',
+                        'Los cubanos tampoco vieron acción en el segundo encuentro, en el cual ' + \
+                        winner_team + ' le ganó a ' + loser_team + ' ' + winner_score + ' por ' + loser_score \
+                        + '.'
+                    ]
+                )
+    
+    text += ' '
+    if saver_pitcher != '':
+        text += random.choice(
+            [
+                'La victoria fue para ' + winner_pitcher + ', con salvamento para ' + saver_pitcher + \
+                '. El pitcher perderor fue ' + loser_pitcher + '.',
+                winner_pitcher + ' fue el pitcher vencedor, mientras que la derrota corrió a cargo de ' + \
+                loser_pitcher + '. Hubo juego salvado para ' + saver_pitcher + '.',
+                winner_pitcher + ' se llevó el triunfo, ' + saver_pitcher + ' el salvamento y ' + \
+                loser_pitcher + ' la derrota.'
+            ]
+        )
+    else:
+        text += random.choice(
+            [
+                'La victoria fue para ' + winner_pitcher + \
+                '. El pitcher perderor fue ' + loser_pitcher + '.',
+                winner_pitcher + ' fue el pitcher vencedor, mientras que la derrota corrió a cargo de ' + \
+                loser_pitcher + '.',
+                winner_pitcher + ' se llevó el triunfo y ' + \
+                loser_pitcher + ' la derrota.'
+            ]
+        )
+
+    return text
+
+def get_new(player_details, sorted_for_outstandings, games_details, players_teams):
 
     paragraphs = []
 
@@ -716,6 +927,29 @@ def get_new(player_details, sorted_for_outstandings, games_details):
         ps = generate_game(g)
         paragraphs.extend(ps)
 
+    cont = 0
+
+    if not all_players:
+        for game in games_details:
+            game['players'] = {}
+            game['players']['home'] = []
+            game['players']['away'] = []
+            away = list(game.keys())[0]
+            home = list(game.keys())[1]
+            for p in players_teams:
+                team = players_teams[p]
+                if team == away:
+                    game['players']['away'].append(p)
+                elif team == home:
+                    game['players']['home'].append(p)
+            if game['players']['home'] or game['players']['away']:
+                cont += 1
+                ps = get_game_without_cubans(game)
+                paragraphs.append(ps)
+
+    if not cont and not all_players:
+        paragraphs.append('En esta jornada, ningún equipo con cubanos en su roster disputó encuentros.')
+
     '''
     for game in games_details:
         have_not_outstandings = False
@@ -746,7 +980,7 @@ def get_new(player_details, sorted_for_outstandings, games_details):
 
     return (title, paragraphs)
 
-def flow(players_details, sorted_for_outstandings, games_details):
+def flow(players_details, sorted_for_outstandings, games_details, players_teams):
     #outstandings_data = get_outstandings()
     #sorted_for_outstandings = sort_for_outstandings(outstandings_data)
 
@@ -756,7 +990,7 @@ def flow(players_details, sorted_for_outstandings, games_details):
 
     #players_details = json.load(open(os.path.join(MODULE, 'game_day_data_1.json')))
 
-    title, new = get_new(players_details, sorted_for_outstandings, games_details)
+    title, new = get_new(players_details, sorted_for_outstandings, games_details, players_teams)
 
     return (title, new)
 

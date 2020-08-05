@@ -19,8 +19,9 @@ class Outstandings_LR(Outstandings):
         return sort_for_outstandings(data)
 
 class New_Templates(New):
-    def __init__(self, player_details, sorted_for_outstandings, games_details):
-        super().__init__(player_details, sorted_for_outstandings, games_details)
+    def __init__(self, player_details, sorted_for_outstandings, games_details, players_teams):
+        super().__init__(player_details, sorted_for_outstandings, games_details, players_teams)
 
     def get_text(self):
-        return flow_new_generation(self.player_details, self.sorted_for_outstandings, self.games_details)
+        return flow_new_generation(self.player_details, self.sorted_for_outstandings, self.games_details,\
+        self.players_teams)
