@@ -647,7 +647,7 @@ def get_game_summary(game):
         rest_of_paragraph = random.choice(
             [
                 'Por ' + loser_team + ', ',
-                'Jugando por los vencedores, '
+                'Jugando por el equipo derrotado, '
             ]
         )
         for mw in mr_loser:
