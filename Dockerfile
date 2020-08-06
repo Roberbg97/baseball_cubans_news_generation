@@ -14,6 +14,7 @@ RUN pip3 install --target=/app joblib==0.13.2
 RUN pip3 install --target=/app numpy==1.19.1
 RUN pip3 install --target=/app scipy==1.5.1
 RUN pip3 install --target=/app "scikit-learn==0.20.2"
+RUN pip3 install --target=/app gensim==3.8.3
 
 # A distroless container image with Python and some basics like SSL certificates
 # https://github.com/GoogleContainerTools/distroless
