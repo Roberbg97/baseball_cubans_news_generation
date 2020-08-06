@@ -67,31 +67,32 @@ def config():
     #nt = New_Templates(player_details, sfo)
     #nt = New_Templates(d['game_day_data'], sfo, d['all_games_details'])
 
-    title, paragraphs = nt.get_text()
+    title, paragraphs, summary = nt.get_text()
     
     '''
     j = {}
     j['title'] = title
     j['paragraphs'] = paragraphs
+    j['summary'] = summary
     
     jj = json.load(open('past_news.json', 'r'))
 
-    jj['new_23-7-2020'] = j
+    jj['new_5-8-2020'] = j
 
     json.dump(jj, open('past_news.json', 'w'))
 
-    return (title, paragraphs)
+    return (title, paragraphs, summary)
     '''
     
 
     module = import_module(render_module)
     class_ = getattr(module, render_class)
-    r = class_(title, paragraphs)
+    r = class_(title, paragraphs, summary)
     #r = Renderer(title, paragraphs)
 
     r.render()
 
-    return (title, paragraphs)
+    return (title, paragraphs, summary)
 
 
 

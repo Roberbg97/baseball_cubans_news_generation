@@ -3,6 +3,7 @@ import json
 import numpy as np
 import random
 from configparser import ConfigParser
+from gensim.summarization import summarize
 #from data_structure import *
 from notice_generator import Player, Play
 from notice_generator.stats_player import Highlights_Player
@@ -13,6 +14,9 @@ try:
     MODULE = os.path.dirname(os.path.realpath(__file__))
 except:
     MODULE = ""
+
+def _text_summarize(text, word_count=100):
+    return summarize(text, word_count=word_count)
 
 def _get_list_players_text(players):
     text = players[0]
@@ -473,6 +477,10 @@ def get_game_summary(game):
                         outstanding_template + '.',
                         'En la victoria de ' + winner_team + ' sobre ' + loser_team + ', en la cual ' + \
                         outstanding_template + ', también vieron acción ' + \
+                        _get_list_players_text(all_players) + '.',
+                        _get_list_players_text(all_players) + ' también saltaron al césped del terreno ' + \
+                        'de juego en este enfrentamiento.',
+                        'Representando a Cuba, otros de los jugadores que participaron en el juego fueron ' + \
                         _get_list_players_text(all_players) + '.'
                     ]
                 )
@@ -486,6 +494,10 @@ def get_game_summary(game):
                         outstanding_template + '.',
                         'En la victoria de ' + winner_team + ' sobre ' + loser_team + ', en la cual ' + \
                         outstanding_template + ', también vió acción el cubano ' + \
+                        all_players[0] + '.',
+                        all_players[0] + ' también saltó al césped del terreno ' + \
+                        'de juego en este enfrentamiento.',
+                        'Representando a Cuba, otro de los jugadores que participó en el juego fue ' + \
                         all_players[0] + '.'
                     ]
                 )
@@ -502,7 +514,11 @@ def get_game_summary(game):
                         ' ' + winner_score + ' por ' + loser_score + '.',
                         _get_list_players_text(all_players) + \
                         ' fueron los cubanos que jugaron en el encuentro que enfrentó a los equipos de ' + \
-                        winner_team + ' y ' + loser_team + ', con victoria para el primero.'
+                        winner_team + ' y ' + loser_team + ', con victoria para el primero.',
+                        'En el enfrentamiento que tuvieron los conjuntos de ' + winner_team + ' y ' + \
+                        loser_team + ', hicieron su aparición ' + _get_list_players_text(all_players) + '.',
+                        _get_list_players_text(all_players) + ' tomaron parte en el partido de béisbol que ' + \
+                        winner_team + ' le ganó a ' + loser_team + ' ' + winner_score + ' por ' + loser_score + '.'
                     ]
                 )
             else:
@@ -517,7 +533,11 @@ def get_game_summary(game):
                         ' ' + winner_score + ' por ' + loser_score + '.',
                         all_players[0] + \
                         ' fue el cubano que jugó en el encuentro que enfrentó a los equipos de ' + \
-                        winner_team + ' y ' + loser_team + ', con victoria para el primero.'
+                        winner_team + ' y ' + loser_team + ', con victoria para el primero.',
+                        'En el enfrentamiento que tuvieron los conjuntos de ' + winner_team + ' y ' + \
+                        loser_team + ', hizo su aparición  ' + _get_list_players_text(all_players) + '.',
+                        _get_list_players_text(all_players) + ' tomaron parte en el partido de béisbol que ' + \
+                        winner_team + ' le ganó a ' + loser_team + ' ' + winner_score + ' por ' + loser_score + '.'
                     ]
                 )
     elif uod == 2:
@@ -628,7 +648,9 @@ def get_game_summary(game):
         rest_of_paragraph = random.choice(
             [
                 'Por ' + winner_team + ', ',
-                'Jugando por los vencedores, '
+                'Jugando por los vencedores, ',
+                'Para el equipo ganador, ',
+                'Representando a ' + winner_team + ', '
             ]
         )
         for mw in mr_winner:
@@ -637,7 +659,9 @@ def get_game_summary(game):
             rest_of_paragraph += random.choice(
                 [
                     ' Mientras, por ' + loser_team + ', ',
-                    ' Por otra parte, jugando para el equipo perdedor, '
+                    ' Por otra parte, jugando para el equipo perdedor, ',
+                    ' Para el equipo derrotado, ',
+                    ' Representando a ' + loser_team + ', '
                 ]
             )
             for ml in mr_loser:
@@ -647,7 +671,10 @@ def get_game_summary(game):
         rest_of_paragraph = random.choice(
             [
                 'Por ' + loser_team + ', ',
-                'Jugando por el equipo derrotado, '
+                'Jugando por el equipo derrotado, ',
+                'Para los perdedores, ',
+                'Representando a ' + loser_team + ', ',
+                ''
             ]
         )
         for mw in mr_loser:
@@ -973,12 +1000,18 @@ def get_new(player_details, sorted_for_outstandings, games_details, players_team
         print(p)
         print()
 
+    complete_new = ''
+
+    for p in paragraphs:
+        complete_new += p + '\n\n'
+
+    summary = _text_summarize(complete_new)
 
     print()
 
     print(title)
 
-    return (title, paragraphs)
+    return (title, paragraphs, summary)
 
 def flow(players_details, sorted_for_outstandings, games_details, players_teams):
     #outstandings_data = get_outstandings()
@@ -990,8 +1023,8 @@ def flow(players_details, sorted_for_outstandings, games_details, players_teams)
 
     #players_details = json.load(open(os.path.join(MODULE, 'game_day_data_1.json')))
 
-    title, new = get_new(players_details, sorted_for_outstandings, games_details, players_teams)
+    title, new, summary = get_new(players_details, sorted_for_outstandings, games_details, players_teams)
 
-    return (title, new)
+    return (title, new, summary)
 
 #flow()

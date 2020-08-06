@@ -10,9 +10,10 @@ from notice_generator.utils import get_yesterday_date as gyd
 import datetime
 
 class Renderer():
-    def __init__(self, title, paragraphs, base_file='.'):
+    def __init__(self, title, paragraphs, summary, base_file='.'):
         self._title = title
         self._paragraphs = paragraphs
+        self._summary = summary
         self._base_file = base_file
 
     def render(self):
@@ -27,7 +28,8 @@ class Renderer():
 
         past_news[name] = {
             'title': self._title,
-            'paragraphs': self._paragraphs
+            'paragraphs': self._paragraphs,
+            'summary': self._summary
         }
 
         for_templates = []
@@ -52,14 +54,14 @@ class Renderer():
         for name in past_news:
             principal_template = env.get_template('past_news_templates.html')
             principal_template = principal_template.render(title=past_news[name]['title'],\
-            paragraphs=past_news[name]['paragraphs'])
+            paragraphs=past_news[name]['paragraphs'], summary=past_news[name]['summary'])
             with open(os.path.join(self._base_file, 'past_news_pages', name + '.html'), 'w') as h:
                 h.write(principal_template)
 
         principal_template = env.get_template('principal_page_template.html')
 
         principal_template = principal_template.render(title=self._title, \
-        paragraphs=self._paragraphs, past_news=for_templates)
+        paragraphs=self._paragraphs, past_news=for_templates, summary=self._summary)
 
         with open(os.path.join(self._base_file, 'index.html'), 'w') as h:
             h.write(principal_template)
