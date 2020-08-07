@@ -12,3 +12,4 @@ scikit-learn==0.20.4
 scipy==1.5.1
 soupsieve==1.9.6
 urllib3==1.22
+gensim==3.8.3
