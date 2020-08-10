@@ -4,7 +4,7 @@ from configparser import ConfigParser
 from typing import Dict, Any, List, Union
 
 class Scrapper(metaclass=abc.ABCMeta):
-    __slots__ = tuple(['_data'])
+    __slots__ = tuple(['_data', '_is_scrap_data'])
     def __init__(self):
         self._data = None
         self._is_scrap_data = False
