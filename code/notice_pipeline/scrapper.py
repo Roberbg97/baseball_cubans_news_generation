@@ -20,6 +20,7 @@ class Scrapper_BR(Scrapper):
         self._palyers = players
         self._ss = requests.Session()
         self._ss.headers['User-Agent'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Safari/537.36'
+        self._ss.headers['Accept-Encoding'] = 'gzip, deflate'
         self._base_url = 'https://www.baseball-reference.com'
         self._data = {}
         self._data['players_details'] = {}
