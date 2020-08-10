@@ -1,6 +1,7 @@
 import json
 from importlib import import_module
 from configparser import ConfigParser
+import datetime
 #from first_algorithms_flow import Outstandings_LR, New_Templates
 #from jinja2 import Environment, FileSystemLoader, select_autoescape
 #from notice_pipeline.scrapper import Scrapper_BR
@@ -10,7 +11,6 @@ try:
     MODULE = os.path.dirname(os.path.realpath(__file__))
 except:
     MODULE = ""
-
 
 def config():
 
@@ -83,14 +83,34 @@ def config():
 
     return (title, paragraphs, summary)
     '''
-    
+    past_news = json.load(open(os.path.join(MODULE, 'past_news.json'), 'r'))
 
-    module = import_module(render_module)
-    class_ = getattr(module, render_class)
-    r = class_(title, paragraphs, summary)
-    #r = Renderer(title, paragraphs)
+    today = datetime.date.today()
+    oneday = datetime.timedelta(days=1)
+    y = today - oneday
 
-    r.render()
+    day = str(y.day)
+    month = str(y.month)
+    year = str(y.year)
+
+    if len(day) == 1:
+        day = '0' + day
+
+    if len(month) == 1:
+        month = '0' + month
+
+    name = year + '-' + month + '-' + day
+
+    past_news[name] = {
+        'title': title,
+        'paragraphs': paragraphs,
+        'summary': summary,
+        "author": "Armanbot"
+    }
+
+    json.dump(past_news, open(os.path.join(MODULE, 'past_news.json'), 'w'), indent=2)
+
+    #r.render()
 
     return (title, paragraphs, summary)
 
