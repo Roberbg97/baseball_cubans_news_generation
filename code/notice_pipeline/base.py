@@ -7,6 +7,7 @@ class Scrapper(metaclass=abc.ABCMeta):
     __slots__ = tuple(['_data'])
     def __init__(self):
         self._data = None
+        self._is_scrap_data = False
 
     @abc.abstractmethod
     def _scrap(self)->Dict[str, Any]:
@@ -14,11 +15,12 @@ class Scrapper(metaclass=abc.ABCMeta):
 
     def scrap(self)->Dict[str, Any]:
         self._data = self._scrap()
+        self._is_scrap_data = True
         return self._data
 
     @property
     def data(self)->Dict[str, Any]:
-        if self._data is not None:
+        if self._is_scrap_data is True:
             return self._data
         return self.scrap()
 
@@ -34,13 +36,13 @@ class ScrapperGames(Scrapper, metaclass=abc.ABCMeta):
 
     @property
     def allGamesDetails(self):
-        if self._data is None:
+        if self._is_scrap_data is False:
             self.scrap()
         return self._data['all_games_details']
 
     @property
     def gameDayData(self):
-        if self._data is None:
+        if self._is_scrap_data is False:
             self.scrap()
         return self._data['game_day_data']
 
@@ -77,8 +79,8 @@ class News(metaclass=abc.ABCMeta):
 class Configuration(metaclass=abc.ABCMeta):
     __slots__ = ('_config', '_country', '_scraping', '_clasification', '_generation')
     def __init__(self, config_file='./config.init'):
-        parser = ConfigParser()
-        self._config = parser.read(config_file)
+        self._config = ConfigParser()
+        self._config.read(config_file)
         self._country = None
         self._scraping = None
         self._clasification = None
