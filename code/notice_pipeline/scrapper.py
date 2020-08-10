@@ -1,9 +1,9 @@
 import json
-from typing import Dict, List
+from typing import Dict, List, Union
 import requests
 from bs4 import Comment
 from bs4 import BeautifulSoup
-from .base import Scrapper
+from .base import ScrapperGames
 import re
 
 PARSER = 'lxml'
@@ -13,11 +13,11 @@ except ImportError:
     PARSER = 'html.parser'
 
 
-class Scrapper_BR(Scrapper):
-    __slots__ = ('_palyers', '_ss', '_base_url')
+class Scrapper_BR(ScrapperGames):
+    __slots__ = ('_players', '_ss', '_base_url')
     def __init__(self, players: List[str]):
         super().__init__()
-        self._palyers = players
+        self._players = players
         self._ss = requests.Session()
         self._ss.headers['User-Agent'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Safari/537.36'
         self._ss.headers['Accept-Encoding'] = 'gzip, deflate'
@@ -28,6 +28,12 @@ class Scrapper_BR(Scrapper):
         self._data['top_players'] = []
         self._data['players_details']['hitters'] = {}
         self._data['players_details']['pitchers'] = {}
+
+    def __call__(self, country_results):
+        if isinstance(country_results, dict):
+            self._players = list(country_results.keys())
+        self._players = country_results
+
 
     def _get_game_score(self, bsObj):
 
@@ -96,7 +102,7 @@ class Scrapper_BR(Scrapper):
                 players = players.tbody.findAll('tr')
                 break
         players_details = self._data['players_details']
-        filter_players = set(self._palyers)
+        filter_players = set(self._players)
         for p in players:
             position = p.find('th')
             link = position.find('a')
@@ -108,21 +114,12 @@ class Scrapper_BR(Scrapper):
             if pos == 'P':
                 continue
             name = link.get_text()
-            #name = self.delete_tilde(name)
             if len(filter_players) > 0 and name not in filter_players:
                 continue
-            '''
-            if name in players_details['hitters']:
-                players_details['hitters'][name + '_1'] = players_details['hitters'][name]
-                players_details['hitters'].pop(name)
-                name = name + '_2'
-            '''
-            print(game_details['uod'])
             if game_details['uod'] == 2:
                 name = name + '_1'
             if game_details['uod'] == 3:
                 name = name + '_2'
-            print(name)
             players_p[name] = 'batter'
             players_details['hitters'][name] = {}
             players_details['hitters'][name]['position'] = pos
@@ -143,7 +140,7 @@ class Scrapper_BR(Scrapper):
                 players = players.tbody.findAll('tr')
                 break
         players_details = self._data['players_details']
-        filter_players = set(self._palyers)
+        filter_players = set(self._players)
         for p in players:
             position = p.find('th')
             link = position.find('a')
@@ -152,21 +149,12 @@ class Scrapper_BR(Scrapper):
             name_and_impact = position.get_text().lstrip()
             name = link.get_text()
             impact = name_and_impact.replace(name, '')
-            #name = self.delete_tilde(name)
             if len(filter_players) > 0 and name not in filter_players:
                 continue
-            '''
-            if name in players_details['pitchers']:
-                players_details['pitchers'][name + '_1'] = players_details['pitchers'][name]
-                players_details['pitchers'].pop(name)
-                name = name + '_2'
-            '''
-            print(game_details['uod'])
             if game_details['uod'] == 2:
                 name = name + '_1'
             if game_details['uod'] == 3:
                 name = name + '_2'
-            print(name)
             players_p[name] = 'pitcher'
             players_details['pitchers'][name] = {}
             players_details['pitchers'][name]['position'] = 'P'
@@ -198,8 +186,6 @@ class Scrapper_BR(Scrapper):
                 details[pd['data-stat']] = pd.get_text()
             details['batter'] = details['batter'].replace('\xa0', ' ')
             details['pitcher'] = details['pitcher'].replace('\xa0', ' ')
-            #details['batter'] = self.delete_tilde(details['batter'])
-            #details['pitcher'] = self.delete_tilde(details['pitcher'])
             batter = details['batter']
             pitcher = details['pitcher']
             if batter in players and players[batter] == 'batter':
@@ -260,8 +246,6 @@ class Scrapper_BR(Scrapper):
         else:
             play_details['event'] = 'DISCARD'
 
-
-        #print(direction_details)
         for adv in play_and_runnbases[1:]:
             details = adv.split()
             if ' to ' in adv:
@@ -383,11 +367,8 @@ class Scrapper_BR(Scrapper):
         # get links games
         games_links = []
         r = session.get(base_url)
-        #r = session.get(base_url + '/boxes/?month=8&day=5&year=2020')
         bsObj = BeautifulSoup(r.text, PARSER)
         scores = bsObj.find('div', {'id': 'scores'})
-        #games_refs = scores.findAll('td', {'class': 'right gamelink'})
-        #scores = bsObj.find('div', {'class': 'game_summaries'})
         games_refs = scores.findAll('td', {'class': 'right gamelink'})
 
         for l in games_refs:
@@ -442,7 +423,5 @@ class Scrapper_BR(Scrapper):
             self._convert_player(p, pd)
             self._convert_pitcher(p, pd)
 
-
         return {'all_games_details': self._data['all_games_details'],
                 'game_day_data': players_details}
-                
