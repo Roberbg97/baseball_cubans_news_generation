@@ -4,6 +4,7 @@ import requests
 from bs4 import Comment
 from bs4 import BeautifulSoup
 from .base import Scrapper
+import re
 
 PARSER = 'lxml'
 try:
@@ -65,14 +66,16 @@ class Scrapper_BR(Scrapper):
                 game_details['uod'] = 3
                 break
 
-        linescore = bsObj.find('div', {'class': 'linescore_wrap'}).tfoot.get_text()
+        linescore = bsObj.find('div', {'class': 'linescore_wrap'}).tfoot.get_text().strip()
+        if linescore=='':
+            return
 
-        wls = linescore.split('•')
-        win = wls[0].split('WP:')[1][1:].split('(')[0].rstrip()
-        lose = wls[1].split('LP:')[1][1:].split('(')[0].rstrip()
+        wls = re.findall('(?:LP:|WP:|SV:).+?\(([0-9]+\-[0-9]+)',linescore)
+        win = wls[0]
+        lose = wls[1]
         sv = ''
         if len(wls) > 2:
-            sv = wls[2].split('SV:')[1][1:].split('(')[0].rstrip()
+            sv = wls[2]
 
         game_details['WP'] = win
         game_details['LP'] = lose
