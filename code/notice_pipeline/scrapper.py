@@ -67,6 +67,7 @@ class Scrapper_BR(Scrapper):
 
         linescore = bsObj.find('div', {'class': 'linescore_wrap'}).tfoot.get_text()
 
+
         wls = linescore.split('•')
         win = wls[0].split('WP:')[1][1:].split('(')[0].rstrip()
         lose = wls[1].split('LP:')[1][1:].split('(')[0].rstrip()
@@ -388,10 +389,12 @@ class Scrapper_BR(Scrapper):
 
         for l in games_refs:
             link = l.a['href']
-            games_links.append(l.a['href'])
-            r = session.get(base_url+link)
-            bsObj = BeautifulSoup(r.text, PARSER)
-            self._get_game_score(bsObj)
+            f_or_s = l.a.get_text()
+            if 'Final' in f_or_s:
+                games_links.append(l.a['href'])
+                r = session.get(base_url+link)
+                bsObj = BeautifulSoup(r.text, PARSER)
+                self._get_game_score(bsObj)
 
         for i in range(len(games_links)):
             r = session.get(base_url+games_links[i])

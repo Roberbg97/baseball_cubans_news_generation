@@ -15,7 +15,7 @@ try:
 except:
     MODULE = ""
 
-def _text_summarize(text, word_count=100):
+def _text_summarize(text, word_count=70):
     return summarize(text, word_count=word_count)
 
 def _get_list_players_text(players):
@@ -120,7 +120,7 @@ def get_title(player_details, outstandings):
         text = ''
 
         if len(outstandings) == 0:
-            title = 'Sin participación cubana en jornada de las Grandes Ligas.'
+            title = 'Sin participación cubana en jornada de las Grandes Ligas'
             return title
 
 
@@ -155,7 +155,7 @@ def get_title(player_details, outstandings):
                     stats = [
                         (hits, 'Con ' + str(hits) + random.choice([' hits, ', ' imparables, '])),
                         (hr, 'Con ' + str(hr) + random.choice([' jonrones, ', ' cuadrangulares, '])),
-                        (rbi, 'Con ' + str(rbi) + ' carreras implusadas, '),
+                        (rbi, 'Con ' + str(rbi) + ' carreras impulsadas, '),
                         (r, 'Con ' + str(r) + ' carreras anotadas')
                     ]
 
@@ -176,8 +176,8 @@ def get_title(player_details, outstandings):
                         ) + \
                         random.choice(
                             [
-                                ' en jornada destacada para la ofensiva cubana.',
-                                ' en buen día para los bateadores cubanos.'
+                                ' en jornada destacada para la ofensiva cubana',
+                                ' en buen día para los bateadores cubanos'
                             ]
                         )
 
@@ -187,9 +187,9 @@ def get_title(player_details, outstandings):
                         text += name + ' '
                         text += random.choice(
                             [
-                                'saca la cara por los bateadores cubanos en jornada de las Grandes Ligas.',
-                                'sobresale en mal día para los bateadores cubanos.',
-                                'resalta entre los bateadores cubanos en Grandes Ligas de béisbol.'
+                                'saca la cara por los bateadores cubanos en jornada de las Grandes Ligas',
+                                'sobresale en mal día para los bateadores cubanos',
+                                'resalta entre los bateadores cubanos en Grandes Ligas de béisbol'
                             ]
                         )
                         return text
@@ -214,9 +214,9 @@ def get_title(player_details, outstandings):
                             ]
                         ) + random.choice(
                             [
-                                ' en jornada destacada para el pitcheo cubano.',
-                                ' en una buena jornada para el pitcheo cubano.',
-                                ' en un buen día para el pitcheo cubano.'
+                                ' en jornada destacada para el pitcheo cubano',
+                                ' en una buena jornada para el pitcheo cubano',
+                                ' en un buen día para el pitcheo cubano'
                             ]
                         )
                         return text
@@ -225,9 +225,9 @@ def get_title(player_details, outstandings):
                         text += name + ' '
                         text += random.choice(
                             [
-                                'salva la honra por los lanzadores cubanos en la jornada de las Grandes Ligas.',
-                                'sobresale en mal día para los lanzadores cubanos.',
-                                'resalta entre los lanzadores cubanos en Grandes Ligas de béisbol.'
+                                'salva la honra por los lanzadores cubanos en la jornada de las Grandes Ligas',
+                                'sobresale en mal día para los lanzadores cubanos',
+                                'resalta entre los lanzadores cubanos en Grandes Ligas de béisbol'
                             ]
                         )
                         return text
@@ -244,28 +244,28 @@ def get_title(player_details, outstandings):
             if prom_all > 1.00:
                 text += random.choice(
                     [
-                        'Jornada positiva para los cubanos en Grandes Ligas de béisbol.',
-                        'Buena actuación de los cubanos en jornada de la MLB.',
-                        'Actuaciones destacables para jugadores cubanos en las Grandes Ligas.'
+                        'Jornada positiva para los cubanos en Grandes Ligas de béisbol',
+                        'Buena actuación de los cubanos en jornada de la MLB',
+                        'Actuaciones destacables para jugadores cubanos en las Grandes Ligas'
                     ]
                 )
                 return text
             else:
                 text += random.choice(
                     [
-                        'Poco destaque de jugadores cubanos en las Grandes Ligas.',
-                        'Jugadores cubanos con pobres resultados en jornada de la MLB.',
-                        'Discreta actuación de los cubanos en las Grandes Ligas de béisbol.'
+                        'Poco destaque de jugadores cubanos en las Grandes Ligas',
+                        'Jugadores cubanos con pobres resultados en jornada de la MLB',
+                        'Discreta actuación de los cubanos en las Grandes Ligas de béisbol'
                     ]
                 )
                 return text
 
         text += random.choice(
             [
-                ' en jornada de las Grandes Ligas de béisbol.',
+                ' en jornada de las Grandes Ligas de béisbol',
                 ' en una jornada más de la MLB',
-                ' en la MLB.',
-                ' en las Grandes Ligas.'
+                ' en la MLB',
+                ' en las Grandes Ligas'
             ]
         )
 
@@ -535,8 +535,8 @@ def get_game_summary(game):
                         ' fue el cubano que jugó en el encuentro que enfrentó a los equipos de ' + \
                         winner_team + ' y ' + loser_team + ', con victoria para el primero.',
                         'En el enfrentamiento que tuvieron los conjuntos de ' + winner_team + ' y ' + \
-                        loser_team + ', hizo su aparición  ' + _get_list_players_text(all_players) + '.',
-                        _get_list_players_text(all_players) + ' tomaron parte en el partido de béisbol que ' + \
+                        loser_team + ', hizo su aparición  ' + all_players[0] + '.',
+                        all_players[0] + ' tomó parte en el partido de béisbol que ' + \
                         winner_team + ' le ganó a ' + loser_team + ' ' + winner_score + ' por ' + loser_score + '.'
                     ]
                 )

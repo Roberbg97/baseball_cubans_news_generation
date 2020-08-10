@@ -39,7 +39,7 @@ class Renderer():
 
         for_templates.pop()
 
-        json.dump(past_news, open(os.path.join(MODULE, 'past_news.json'), 'w'))
+        json.dump(past_news, open(os.path.join(MODULE, 'past_news.json'), 'w'), indent=2)
 
         os.makedirs('past_news_pages', exist_ok=True)
 
