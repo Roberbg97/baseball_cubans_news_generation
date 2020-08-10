@@ -1,8 +1,8 @@
 import random
 from .base import News
-from notice_generator import Player, Play
-from notice_generator.stats_player import Highlights_Player
-from notice_generator.utils import get_yesterday_date as gyd
+from .notice_generator import Player, Play
+from .notice_generator.stats_player import Highlights_Player
+from .notice_generator.utils import get_yesterday_date as gyd
 from gensim.summarization import summarize
 
 class New_Templates(News):
