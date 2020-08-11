@@ -23,9 +23,14 @@ class Armandobot(Configuration):
         return New_Templates(player_details, sorted_for_outstandings, games_details, players_teams)
 
     def _run(self, *args, **kwargs):
+        os.makedirs('data', exist_ok=True)
         res = kwargs.pop('pipeline_result')
         res["author"] = "Armanbot"
-        past_news = json.load(open(os.path.join(MODULE, 'past_news.json'), 'r'))
+        try:
+            past_news = json.load(open('data/past_news.json'))
+        except Exception as e:
+            print(e)
+            past_news = {}
 
         today = datetime.date.today()
         oneday = datetime.timedelta(days=1)
@@ -45,7 +50,7 @@ class Armandobot(Configuration):
 
         past_news[name] = res
 
-        json.dump(past_news, open(os.path.join(MODULE, 'past_news.json'), 'w'), indent=2)
+        json.dump(past_news, open('data/past_news.json', 'w'), indent=2)
 
         #r.render()
 
