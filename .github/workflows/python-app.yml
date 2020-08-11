@@ -11,8 +11,6 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    env:
-      UPDATED: 0
 
     steps:
     - uses: actions/checkout@v2
