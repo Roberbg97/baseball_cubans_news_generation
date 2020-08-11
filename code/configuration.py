@@ -22,6 +22,36 @@ class Armandobot(Configuration):
     def _instanciate_generation(self, player_details, sorted_for_outstandings, games_details, players_teams):
         return New_Templates(player_details, sorted_for_outstandings, games_details, players_teams)
 
+    def _before_run(self, *args, **kwargs):
+        today = datetime.date.today()
+        oneday = datetime.timedelta(days=1)
+        y = today - oneday
+
+        day = str(y.day)
+        month = str(y.month)
+        year = str(y.year)
+
+        if len(day) == 1:
+            day = '0' + day
+
+        if len(month) == 1:
+            month = '0' + month
+
+        name = year + '-' + month + '-' + day
+        try:
+            past_news = json.load(open('past_news.json'))
+        except Exception as e:
+            print(e)
+            past_news = {}
+
+        if name in past_news:
+            with open('UPDATED','w') as f:
+                f.write('1')
+            return False
+        with open('UPDATED','w') as f:
+                f.write('0')
+        return True
+
     def _run(self, *args, **kwargs):
         res = kwargs.pop('pipeline_result')
         res["author"] = "Armanbot"
