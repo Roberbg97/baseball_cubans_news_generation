@@ -33,6 +33,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Update html with new
+      if: $(python -c "import os;print(open('UPDATED').read());os.remove('UPDATED')")==0
       run: |
         python code/configuration.py
         git config --global user.name 'Roberbg97'
