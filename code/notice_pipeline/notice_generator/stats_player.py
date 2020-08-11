@@ -1,7 +1,7 @@
 from .base_class import Stats, Entity, Highlights
 from .base_class import Action, EntityCont
 import random
-import utils as u
+from .utils import player_position
 
 # Entity
 class Player_name(Entity):
@@ -16,7 +16,7 @@ class Player_name(Entity):
 class Position(Entity):
     def get_text(self):
         pos = self._player_dict['position'].split('-')[0]
-        l_pos = u.player_position[pos]
+        l_pos = player_position[pos]
         return random.choice(l_pos)
 
 # Entity
