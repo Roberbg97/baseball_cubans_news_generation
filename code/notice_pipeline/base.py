@@ -117,7 +117,18 @@ class Configuration(metaclass=abc.ABCMeta):
         """
         raise NotImplementedError
 
+    def _before_run(self, *args, **kwargs):
+        """
+        This method is called before the run method of the class execute his content
+        This method must return True or False
+        if return True the then content of run is executed
+        otherway isn't
+        """
+        return True
+
     def run(self, *args, **kwargs):
+        if not self._before_run(*args, **kwargs):
+            return
         if self._country is None:
             self._country = self._instanciate_country()
             assert issubclass(type(self._country), Scrapper)
