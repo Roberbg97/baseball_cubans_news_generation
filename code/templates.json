@@ -24,46 +24,79 @@
                         "0":[
                             "no pegó hits",
                             "no pegó imparables",
+                            "no pegó indiscutibles",
                             "no dio hits",
                             "no dio indiscutibles",
                             "no dio imparables",
                             "no disparó hits",
-                            "no disparó indiscutibles"
+                            "no disparó imparabales",
+                            "no disparó indiscutibles",
+                            "no conectó hits",
+                            "no conectó imparabales",
+                            "no conectó indiscutibles"
                         ],
                         "1":[
                             "pegó un hit",
                             "pegó un imparable",
+                            "pegó un indiscutible",
                             "dio un hit",
                             "dio un indiscutible",
                             "dio un imparable",
                             "disparó un hit",
-                            "disparó un indiscutible"
+                            "disparó un imparable",
+                            "disparó un indiscutible",
+                            "conectó un hit",
+                            "conectó un imparable",
+                            "conectó un indiscutible"
                         ],
                         ">1":[
                             "pegó {{ H }} hits",
                             "pegó {{ H }} imparables",
+                            "pegó {{ H }} indiscutibles",
                             "dio {{ H }} hits",
                             "dio {{ H }} indiscutibles",
                             "dio {{ H }} imparables",
                             "disparó {{ H }} hits",
-                            "disparó {{ H }} indiscutibles"
+                            "disparó {{ H }} imparables",
+                            "disparó {{ H }} indiscutibles",
+                            "conectó {{ H }} hits",
+                            "conectó {{ H }} imparables",
+                            "conectó {{ H }} indiscutibles"
                         ]
                     },
                     "lanzador":{
                         "0":[
                             "no permitió hits",
                             "no permitió indiscutibles",
-                            "no permitió imparables"
+                            "no permitió imparables",
+                            "no le dieron hits",
+                            "no le dieron indiscutibles",
+                            "no le dieron imparables",
+                            "no le batearon hits",
+                            "no le batearon indiscutibles",
+                            "no le batearon imparables"
                         ],
                         "1":[
                             "permitió un hit",
                             "permitió un indiscutible",
-                            "permitió un imparable"
+                            "permitió un imparable",
+                            "le dieron un hit",
+                            "le dieron un indiscutible",
+                            "le dieron un imparable",
+                            "le batearon un hit",
+                            "le batearon un indiscutible",
+                            "le batearon un imparable"
                         ],
                         ">1":[
                             "permitió {{ H }} hits",
                             "permitió {{ H }} indiscutibles",
-                            "permitió {{ H }} imparables"
+                            "permitió {{ H }} imparables",
+                            "le dieron {{ H }} hits",
+                            "le dieron {{ H }} indiscutibles",
+                            "le dieron {{ H }} imparables",
+                            "le batearon {{ H }} hits",
+                            "le batearon {{ H }} indiscutibles",
+                            "le batearon {{ H }} imparables"
                         ]
                     }
                 }
@@ -72,11 +105,13 @@
                 "entidad":{
                     "0":[
                         "ninguna carrera anotada",
-                        "ninguna anotación"
+                        "ninguna anotación",
+                        "ninguno le pisó el home"
                     ],
                     "1":[
                         "una carrera anotada",
-                        "una anotación"
+                        "una anotación",
+                        "unos solo le pisó el home"
                     ],
                     ">1":[
                         "{{ R }} carreras anotadas",
@@ -86,10 +121,12 @@
                 "accion":{
                     "bateador":{
                         "1":[
-                            "anotó una carrera"
+                            "anotó una carrera",
+                            "pisó el home una vez"
                         ],
                         ">1":[
-                            "anotó {{ R }} carreras"
+                            "anotó {{ R }} carreras",
+                            "pisó home {{ R }} veces"
                         ]
                     },
                     "lanzador":{
@@ -103,12 +140,12 @@
                             "limpias":[
                                 "permitió una carrera, la cual fue limpia",
                                 "permitió una carrera limpia",
-                                "permitió una anotación"
+                                "permitió una anotación limpia"
                             ],
                             "sucias":[
                                 "permitió una carrera que fue sucia",
                                 "permitió una carrera sucia",
-                                "permitió una anotación"
+                                "permitió una anotación sucia"
                             ]
                         },
                         ">1":{
@@ -163,15 +200,18 @@
                 "entidad":{
                     "0":[
                         "ningun doble",
-                        "ningun doblete"
+                        "ningun doblete",
+                        "ningún tubey"
                     ],
                     "1":[
                         "un doble",
-                        "un doblete"
+                        "un doblete",
+                        "un tubey"
                     ],
                     ">1":[
                         "{{ 2B }} dobles",
-                        "{{ 2B }} dobletes"
+                        "{{ 2B }} dobletes",
+                        "{{ 2B }} tubeys"
                     ]
                 }
             },
@@ -195,15 +235,18 @@
                 "enitidad":{
                     "0":[
                         "ningún jonrón",
-                        "ningún cuadrangular"
+                        "ningún cuadrangular",
+                        "ningún batazo de vuelta completa"
                     ],
                     "1":[
                         "un jonrón",
-                        "un cuadrangular"
+                        "un cuadrangular",
+                        "un batazo de vuelta completa"
                     ],
                     ">1":[
                         "{{ HR }} jonrones",
-                        "{{ HR }} cuadrangulares"
+                        "{{ HR }} cuadrangulares",
+                        "{{ HR }} batazos de vuelta completa"
                     ]
                 }
             },
@@ -212,26 +255,33 @@
                     "0":[
                         "ninguna carrera impulsada",
                         "ninguna carrera empujada",
+                        "ninguna carrera remolcada",
                         "ninguna empujada",
-                        "ninguna impulsada"
+                        "ninguna impulsada",
+                        "ninguna remolcada"
                     ],
                     "1":[
                         "una carrera impulsada",
                         "una carrera empujada",
+                        "una carrera remolcada",
                         "una empujada",
-                        "una impulsada"
+                        "una impulsada",
+                        "una remolcada"
                     ],
                     ">1":[
                         "{{ RBI }} carreras impulsadas",
                         "{{ RBI }} carreras empujadas",
+                        "{{ RBI }} carreras remolcada",
                         "{{ RBI }} empujadas",
-                        "{{ RBI }} impulsadas"
+                        "{{ RBI }} impulsadas",
+                        "{{ RBI }} remolcadas"
                     ]
                 },
                 "accion":{
                     "0":[
                         "no empujó carreras",
-                        "no impulsó carreras"
+                        "no impulsó carreras",
+                        "no remolcó carreras"
                     ],
                     "1":[
                         "empujó una carrera",
@@ -264,13 +314,17 @@
             "ponches":{
                 "entidad":{
                     "0":[
-                        "ningún ponche"
+                        "ningún ponche",
+                        "ningún estrucado"
                     ],
                     "1":[
-                        "un ponche"
+                        "un ponche",
+                        "un estrucado"
+
                     ],
                     ">1":[
-                        "{{ SO }} ponches"
+                        "{{ SO }} ponches",
+                        "{{ SO }} estrucados"
                     ]
                 }
             },
@@ -278,14 +332,18 @@
                 "accion":{
                     "W":[
                         "se apuntó la victoria",
-                        "ganó el encuentro"
+                        "ganó el encuentro",
+                        "ganó el juego"
+                        
                     ],
                     "S":[
                         "se apuntó el salvamento",
-                        "salvó el juego para su equipo"
+                        "salvó el juego para su equipo",
+                        "salvó el encuentro"
                     ],
                     "L":[
-                        "perdió el juego"
+                        "perdió el juego",
+                        "cargó con la derrota"
                     ]
                 }
             },
@@ -294,12 +352,16 @@
                     "1":[
                         "enfrentó a un bateador",
                         "hizo lanzamientos contra un bateador",
-                        "lanzó contra un bateador"
+                        "lanzó contra un bateador",
+                        "pitcheó contra un pelotero",
+                        "pitcheó contra un bateador"
                     ],
                     ">1":[
                         "enfrentó a {{ bateadores_enfrentados }} bateadores",
                         "hizo lanzamientos contra {{ bateadores_enfrentados }} bateadores",
-                        "lanzó contra {{ bateadores_enfrentados }} bateadores"
+                        "lanzó contra {{ bateadores_enfrentados }} bateadores",
+                        "pitcheó frente a {{ bateadores_enfrentados }} peloteros",
+                        "lanzó contra {{ bateadores_enfrentados }} jugadores"
                     ]
                 }
             }
@@ -312,13 +374,20 @@
                         "en la {{ inning_f }} entrada",
                         "en la parte alta del {{ inning_m }} episodio",
                         "en el inicio del {{ inning_m }} capítulo",
-                        "en el inicio de la {{ inning_f }} entrada"
+                        "en el inicio de la {{ inning_f }} entrada",
+                        "en el inicio del {{ inning_f }} episodio",
+                        "en el comienzo del {{ inning_m }} capítulo",
+                        "en el comienzo de la {{ inning_f }} entrada",
+                        "en el comienzo del {{ inning_f }} episodio"
                     ],
                     "fin":[
                         "en el {{ inning_m }} inning",
                         "en la {{ inning_f }} entrada",
                         "en la parte baja del {{ inning_m }} episodio",
+                        "en la parte baja del {{ inning_m }} capítulo",
+                        "en la parte baja del {{ inning_m }} episodio",
                         "en el final del {{ inning_m }} capítulo",
+                        "en el final del {{ inning_m }} episodio",
                         "en el final de la {{ inning_f }} entrada"
                     ]
                 }
@@ -348,16 +417,23 @@
                     "0":[
                         "sin outs en el pizarrón",
                         "sin outs en la pizarra",
+                        "sin outs en el marcador",
+                        "sin outs en el inning",
                         "sin outs"
                     ],
                     "1":[
                         "con un out en el pizarrón",
                         "con un out en la pizarra",
+                        "con un out en el marcador",
+                        "con un out en el inning",
                         "con un out"
                     ],
                     "2":[
                         "con dos outs en la pizarra",
                         "con dos outs en el pizarrón",
+                        "con dos outs en el marcador",
+                        "con dos outs en el inning",
+                        "a falta de un out para cerrar el episodio",
                         "con dos outs"
                     ]
                 }
@@ -366,7 +442,8 @@
                 "complemento":{
                     "---":[
                         "con las bases limpias",
-                        "sin corredores en base"
+                        "sin corredores en base",
+                        "sin nadie en base"
                     ],
                     "1--":[
                         "con corredor en primera base",
@@ -490,12 +567,14 @@
                         "dio un imparable",
                         "disparó un indiscutible",
                         "conectó un imparable",
-                        "disparó un hit"
+                        "disparó un hit",
+                        "bateó un hit"
                     ],
                     "doble":[
                         "conectó un doble",
                         "dio un doblete",
-                        "disparó un biangular"
+                        "disparó un biangular",
+                        "bateó un tubey"
                     ],
                     "triple":[
                         "conectó un triple",
@@ -515,7 +594,8 @@
                     ],
                     "rolling_out":{
                         "bateador":[
-                            "falló con rolling que finalmente sirvió de sacrificio"
+                            "falló con rolling que finalmente sirvió de sacrificio",
+                            "bateó un roletazo de sacrificio"
                         ],
                         "lanzador":[
                             "provocó que {{ bateador }} fallara con un rolling de out",
@@ -542,7 +622,8 @@
                         "dominó a {{ bateador }} con elevado de out"
                     ],
                     "sacrificio":[
-                        "elevó un fly de sacrificio"
+                        "conectó de sacrificio",
+                        "bateó de sacrificio"
                     ],
                     "linea_out":[
                         "provocó que {{ bateador }} fallara en línea de out",
@@ -567,24 +648,29 @@
                 "accion":{
                     "0":[
                         "no impulsó carreras",
+                        "no remolcó carreras",
                         "no empujó carreras"
                     ],
                     "1":[
                         "impulsó una carrera",
+                        "remolcó una carrera",
                         "empujó una carrera"
                     ],
                     ">1":[
                         "impulsó {{ RBI }} carreras",
+                        "remolcó {{ RBI }} carreras",
                         "empujó {{ RBI }} carreras"
                     ]
                 },
                 "reaccion":{
                     "1":[
                         "empujar una carrera",
+                        "remolcar una carrera",
                         "impulsar una carrera"
                     ],
                     ">1":[
                         "empujar {{ RBI }} carreras",
+                        "remolcar {{ RBI }} carreras",
                         "impulsar {{ RBI }} carreras"
                     ]
                 }
@@ -629,29 +715,29 @@
         "oracion_inicial":{
             "victoria":{
                 "juego_unico":[
-                    "{{ nombre }} tuvo una destacada labor en el encuentro, para favorecer en la victoria de {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} enfrentando a {{ equipo_rival }}",
+                    "{{ nombre }} realizó una destacada labor en el encuentro, para favorecer en la victoria de {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} enfrentando a {{ equipo_rival }}",
                     "{{ nombre }} destacó entre los demás jugadores en el juego, para apoyar en el triunfo de {{ equipo }} sobre {{ equipo_rival }} {{ carreras_equipo }} por {{ carreras_equipo_rival }}",
                     "{{ nombre }} tuvo una buena actuación en la victoria de su equipo {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} ante {{ equipo_rival }}"
                 ],
                 "primero_del_doble":[
-                    "{{ nombre }} tuvo una destacada labor en el encuentro, para favorecer en la victoria de {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} enfrentando a {{ equipo_rival }}, en el primero de los dos juegos celebrados por su equipo en la jornada",
+                    "{{ nombre }} realizó una destacada labor en el encuentro, para favorecer en la victoria de {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} enfrentando a {{ equipo_rival }}, en el primero de los dos juegos celebrados por su equipo en la jornada",
                     "{{ nombre }} destacó entre los demás jugadores en el juego, para apoyar en el triunfo de {{ equipo }} sobre {{ equipo_rival }} {{ carreras_equipo }} por {{ carreras_equipo_rival }}, en el primero de los dos juegos celebrados por su equipo en la jornada",
                     "{{ nombre }} tuvo una buena actuación en la victoria de su equipo {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} ante {{ equipo_rival }}, en el primero de los dos juegos celebrados por su equipo en la jornada"
                 ],
                 "segundo_del_doble":[
-                    "{{ nombre }} tuvo una destacada labor en el encuentro, para favorecer en la victoria de {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} enfrentando a {{ equipo_rival }}, en el segundo de los dos juegos celebrados por su equipo en la jornada",
+                    "{{ nombre }} realizó una destacada labor en el encuentro, para favorecer en la victoria de {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} enfrentando a {{ equipo_rival }}, en el segundo de los dos juegos celebrados por su equipo en la jornada",
                     "{{ nombre }} destacó entre los demás jugadores en el juego, para apoyar en el triunfo de {{ equipo }} sobre {{ equipo_rival }} {{ carreras_equipo }} por {{ carreras_equipo_rival }}, en el segundo de los dos juegos celebrados por su equipo en la jornada",
                     "{{ nombre }} tuvo una buena actuación en la victoria de su equipo {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} ante {{ equipo_rival }}, en el segundo de los dos juegos celebrados por su equipo en la jornada"
                 ]
             },
             "derrota":{
                 "juego_unico":[
-                    "{{ nombre }} tuvo una destacada labor en el encuentro, pero no pudo evitar la derrota de {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} frente a {{ equipo_rival }}",
+                    "{{ nombre }} realizó una destacada labor en el encuentro, pero no pudo evitar la derrota de {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} frente a {{ equipo_rival }}",
                     "{{ nombre }} destacó entre los demás jugadores en el juego, pero no impidió que {{ equipo }} cayera contra {{ equipo_rival }} {{ carreras_equipo }} por {{ carreras_equipo_rival }}",
                     "{{ nombre }} tuvo una buena actuación en la derrota de su equipo {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} ante {{ equipo_rival }}"
                 ],
                 "primero_del_doble":[
-                    "{{ nombre }} tuvo una destacada labor en el encuentro, pero no pudo evitar la derrota de {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} frente a {{ equipo_rival }}, en el primero de los dos juegos celebrados por su equipo en la jornada",
+                    "{{ nombre }} realizó una destacada labor en el encuentro, pero no pudo evitar la derrota de {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} frente a {{ equipo_rival }}, en el primero de los dos juegos celebrados por su equipo en la jornada",
                     "{{ nombre }} destacó entre los demás jugadores en el juego, pero no impidió que {{ equipo }} cayera contra {{ equipo_rival }} {{ carreras_equipo }} por {{ carreras_equipo_rival }}, en el primero de los dos juegos celebrados por su equipo en la jornada",
                     "{{ nombre }} tuvo una buena actuación en la derrota de su equipo {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} ante {{ equipo_rival }}, en el primero de los dos juegos celebrados por su equipo en la jornada"
                 ],
@@ -663,6 +749,7 @@
             },
             "segundo_destacado_del_juego":[
                 "en este juego también se destacó {{ nombre }}",
+                "en el encuentro también sobresalió {{ nombre }}",
                 "{{ nombre }} fue otro de los jugadores cubanos que se destacó en este encuentro"
             ]
         },
@@ -679,7 +766,7 @@
                 "dos_destacados":[
                     "{{ jugador_1 }} y {{ jugador_2 }}, los más destacados por Cuba en jornada de las Grandes Ligas",
                     "{{ jugador_1 }} y {{ jugador_2 }}, los mejores jugadores cubanos en jornada de la MLB",
-                    "{{ jugador_1 }} y {{ jugador_2 }}, los más destacados en el día por la armada cubana en la MLB"
+                    "{{ jugador_1 }} y {{ jugador_2 }}, los que máss sobresalieron en el día por la armada cubana en la MLB"
                 ],
                 "un_destacado":{
                     "bateador":{
@@ -743,15 +830,16 @@
             },
             "total_de_cubanos":{
                 "0":[
-                    "en esta jornada no hubo participación cubana"
+                    "en esta jornada no hubo participación cubana",
+                    "en la jornada no jugó ningún cubano"
                 ],
                 "1":[
-                    "en esta jornada tuvo participación un jugador cubano",
-                    "en esta jornada jugó solamente un cubano"
+                    "en el día tuvo participación un jugador cubano",
+                    "en la jornada jugó solamente un cubano"
                 ],
                 ">1":[
-                    "en esta jornada participaron {{ cant_jugadores }} jugadores cubanos",
-                    "en esta jornada jugaron {{ cant_jugadores }} jugadores cubanos"
+                    "en esta día participaron {{ cant_jugadores }} jugadores cubanos",
+                    "en esta jornada jugaron {{ cant_jugadores }} jugadores de la mayor de las antillas"
                 ]
             }
         },
@@ -922,7 +1010,7 @@
     "posicion":{
         "1B": ["el primera base", "el inicialista"],
         "2B": ["el segunda base", "el camarero"],
-        "SS": ["el campo corto"],
+        "SS": ["el campo corto", "el shortstop"],
         "3B": ["el tercera base", "el antesalista"],
         "C": ["el receptor", "el catcher"],
         "LF": ["el jardinero izquierdo", "el left fielder"],
@@ -936,7 +1024,7 @@
     "direccion":{
         "1B": ["primera base", "la inicial"],
         "2B": ["segunda base", "la intermedia"],
-        "SS": ["el campo corto"],
+        "SS": ["el campo corto", "el shortstop"],
         "3B": ["tercera base", "la antesala"],
         "LF": ["el jardín izquierdo", "la pradera izquierda", "el left field"],
         "CF": ["el jardín central", "la pradera central", "el center field"],
