@@ -1,8 +1,8 @@
-from .base_class import Stats
-from .utils import ordinal as uordinal, direction
-from .utils import direction as udirection
-from .utils import fill_template, number
 import random
+from .base_class import Stats
+from .utils import ordinal as uordinal
+#from .utils import direction as udirection
+from .utils import fill_template, number
 
 # Complement
 class Inning(Stats):
@@ -69,9 +69,9 @@ class Runs_Play_Result(Stats):
             result_score += runs_play_result
         team = self._player_dict['team']
         rival_team = self._player_dict['rival_team']
-        t = [team, 'su equipo']
-        rt = [rival_team, 'el equipo contrario']
-        fb = self._play_dict['play_desc']['on_bases']['1B']
+        # t = [team, 'su equipo']
+        # rt = [rival_team, 'el equipo contrario']
+        # fb = self._play_dict['play_desc']['on_bases']['1B']
         sb = self._play_dict['play_desc']['on_bases']['2B']
         tb = self._play_dict['play_desc']['on_bases']['3B']
         result_score = current_score + runs_play_result

@@ -110,7 +110,7 @@ class Configuration(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def _run(self, *args, **kwargs):
+    def _after_run(self, *args, **kwargs):
         """
         The result of the last stage of the pipeline is passed
         as part of **kwargs in the key "pipeline_result"
@@ -161,4 +161,4 @@ class Configuration(metaclass=abc.ABCMeta):
         result = self._generation.text
 
         kwargs['pipeline_result'] = result
-        return self._run(*args, **kwargs)
+        return self._after_run(*args, **kwargs)

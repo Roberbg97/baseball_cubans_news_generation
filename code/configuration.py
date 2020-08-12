@@ -52,7 +52,7 @@ class Armandobot(Configuration):
                 f.write('0')
         return True
 
-    def _run(self, *args, **kwargs):
+    def _after_run(self, *args, **kwargs):
         res = kwargs.pop('pipeline_result')
         res["author"] = "Armanbot"
         try:

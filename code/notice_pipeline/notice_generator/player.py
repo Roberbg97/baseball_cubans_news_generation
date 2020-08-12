@@ -300,7 +300,7 @@ class Player:
 
         if self.first_game:
             text = text[:-2] + ', en el primero de dos encuentros disputados. '
-        
+
         if self.second_game:
             text = text[:-2] + ', en el segundo de dos encuentros disputados. '
 
@@ -407,7 +407,7 @@ class Play:
                 reaction.remove('')
 
             comp_after_event = self.dict_classes['play_desc']['direction'].text
-        
+
         d = {
             "jugador": entity,
             "comp_1": comp[0],

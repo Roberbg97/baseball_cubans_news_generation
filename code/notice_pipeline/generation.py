@@ -27,7 +27,7 @@ class New_Templates(News):
         if len(games_details) == 1:
             text = fill_template(random.choice(self._templates['noticia_juego']['primer_parrafo']\
             ['total_de_juegos']['1']), d)
-        
+
         else:
             text = fill_template(random.choice(self._templates['noticia_juego']['primer_parrafo']\
             ['total_de_juegos']['>1']), d)
@@ -509,7 +509,7 @@ class New_Templates(News):
         }
 
         text = ''
-        
+
         if uod == 1:
             if player_team != '':
                 if len(all_players) > 1:

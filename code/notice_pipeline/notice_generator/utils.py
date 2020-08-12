@@ -106,11 +106,10 @@ def fill_template(template, d):
         x = s.replace('{{ ', '').replace(' }}', '')
         x = d[x]
         template = template.replace(s, x)
-    
+
     return template
 
 def number(n):
     if n >= 2 and n <= 9:
         return cardinal[n]
-    else:
-        return str(n)
+    return str(n)
