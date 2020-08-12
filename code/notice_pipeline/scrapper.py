@@ -366,10 +366,14 @@ class Scrapper_BR(ScrapperGames):
         base_url = self._base_url
         # get links games
         games_links = []
-        r = session.get(base_url)
+        #r = session.get(base_url)
+        r = session.get(base_url + '/boxes/?month=7&day=23&year=2020')
         bsObj = BeautifulSoup(r.text, PARSER)
-        scores = bsObj.find('div', {'id': 'scores'})
+        #scores = bsObj.find('div', {'id': 'scores'})
+        scores = bsObj.find('div', {'class': 'game_summaries'})
         games_refs = scores.findAll('td', {'class': 'right gamelink'})
+
+        print('len(games_refs)')
 
         for l in games_refs:
             link = l.a['href']
