@@ -232,7 +232,7 @@
                 }
             },
             "jonrones":{
-                "enitidad":{
+                "entidad":{
                     "0":[
                         "ningún jonrón",
                         "ningún cuadrangular",
@@ -271,7 +271,7 @@
                     ">1":[
                         "{{ RBI }} carreras impulsadas",
                         "{{ RBI }} carreras empujadas",
-                        "{{ RBI }} carreras remolcada",
+                        "{{ RBI }} carreras remolcadas",
                         "{{ RBI }} empujadas",
                         "{{ RBI }} impulsadas",
                         "{{ RBI }} remolcadas"
@@ -375,10 +375,10 @@
                         "en la parte alta del {{ inning_m }} episodio",
                         "en el inicio del {{ inning_m }} capítulo",
                         "en el inicio de la {{ inning_f }} entrada",
-                        "en el inicio del {{ inning_f }} episodio",
+                        "en el inicio del {{ inning_m }} episodio",
                         "en el comienzo del {{ inning_m }} capítulo",
                         "en el comienzo de la {{ inning_f }} entrada",
-                        "en el comienzo del {{ inning_f }} episodio"
+                        "en el comienzo del {{ inning_m }} episodio"
                     ],
                     "fin":[
                         "en el {{ inning_m }} inning",
@@ -781,7 +781,7 @@
                         "mal_resultado":[
                             "{{ estadistica_comp }}, {{ jugador }} resalta entre los bateadores cubanos en jornada de la MLB",
                             "{{ estadistica_comp }}, {{ jugador }} sobresale en mal día para los bateadores cubanos",
-                            "{{ estadística_comp }}, {{ jugador }} saca la cara por los bateadores cubanos en jornada de las Grandes Ligas"
+                            "{{ estadistica_comp }}, {{ jugador }} saca la cara por los bateadores cubanos en jornada de las Grandes Ligas"
                         ]
                     },
                     "lanzador":{

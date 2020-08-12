@@ -178,10 +178,10 @@ class New_Templates(News):
                     r = player_details['hitters'][name]['R']
 
                     stats = [
-                        (hits, 'con ' + Hits(name, player_details['hitters'][name], self._templates).text),
+                        (hits, 'con ' + Hits(name, player_details['hitters'][name], self._templates, 'entity').text),
                         (hr, 'con ' + Home_Runs(name, player_details['hitters'][name], self._templates).text),
-                        (rbi, 'con ' + RBI(name, player_details['hitters'][name], self._templates).text),
-                        (r, 'con ' + Runs(name, player_details['hitters'][name], self._templates).text)
+                        (rbi, 'con ' + RBI(name, player_details['hitters'][name], self._templates, 'entity').text),
+                        (r, 'con ' + Runs(name, player_details['hitters'][name], self._templates, 'entity').text)
                     ]
 
                     stats.sort()
