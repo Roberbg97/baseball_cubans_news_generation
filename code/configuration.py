@@ -1,136 +1,56 @@
+from notice_pipeline import *
 import json
-from importlib import import_module
-from configparser import ConfigParser
 import datetime
-#from first_algorithms_flow import Outstandings_LR, New_Templates
-#from jinja2 import Environment, FileSystemLoader, select_autoescape
-#from notice_pipeline.scrapper import Scrapper_BR
-#from past_news import Renderer
 import os
 try:
     MODULE = os.path.dirname(os.path.realpath(__file__))
 except:
     MODULE = ""
 
-def config():
+class Armandobot(Configuration):
+    __slots__ = ()
 
-    #cubans = json.load(open(os.path.join(MODULE, 'cubans.json'), 'r'))
+    def _instanciate_country(self):
+        return Scrapper_for_country(self._config.get('country', 'country'))
 
-    parser = ConfigParser()
-    parser.read(os.path.join(MODULE, 'config.ini'))
+    def _instanciate_scraping(self):
+        return Scrapper_BR([])
 
-    scraping_players_module = parser.get('country', 'module')
-    scraping_players_class = parser.get('country', 'class')
-    scraping_players_country = parser.get('country', 'country')
+    def _instanciate_clasification(self):
+        return Outstandings_LR()
 
-    scraping_module = parser.get('scraping', 'module')
-    scraping_class = parser.get('scraping', 'class')
+    def _instanciate_generation(self, player_details, sorted_for_outstandings, games_details, players_teams, templates):
+        return New_Templates(player_details, sorted_for_outstandings, games_details, players_teams, templates)
 
-    clasification_module = parser.get('clasification', 'module')
-    clasification_class = parser.get('clasification', 'class')
+    def _run(self, *args, **kwargs):
+        res = kwargs.pop('pipeline_result')
+        res["author"] = "Armanbot"
+        past_news = json.load(open(os.path.join(MODULE, 'past_news.json'), 'r'))
 
-    gen_module = parser.get('generation', 'module')
-    gen_class = parser.get('generation', 'class')
+        today = datetime.date.today()
+        oneday = datetime.timedelta(days=1)
+        y = today - oneday
 
-    render_module = parser.get('render', 'module')
-    render_class = parser.get('render', 'class')
+        day = str(y.day)
+        month = str(y.month)
+        year = str(y.year)
 
-    module = import_module(scraping_players_module)
-    class_ = getattr(module, scraping_players_class)
-    c = class_(scraping_players_country)
+        if len(day) == 1:
+            day = '0' + day
 
-    cubans = c.get_players()
-    print(cubans)
+        if len(month) == 1:
+            month = '0' + month
 
-    module = import_module(scraping_module)
-    class_ = getattr(module, scraping_class)
-    s = class_(list(cubans.keys()))
+        name = year + '-' + month + '-' + day
 
-    #s = Scrapper_BR(cubans)
+        past_news[name] = res
 
-    #player_details = s.scraping()
-    d = s._scrap()
+        json.dump(past_news, open(os.path.join(MODULE, 'past_news.json'), 'w'), indent=2)
 
+        #r.render()
 
-    module = import_module(clasification_module)
-    class_ = getattr(module, clasification_class)
-    o = class_()
-    #o = Outstandings_LR()
+        return (res['title'], res['paragraphs'], res['summary'])
 
-    sfo = o.get_sorted_outstandings(d['game_day_data'])
-
-
-    module = import_module(gen_module)
-    class_ = getattr(module, gen_class)
-    nt = class_(d['game_day_data'], sfo, d['all_games_details'], cubans)
-
-    #nt = New_Templates(player_details, sfo)
-    #nt = New_Templates(d['game_day_data'], sfo, d['all_games_details'])
-
-    title, paragraphs, summary = nt.get_text()
-    
-    '''
-    j = {}
-    j['title'] = title
-    j['paragraphs'] = paragraphs
-    j['summary'] = summary
-    
-    jj = json.load(open('past_news.json', 'r'))
-
-    jj['new_5-8-2020'] = j
-
-    json.dump(jj, open('past_news.json', 'w'))
-
-    return (title, paragraphs, summary)
-    '''
-    past_news = json.load(open(os.path.join(MODULE, 'past_news.json'), 'r'))
-
-    today = datetime.date.today()
-    oneday = datetime.timedelta(days=1)
-    y = today - oneday
-
-    day = str(y.day)
-    month = str(y.month)
-    year = str(y.year)
-
-    if len(day) == 1:
-        day = '0' + day
-
-    if len(month) == 1:
-        month = '0' + month
-
-    name = year + '-' + month + '-' + day
-
-    past_news[name] = {
-        'title': title,
-        'paragraphs': paragraphs,
-        'summary': summary,
-        "author": "Armanbot"
-    }
-
-    json.dump(past_news, open(os.path.join(MODULE, 'past_news.json'), 'w'), indent=2)
-
-    #r.render()
-
-    return (title, paragraphs, summary)
-
-
-
-'''
-env = Environment(
-    loader = FileSystemLoader(os.path.join(MODULE,'templates')),
-    autoescape = select_autoescape(['html', 'xml'])
-)
-
-template = env.get_template('principal_page_template.html')
-
-title, paragraphs = config()
-
-template = template.render(title=title, paragraphs=paragraphs)
-
-with open(os.path.join(MODULE,'..','index.html'), 'w') as h:
-    h.write(template)
-    h.close()
-'''
-
-config()
+if __name__ == "__main__":
+    cfg = Armandobot(config_file=os.path.join(MODULE, 'config.ini'))
+    cfg.run()

@@ -1,9 +1,10 @@
 import abc
 
 class Entity(metaclass=abc.ABCMeta):
-    def __init__(self, player_name, player_dict):
+    def __init__(self, player_name, player_dict, templates):
         self._player_name = player_name
         self._player_dict = player_dict
+        self._templates = templates
 
     @property
     def text(self):
@@ -14,18 +15,19 @@ class Entity(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
 class Highlights(metaclass=abc.ABCMeta):
-    def __init__(self, player_name, player_dict):
+    def __init__(self, player_name, player_dict, templates):
         self._player_dict = player_dict
         self._player_name = player_name
+        self._templates = templates
 
 class Stats(Entity, metaclass=abc.ABCMeta):
-    def __init__(self, player_name, player_dict, play_dict):
-        super().__init__(player_name, player_dict)
+    def __init__(self, player_name, player_dict, templates, play_dict):
+        super().__init__(player_name, player_dict, templates)
         self._play_dict = play_dict
 
 class Action(Entity, metaclass=abc.ABCMeta):
-    def __init__(self, player_name, player_dict, condition='action'):
-        super().__init__(player_name, player_dict)
+    def __init__(self, player_name, player_dict, templates, condition='action'):
+        super().__init__(player_name, player_dict, templates)
         self._condition = condition
 
 class EntityCont(Entity, metaclass=abc.ABCMeta):

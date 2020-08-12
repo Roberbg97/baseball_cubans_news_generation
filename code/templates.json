@@ -40,13 +40,13 @@
                             "disparó un indiscutible"
                         ],
                         ">1":[
-                            "pegó {{ cant_hits }} hit",
-                            "pegó {{ cant_hits }} imparable",
-                            "dio {{ cant_hits }} hit",
-                            "dio {{ cant_hits }} indiscutible",
-                            "dio {{ cant_hits }} imparable",
-                            "disparó {{ cant_hits }} hit",
-                            "disparó {{ cant_hits }} indiscutible"
+                            "pegó {{ H }} hits",
+                            "pegó {{ H }} imparables",
+                            "dio {{ H }} hits",
+                            "dio {{ H }} indiscutibles",
+                            "dio {{ H }} imparables",
+                            "disparó {{ H }} hits",
+                            "disparó {{ H }} indiscutibles"
                         ]
                     },
                     "lanzador":{
@@ -112,11 +112,11 @@
                             ]
                         },
                         ">1":{
-                            "todas_limpias":[
+                            "limpias":[
                                 "permitió {{ R }}, todas limpias",
                                 "permitió {{ R }} limpias"
                             ],
-                            "todas_sucias":[
+                            "sucias":[
                                 "permitió {{ R }}, todas sucias",
                                 "permitió {{ R }} sucias"
                             ]
@@ -283,6 +283,9 @@
                     "S":[
                         "se apuntó el salvamento",
                         "salvó el juego para su equipo"
+                    ],
+                    "L":[
+                        "perdió el juego"
                     ]
                 }
             },
@@ -360,44 +363,46 @@
                 }
             },
             "corredores_en_base":{
-                "---":[
-                    "con las bases limpias",
-                    "sin corredores en base"
-                ],
-                "1--":[
-                    "con corredor en primera base",
-                    "con corredor en la inicial"
-                ],
-                "-2-":[
-                    "con corredor en segunda base",
-                    "con corredor en la intermedia",
-                    "con un corredor a 180 pies del home",
-                    "con un corredor en posición anotadora"
-                ],
-                "--3":[
-                    "con corredor en tercera base",
-                    "con corredor en la antesala",
-                    "con un corredor en posición anotadora",
-                    "con un corredor a 90 pies del home"
-                ],
-                "12-":[
-                    "con corredores en primera y segunda",
-                    "teniendo solamente la tercera desocupada"
-                ],
-                "1-3":[
-                    "con corredores en primera y tercera",
-                    "con corredores en las esquinas",
-                    "con solamente la segunda desocupada"
-                ],
-                "-23":[
-                    "con corredores en segunda y tercera",
-                    "con solamente la primera desocupada",
-                    "con dos corredores en posición anotadora"
-                ],
-                "123":[
-                    "con las bases llenas",
-                    "con la casa llena"
-                ]
+                "complemento":{
+                    "---":[
+                        "con las bases limpias",
+                        "sin corredores en base"
+                    ],
+                    "1--":[
+                        "con corredor en primera base",
+                        "con corredor en la inicial"
+                    ],
+                    "-2-":[
+                        "con corredor en segunda base",
+                        "con corredor en la intermedia",
+                        "con un corredor a 180 pies del home",
+                        "con un corredor en posición anotadora"
+                    ],
+                    "--3":[
+                        "con corredor en tercera base",
+                        "con corredor en la antesala",
+                        "con un corredor en posición anotadora",
+                        "con un corredor a 90 pies del home"
+                    ],
+                    "12-":[
+                        "con corredores en primera y segunda",
+                        "teniendo solamente la tercera desocupada"
+                    ],
+                    "1-3":[
+                        "con corredores en primera y tercera",
+                        "con corredores en las esquinas",
+                        "con solamente la segunda desocupada"
+                    ],
+                    "-23":[
+                        "con corredores en segunda y tercera",
+                        "con solamente la primera desocupada",
+                        "con dos corredores en posición anotadora"
+                    ],
+                    "123":[
+                        "con las bases llenas",
+                        "con la casa llena"
+                    ]
+                }
             },
             "carreras_en_jugada":{
                 "reaccion":{
@@ -457,45 +462,486 @@
                 }
             },
             "outs_en_jugada":{
-                ""
+                "reaccion":{
+                    "2":[
+                        "meter la entrada en dos outs",
+                        "casi liquidar la entrada"
+                    ],
+                    "3":[
+                        "liquidar la entrada",
+                        "retirar el inning",
+                        "liquidar el inning",
+                        "retirar la entrada",
+                        "lograr sacar el tercer out de la entrada"
+                    ]
+                }
             },
             "lanzador_actual":{
-
+                "complemento":[
+                    "enfrentando los lanzamientos de {{ lanzador }}",
+                    "frente a los lances de {{ lanzador }}",
+                    "contra los envíos de {{ lanzador }}"
+                ]
             },
             "evento":{
-
+                "accion":{
+                    "sencillo":[
+                        "conectó un hit",
+                        "dio un imparable",
+                        "disparó un indiscutible",
+                        "conectó un imparable",
+                        "disparó un hit"
+                    ],
+                    "doble":[
+                        "conectó un doble",
+                        "dio un doblete",
+                        "disparó un biangular"
+                    ],
+                    "triple":[
+                        "conectó un triple",
+                        "disparó un triplete",
+                        "dio un triple"
+                    ],
+                    "home_run":[
+                        "dio un batazo de vuelta completa",
+                        "conectó un cuandrangular",
+                        "dio un home run",
+                        "disparó un cuadrangular"
+                    ],
+                    "base_por_bolas":[
+                        "recibió la base por bolas",
+                        "recibió un boleto",
+                        "recibió cuatro lanzamientos malos"
+                    ],
+                    "rolling_out":{
+                        "bateador":[
+                            "falló con rolling que finalmente sirvió de sacrificio"
+                        ],
+                        "lanzador":[
+                            "provocó que {{ bateador }} fallara con un rolling de out",
+                            "hizo fallar a {{ bateador }} con roletazo de out",
+                            "eliminó a {{ bateador }} con un rolling de out",
+                            "dominó a {{ bateador }} con un roletazo de out"
+                        ]
+                    },
+                    "doble_play":[
+                        "hizo batear a {{ bateador }} para doble play",
+                        "sacó dos outs de un solo golpe enfrentando a {{ bateador }}",
+                        "provocó una jugada de doble matanza frente a {{ bateador }}"
+                    ],
+                    "ponche":[
+                        "ponchó a {{ bateador }}",
+                        "eliminó por la vía del ponche a {{ bateador }}",
+                        "dominó por la vía de los strikes a {{ bateador }}",
+                        "propinó tres strikes a {{ bateador }}"
+                    ],
+                    "flyball":[
+                        "provocó que {{ bateador }} fallara con un fly de out",
+                        "hizo fallar a {{ bateador }} con elevado de out",
+                        "eliminó a {{ bateador }} con fly de out",
+                        "dominó a {{ bateador }} con elevado de out"
+                    ],
+                    "sacrificio":[
+                        "elevó un fly de sacrificio"
+                    ],
+                    "linea_out":[
+                        "provocó que {{ bateador }} fallara en línea de out",
+                        "hizo fallar a {{ bateador }} con línea de out"
+                    ],
+                    "popfly":[
+                        "dominó a {{ bateador }} con un elevado corto de out",
+                        "hizo fallar a {{ bateador }} con globito de out",
+                        "eliminó a {{ bateador }} con fly corto"
+                    ]
+                }
             },
             "direccion":{
-
+                "complemento":[
+                    "con dirección a {{ direccion }}",
+                    "dirigido hacia {{ direccion }}",
+                    "a {{ direccion }}",
+                    "hacia {{ direccion }}"
+                ]
             },
             "impulsadas_en_jugada":{
-
+                "accion":{
+                    "0":[
+                        "no impulsó carreras",
+                        "no empujó carreras"
+                    ],
+                    "1":[
+                        "impulsó una carrera",
+                        "empujó una carrera"
+                    ],
+                    ">1":[
+                        "impulsó {{ RBI }} carreras",
+                        "empujó {{ RBI }} carreras"
+                    ]
+                },
+                "reaccion":{
+                    "1":[
+                        "empujar una carrera",
+                        "impulsar una carrera"
+                    ],
+                    ">1":[
+                        "empujar {{ RBI }} carreras",
+                        "impulsar {{ RBI }} carreras"
+                    ]
+                }
             }
         }
     },
     "noticia_jugador":{
         "estadisticas_generales_jugador":{
-
+            "bateador":{
+                "sin_anotadas_ni_impulsadas":{
+                    "extrabases":[
+                        "{{ nombre }} {{ hits_accion }} {{ AB_comp }}, con {{ extrabases_entidad }}",
+                        "{{ AB_comp }}, {{ nombre }} {{ hits_accion }}, de ellos {{ extrabases_entidad }}",
+                        "{{ nombre }}, {{ AB_comp }}, {{ hits_accion }}. En el juego {{ extrabases_accion }}"
+                    ],
+                    "sin_extrabases":[
+                        "{{ nombre }} {{ hits_accion }} {{ AB_comp }}",
+                        "{{ AB_comp }}, {{ nombre }} {{ hits_accion }}",
+                        "{{ nombre }}, {{ AB_comp }}, {{ hits_accion }}"
+                    ]
+                },
+                "anotadas_o_impulsadas":{
+                    "extrabases":[
+                        "{{ nombre }} {{ hits_accion }} {{ AB_comp }}, con {{ extrabases_entidad }}. Aportó {{ RBI_R_entidad }} a la causa de su equipo",
+                        "{{ nombre }}, {{ AB_comp }}, {{ hits_accion }}. En el juego {{ extrabases_accion }}. Además, terminó el encuentro con {{ RBI_R_entidad }}"
+                    ],
+                    "sin_extrabases":[
+                        "{{ nombre }} {{ hits_accion }} {{ AB_comp }}. Aportó {{ RBI_R_entidad }} a la causa de su equipo",
+                        "{{ nombre }}, {{ AB_comp }}, {{ hits_accion }}. Además, terminó el encuentro con {{ RBI_R_entidad }}"
+                    ]
+                }
+            },
+            "lanzador":{
+                "con_impacto_en_juego":[
+                    "{{ IP_comp }} {{ nombre }} {{ bateadores_enfrentados_accion }}, {{ R_accion }}, {{ hits_accion }}, con {{ SO_entidad }} y {{ BB_entidad }}, y {{ impacto_accion }}"
+                ],
+                "sin_impacto_en_juego":[
+                    "{{ IP_comp }} {{ nombre }} {{ bateadores_enfrentados_accion }}, {{ R_accion }}, {{ hits_accion }}, con {{ SO_entidad }} y {{ BB_entidad }}"
+                ]
+            }
         },
         "oracion_inicial":{
-            
+            "victoria":{
+                "juego_unico":[
+                    "{{ nombre }} tuvo una destacada labor en el encuentro, para favorecer en la victoria de {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} enfrentando a {{ equipo_rival }}",
+                    "{{ nombre }} destacó entre los demás jugadores en el juego, para apoyar en el triunfo de {{ equipo }} sobre {{ equipo_rival }} {{ carreras_equipo }} por {{ carreras_equipo_rival }}",
+                    "{{ nombre }} tuvo una buena actuación en la victoria de su equipo {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} ante {{ equipo_rival }}"
+                ],
+                "primero_del_doble":[
+                    "{{ nombre }} tuvo una destacada labor en el encuentro, para favorecer en la victoria de {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} enfrentando a {{ equipo_rival }}, en el primero de los dos juegos celebrados por su equipo en la jornada",
+                    "{{ nombre }} destacó entre los demás jugadores en el juego, para apoyar en el triunfo de {{ equipo }} sobre {{ equipo_rival }} {{ carreras_equipo }} por {{ carreras_equipo_rival }}, en el primero de los dos juegos celebrados por su equipo en la jornada",
+                    "{{ nombre }} tuvo una buena actuación en la victoria de su equipo {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} ante {{ equipo_rival }}, en el primero de los dos juegos celebrados por su equipo en la jornada"
+                ],
+                "segundo_del_doble":[
+                    "{{ nombre }} tuvo una destacada labor en el encuentro, para favorecer en la victoria de {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} enfrentando a {{ equipo_rival }}, en el segundo de los dos juegos celebrados por su equipo en la jornada",
+                    "{{ nombre }} destacó entre los demás jugadores en el juego, para apoyar en el triunfo de {{ equipo }} sobre {{ equipo_rival }} {{ carreras_equipo }} por {{ carreras_equipo_rival }}, en el segundo de los dos juegos celebrados por su equipo en la jornada",
+                    "{{ nombre }} tuvo una buena actuación en la victoria de su equipo {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} ante {{ equipo_rival }}, en el segundo de los dos juegos celebrados por su equipo en la jornada"
+                ]
+            },
+            "derrota":{
+                "juego_unico":[
+                    "{{ nombre }} tuvo una destacada labor en el encuentro, pero no pudo evitar la derrota de {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} frente a {{ equipo_rival }}",
+                    "{{ nombre }} destacó entre los demás jugadores en el juego, pero no impidió que {{ equipo }} cayera contra {{ equipo_rival }} {{ carreras_equipo }} por {{ carreras_equipo_rival }}",
+                    "{{ nombre }} tuvo una buena actuación en la derrota de su equipo {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} ante {{ equipo_rival }}"
+                ],
+                "primero_del_doble":[
+                    "{{ nombre }} tuvo una destacada labor en el encuentro, pero no pudo evitar la derrota de {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} frente a {{ equipo_rival }}, en el primero de los dos juegos celebrados por su equipo en la jornada",
+                    "{{ nombre }} destacó entre los demás jugadores en el juego, pero no impidió que {{ equipo }} cayera contra {{ equipo_rival }} {{ carreras_equipo }} por {{ carreras_equipo_rival }}, en el primero de los dos juegos celebrados por su equipo en la jornada",
+                    "{{ nombre }} tuvo una buena actuación en la derrota de su equipo {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} ante {{ equipo_rival }}, en el primero de los dos juegos celebrados por su equipo en la jornada"
+                ],
+                "segundo_del_doble":[
+                    "{{ nombre }} tuvo una destacada labor en el encuentro, pero no pudo evitar la derrota de {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} frente a {{ equipo_rival }}, en el segundo de los dos juegos celebrados por su equipo en la jornada",
+                    "{{ nombre }} destacó entre los demás jugadores en el juego, pero no impidió que {{ equipo }} cayera contra {{ equipo_rival }} {{ carreras_equipo }} por {{ carreras_equipo_rival }}, en el segundo de los dos juegos celebrados por su equipo en la jornada",
+                    "{{ nombre }} tuvo una buena actuación en la derrota de su equipo {{ equipo }} {{ carreras_equipo }} por {{ carreras_equipo_rival }} ante {{ equipo_rival }}, en el segundo de los dos juegos celebrados por su equipo en la jornada"
+                ]
+            },
+            "segundo_destacado_del_juego":[
+                "en este juego también se destacó {{ nombre }}",
+                "{{ nombre }} fue otro de los jugadores cubanos que se destacó en este encuentro"
+            ]
         },
-        "texto_jugada":{
-
-        }
+        "texto_jugada":[
+            "{{ jugador }}, {{ comp_1 }}, {{ accion }} {{ direccion }} para lograr {{ reaccion }}, {{ comp_2 }} {{ inning }}",
+            "{{ inning }} y {{ comp_1 }}, {{ jugador }} {{ accion }} {{ direccion }} para conseguir {{ reaccion }}",
+            "{{ jugador }}, {{ comp_1 }}, {{ accion }} {{ direccion }} y logró {{ reaccion }} {{ inning }}",
+            "{{ comp_1 }}, {{ jugador }} {{ accion }} {{ direccion }} {{ inning }}. Gracias a ello consiguió {{ reaccion }}, {{ comp_2 }}"
+        ]
     },
     "noticia_juego":{
         "titulo":{
-
+            "participacion_cubana":{
+                "dos_destacados":[
+                    "{{ jugador_1 }} y {{ jugador_2 }}, los más destacados por Cuba en jornada de las Grandes Ligas",
+                    "{{ jugador_1 }} y {{ jugador_2 }}, los mejores jugadores cubanos en jornada de la MLB",
+                    "{{ jugador_1 }} y {{ jugador_2 }}, los más destacados en el día por la armada cubana en la MLB"
+                ],
+                "un_destacado":{
+                    "bateador":{
+                        "buen_resultado":[
+                            "{{ estadistica_comp }}, {{ jugador }} entre los mejores de {{ equipo }} en destacada jornada para el bateao cubano",
+                            "{{ estadistica_comp }}, {{ jugador }} lidera a {{ equipo }} en buena jornada para bateadores cubanos"
+                        ],
+                        "resultado_medio":[
+                            "{{ jugador }} destaca entre los bateadores cubanos en jornada de la MLB",
+                            "{{ jugador }} lidera la ofensiva cubana en jornada de las Grandes Ligas de béisbol"
+                        ],
+                        "mal_resultado":[
+                            "{{ estadistica_comp }}, {{ jugador }} resalta entre los bateadores cubanos en jornada de la MLB",
+                            "{{ estadistica_comp }}, {{ jugador }} sobresale en mal día para los bateadores cubanos",
+                            "{{ estadística_comp }}, {{ jugador }} saca la cara por los bateadores cubanos en jornada de las Grandes Ligas"
+                        ]
+                    },
+                    "lanzador":{
+                        "buen_resultado":[
+                            "buena salida de {{ jugador }} para {{ equipo }} en jornada destacada para el pitcheo cubano",
+                            "{{ jugador }}, dominante frente a {{ equipo_rival }} en buen día para los lanzadores de Cuba"
+                        ],
+                        "resultado_medio":[
+                            "{{ jugador }}, dominante en jornada de las Grandes Ligas de béisbol",
+                            "{{ jugador }} lidera a los lanzadores cubanos en jornada de la MLB"
+                        ],
+                        "mal_resultado":[
+                            "{{ jugador }} salva la honra por los lanzadores cubanos en la jornada de las Grandes Ligas",
+                            "{{ jugador }} sobresale en mal día para los lanzadores cubanos",
+                            "{{ jugador }} resalta entre los lanzadores cubanos en Grandes Ligas de béisbol"
+                        ]
+                    }
+                },
+                "sin_destacados":{
+                    "buen_resultado":[
+                        "Jornada positiva para los cubanos en Grandes Ligas de béisbol",
+                        "Buena actuación de los cubanos en jornada de la MLB",
+                        "Actuaciones destacables para jugadores cubanos en las Grandes Ligas"
+                    ],
+                    "resultado_medio":[
+                        "Poco destaque de jugadores cubanos en las Grandes Ligas",
+                        "Jugadores cubanos con pobres resultados en jornada de la MLB",
+                        "Discreta actuación de los cubanos en las Grandes Ligas de béisbol"
+                    ]
+                }
+            },
+            "sin_participacion_cubana":[
+                "Sin participación cubana en jornada de las Grandes Ligas de béisbol"
+            ]
         },
         "primer_parrafo":{
-
+            "total_de_juegos":{
+                "1":[
+                    "en la jornada del {{ fecha }} de las Grandes ligas se disputó solamente un juego de béisbol",
+                    "el {{ fecha }} se jugó un solo encuentro en la MLB"
+                ],
+                ">1":[
+                    "en la jornada del {{ fecha }} de las Grandes ligas se disputaron {{ cant_juegos }} juegos de béisbol",
+                    "el {{ fecha }} se jugaron {{ cant_juegos }} encuentros en la MLB"
+                ]
+            },
+            "total_de_cubanos":{
+                "0":[
+                    "en esta jornada no hubo participación cubana"
+                ],
+                "1":[
+                    "en esta jornada tuvo participación un jugador cubano",
+                    "en esta jornada jugó solamente un cubano"
+                ],
+                ">1":[
+                    "en esta jornada participaron {{ cant_jugadores }} jugadores cubanos",
+                    "en esta jornada jugaron {{ cant_jugadores }} jugadores cubanos"
+                ]
+            }
         },
         "resumen_juego":{
-
+            "varios_destacados":[
+                "los cubanos más destacados fueron {{ destacados }}",
+                "destacaron {{ destacados }}",
+                "{{ destacados }} fueron los mejores jugadores cubanos",
+                "sobresalieron {{ destacados }}"
+            ],
+            "un_destacado":[
+                "el cubano más destacado fue {{ destacado }}",
+                "destacó {{ destacado }}",
+                "{{ destacado }} fue el mejor jugador cubano",
+                "sobresalió {{ destacado }}"
+            ],
+            "juego_unico":{
+                "con_destacados":{
+                    "varios_jugadores":[
+                        "en el juego en el cual {{ destacados_accion }}, también tuvieron participación {{ jugadores }}",
+                        "{{ jugadores }} también jugaron en el encuentro en el cual {{ destacados_accion }}",
+                        "en la victoria de {{ equipo_ganador }} sobre {{ equipo_perdedor }}, en la cual {{ destacados_accion }}, también vieron acción {{ jugadores }}",
+                        "{{ jugadores }} también saltaron al césped del terreno de juego en este enfrentamiento",
+                        "Representando a Cuba, otros de los jugadores que participaron en el juego fueron {{ jugadores }}"
+                    ],
+                    "solo_un_jugador":[
+                        "en el juego en el cual {{ destacados_accion }}, también tuvo participación {{ jugador }}",
+                        "{{ jugador }} también jugó en el encuentro en el cual {{ destacados_accion }}",
+                        "en la victoria de {{ equipo_ganador }} sobre {{ equipo_perdedor }}, en la cual {{ destacados_accion }}, también vió acción {{ jugador }}",
+                        "{{ jugador }} también saltó al césped del terreno de juego en este enfrentamiento",
+                        "Representando a Cuba, otro de los jugadores que participóen el juego fue {{ jugador }}"
+                    ]
+                },
+                "sin_destacados":{
+                    "varios_jugadores":[
+                        "{{ equipo_ganador }} venció {{ carreras_ganador }} por {{ carreras_perdedor }} al conjunto de {{ equipo_perdedor }}. Por Cuba, en este encuentro participaron {{ jugadores }}",
+                        "en el estadio {{ estadio }}, {{ jugadores }} vieron acción en la victoria de {{ equipo_ganador }} sobre {{ equipo_perdedor }} {{ carreras_ganador }} por {{ carreras_perdedor }}",
+                        "{{ jugadores }} fueron los cubanos que jugaron en el encuentro que enfrentó a los equipos de {{ equipo_ganador }} y {{ equipo_perdedor }}, con victoria para el primero",
+                        "en el enfrentamiento que tuvieron los conjuntos de {{ equipo_ganador }} y {{ equipo_perdedor }}, hicieron su aparición {{ jugadores }}",
+                        "{{ jugadores }} tomaron parte en el partido de béisbol que {{ equipo_ganador }} le ganó a {{ equipo_perdedor }} {{ carreras_ganador }} por {{ carreras_perdedor }}"
+                    ],
+                    "solo_un_jugador":[
+                        "{{ equipo_ganador }} venció {{ carreras_ganador }} por {{ carreras_perdedor }} al conjunto de {{ equipo_perdedor }}. Por Cuba, en este encuentro participó {{ jugador }}",
+                        "en el estadio {{ estadio }}, {{ jugador }} vió acción en la victoria de {{ equipo_ganador }} sobre {{ equipo_perdedor }} {{ carreras_ganador }} por {{ carreras_perdedor }}",
+                        "{{ jugador }} fue el cubano que jugó en el encuentro que enfrentó a los equipos de {{ equipo_ganador }} y {{ equipo_perdedor }}, con victoria para el primero",
+                        "en el enfrentamiento que tuvieron los conjuntos de {{ equipo_ganador }} y {{ equipo_perdedor }}, hizo su aparición {{ jugador }}",
+                        "{{ jugador }} tomó parte en el partido de béisbol que {{ equipo_ganador }} le ganó a {{ equipo_perdedor }} {{ carreras_ganador }} por {{ carreras_perdedor }}"
+                    ]
+                }
+            },
+            "primero_del_doble":{
+                "con_destacados":{
+                    "varios_jugadores":[
+                        "{{ jugadores }} también vieron acción en el primer encuentro del doble entre los equipos de {{ equipo_ganador }} y {{ equipo_perdedor }}, en el cual {{ destacados_accion }}",
+                        "en el primer juego del doble que tuvieron {{ equipo_ganador }} y {{ equipo_perdedor }}, con victoria para el primero, y en el que además {{ destacados_accion }}, también jugaron por Cuba {{ jugadores }}",
+                        "{{ equipo_ganador }} venció a {{ equipo_perdedor }} {{ carreras_ganador }} por {{ carreras_perdedor }}, en el primer juego del doble de la jornada que disputaron ambos equipos, en el cual {{ destacados_accion }}. Además, en este encuentro participaron también {{ jugadores }}"
+                    ],
+                    "solo_un_jugador":[
+                        "{{ jugador }} también vió acción en el primer encuentro del doble entre los equipos de {{ equipo_ganador }} y {{ equipo_perdedor }}, en el cual {{ destacados_accion }}",
+                        "en el primer juego del doble que tuvieron {{ equipo_ganador }} y {{ equipo_perdedor }}, con victoria para el primero, y en el que además {{ destacados_accion }}, también jugó por Cuba {{ jugador }}",
+                        "{{ equipo_ganador }} venció a {{ equipo_perdedor }} {{ carreras_ganador }} por {{ carreras_perdedor }}, en el primer juego del doble de la jornada que disputaron ambos equipos, en el cual {{ destacados_accion }}. Además, en este encuentro participó también {{ jugador }}"
+                    ]
+                },
+                "sin_destacados":{
+                    "varios_jugadores":[
+                        "{{ equipo_ganador }} venció {{ carreras_ganador }} por {{ carreras_perdedor }} a {{ equipo_perdedor }}, en el primer encuentro del doble disputado entre estos dos conjuntos. {{ jugadores }} fueron los jugadores cubanos que vieron acción en este juego",
+                        "en el primero de dos juegos disputados entre {{ equipo_ganador }} y {{ equipo_perdedor }}, {{ jugadores }} fueron los representantes cubanos en la victoria de {{ equipo_ganador }}, {{ carreras_ganador }} por {{ carreras_perdedor }}",
+                        "{{ jugadores }} fueron los jugadores cubanos que jugaron en el primer encuentro del doble disputado entre {{ equipo_ganador }} y {{ equipo_perdedor }}"
+                    ],
+                    "solo_un_jugador":[
+                        "{{ equipo_ganador }} venció {{ carreras_ganador }} por {{ carreras_perdedor }} a {{ equipo_perdedor }}, en el primer encuentro del doble disputado entre estos dos conjuntos. {{ jugador }} fue el jugador cubano que vió acción en este juego",
+                        "en el primero de dos juegos disputados entre {{ equipo_ganador }} y {{ equipo_perdedor }}, {{ jugador }} fue el representante cubano en la victoria de {{ equipo_ganador }}, {{ carreras_ganador }} por {{ carreras_perdedor }}",
+                        "{{ jugador }} fue el jugador cubano que jugó en el primer encuentro del doble disputado entre {{ equipo_ganador }} y {{ equipo_perdedor }}"
+                    ]
+                }
+            },
+            "segundo_del_doble":{
+                "con_destacados":[
+                    "{{ equipo_ganador }} venció a {{ equipo_perdedor }} en el segundo encuentro del doble, en el cual {{ destacados_acción }}",
+                    "en el segundo encuentro de la jornada para {{ equipo_ganador }} y {{ equipo_perdedor }}, la victoria fue para {{ equipo_ganador }} {{ carreras_ganador }} por {{ carreras_perdedor }}, juego en el cual {{ destacados_accion }}"
+                ],
+                "sin_destacados":[
+                    "{{ equipo_ganador }} venció a {{ equipo_perdedor }} en el segundo encuentro del doble",
+                    "en el segundo encuentro de la jornada para {{ equipo_ganador }} y {{ equipo_perdedor }}, la victoria fue para {{ equipo_ganador }} {{ carreras_ganador }} por {{ carreras_perdedor }}"
+                ]
+            },
+            "resto_del_parrafo":{
+                "jugadores_equipo_ganador":[
+                    "por {{ equipo_ganador }}",
+                    "jugando por los vencedores",
+                    "por el equipo ganador",
+                    "representando a {{ equipo_ganador }}"
+                ],
+                "jugadores_equipo_perdedor":[
+                    "por {{ equipo_perdedor }}",
+                    "jugando por los derrotados",
+                    "por el equipo perdedor",
+                    "representando a {{ equipo_perdedor }}"
+                ]
+            }
         },
         "resumen_juego_sin_cubanos":{
-
+            "juego_unico":{
+                "un_solo_equipo":{
+                    "varios_jugadores":[
+                        "{{ equipo_ganador }} venció {{ carreras_ganador }} por {{ carreras_perdedor }} al conjunto de {{ equipo_perdedor }}. Los cubanos que juegan para {{ equipo }}, {{ jugadores }}, no tuvieron participación en el encuentro",
+                        "{{ jugadores }} no vieron acción en el encuentro de su equipo, {{ equipo }}. En este encuentro, {{ equipo_ganador }} se llevó la victoria {{ carreras_ganador }} por {{ carreras_perdedor }} frente a {{ equipo_perdedor }}",
+                        "los cubanos {{ jugadores }} no disputaron el enfrentamiento de {{ equipo_ganador }} y {{ equipo_perdedor }}, con victoria para el primero"
+                    ],
+                    "un_solo_jugador":[
+                        "{{ equipo_ganador }} venció {{ carreras_ganador }} por {{ carreras_perdedor }} al conjunto de {{ equipo_perdedor }}. El cubano que juega para {{ equipo }}, {{ jugador }}, no tuvo participación en el encuentro",
+                        "{{ jugador }} no vió acción en el encuentro de su equipo, {{ equipo }}. En este encuentro, {{ equipo_ganador }} se llevó la victoria {{ carreras_ganador }} por {{ carreras_perdedor }} frente a {{ equipo_perdedor }}",
+                        "el cubano {{ jugador }} no disputó el enfrentamiento de {{ equipo_ganador }} y {{ equipo_perdedor }}, con victoria para el primero"
+                    ]
+                },
+                "varios_equipos":[
+                    "{{ equipo_ganador }} venció {{ carreras_ganador }} por {{ carreras_perdedor }} al conjunto de {{ equipo_perdedor }}. Los cubanos que juegan para los equipos implicados, {{ jugadores }}, no tuvieron participación en el encuentro",
+                    "{{ jugadores }} no vieron acción en el encuentro de sus respectivos equipos. En este encuentro, {{ equipo_ganador }} se llevó la victoria {{ carreras_ganador }} por {{ carreras_perdedor }} frente a {{ equipo_perdedor }}",
+                    "los cubanos {{ jugadores }} no disputaron el enfrentamiento de {{ equipo_ganador }} y {{ equipo_perdedor }}, con victoria para el primero"
+                ]
+            },
+            "primero_del_doble":{
+                "un_solo_equipo":{
+                    "varios_jugadores":[
+                        "{{ equipo_ganador }} venció {{ carreras_ganador }} por {{ carreras_perdedor }} al conjunto de {{ equipo_perdedor }} en el primer encuentro del doble disputado entre estos dos equipos. Los cubanos que juegan para {{ equipo }}, {{ jugadores }}, no tuvieron participación en el encuentro",
+                        "{{ jugadores }} no vieron acción en el primer encuentro del doble de su equipo, {{ equipo }}. En este encuentro, {{ equipo_ganador }} se llevó la victoria {{ carreras_ganador }} por {{ carreras_perdedor }} frente a {{ equipo_perdedor }}",
+                        "los cubanos {{ jugadores }} no disputaron el primer enfrentamiento de {{ equipo_ganador }} y {{ equipo_perdedor }} en la doble jornada, con victoria para el primero"
+                    ],
+                    "un_solo_jugador":[
+                        "{{ equipo_ganador }} venció {{ carreras_ganador }} por {{ carreras_perdedor }} al conjunto de {{ equipo_perdedor }} en el primer encuentro del doble disputado entre estos dos equipos. El cubano que juega para {{ equipo }}, {{ jugador }}, no tuvó participación en el encuentro",
+                        "{{ jugador }} no vió acción en el primer encuentro del doble de su equipo, {{ equipo }}. En este encuentro, {{ equipo_ganador }} se llevó la victoria {{ carreras_ganador }} por {{ carreras_perdedor }} frente a {{ equipo_perdedor }}",
+                        "el cubano {{ jugador }} no disputó el primer enfrentamiento de {{ equipo_ganador }} y {{ equipo_perdedor }} en la doble jornada, con victoria para el primero"
+                    ]
+                },
+                "varios_equipos":[
+                    "{{ equipo_ganador }} venció {{ carreras_ganador }} por {{ carreras_perdedor }} al conjunto de {{ equipo_perdedor }} en el primer encuentro del doble disputado entre estos dos equipos. {{ jugadores }} no tuvieron participación en el encuentro",
+                    "los cubanos {{ jugadores }} no disputaron el primer enfrentamiento de {{ equipo_ganador }} y {{ equipo_perdedor }} en la doble jornada, con victoria para el primero {{ carreras_ganador }} por {{ carreras_perdedor }}"
+                ]
+            },
+            "segundo_del_doble":{
+                "un_solo_equipo":{
+                    "varios_jugadores":[
+                        "En el segundo encuentro del doble, {{ jugadores }} tampoco disputaron el encuentro de su equipo. En esta ocasión, la victoria fue para {{ equipo_ganador }} {{ carreras_ganador }} por {{ carreras_perdedor }}",
+                        "los cubanos tampoco vieron acción en el segundo encuentro, en el cual {{ equipo_ganador }} le ganó a {{ equipo_perdedor }} {{ carreras_ganador }} por {{ carreras_perdedor }}"
+                    ],
+                    "un_solo_jugador":[
+                        "En el segundo encuentro del doble, {{ jugador }} tampoco disputó el encuentro de su equipo. En esta ocasión, la victoria fue para {{ equipo_ganador }} {{ carreras_ganador }} por {{ carreras_perdedor }}",
+                        "el cubano tampoco vió acción en el segundo encuentro, en el cual {{ equipo_ganador }} le ganó a {{ equipo_perdedor }} {{ carreras_ganador }} por {{ carreras_perdedor }}"
+                    ]
+                },
+                "varios_equipos":[
+                    "En el segundo encuentro del doble, {{ jugadores }} tampoco disputaron el encuentro de sus respectivos equipo. En esta ocasión, la victoria fue para {{ equipo_ganador }} {{ carreras_ganador }} por {{ carreras_perdedor }}",
+                    "los cubanos tampoco vieron acción en el segundo encuentro, en el cual {{ equipo_ganador }} le ganó a {{ equipo_perdedor }} {{ carreras_ganador }} por {{ carreras_perdedor }}"
+                ]
+            },
+            "detalles_del_juego":{
+                "con_salvamento":[
+                    "la victoria fue para {{ lanzador_ganador }}, con salvamento para {{ lanzador_salvador }}. El pitcher perdedor fue {{ lanzador_perdedor }}",
+                    "{{ lanzador_ganador }} fur el pitcher vencedor, mientras que la derrota corrió a cargo de {{ lanzador_perdedor }}. Hubo juego salvado para {{ lanzador_salvador }}"
+                ],
+                "sin_salvamento":[
+                    "la victoria fue para {{ lanzador_ganador }}. El pitcher perdedor fue {{ lanzador_perdedor }}",
+                    "{{ lanzador_ganador }} fur el pitcher vencedor, mientras que la derrota corrió a cargo de {{ lanzador_perdedor }}"
+                ]
+            }
         }
+    },
+    "posicion":{
+        "1B": ["el primera base", "el inicialista"],
+        "2B": ["el segunda base", "el camarero"],
+        "SS": ["el campo corto"],
+        "3B": ["el tercera base", "el antesalista"],
+        "C": ["el receptor", "el catcher"],
+        "LF": ["el jardinero izquierdo", "el left fielder"],
+        "CF": ["el jardinero central", "el center fielder"],
+        "RF": ["el jardinero derecho", "el rigth fielder"],
+        "P": ["el lanzador", "el pitcher"],
+        "DH": ["el bateador designado", "el designado"],
+        "PH": ["el bateador emergente", "el emergente"],
+        "PR": ["el corredor emergente", "el corredor sustitudo"]
+    },
+    "direccion":{
+        "1B": ["primera base", "la inicial"],
+        "2B": ["segunda base", "la intermedia"],
+        "SS": ["el campo corto"],
+        "3B": ["tercera base", "la antesala"],
+        "LF": ["el jardín izquierdo", "la pradera izquierda", "el left field"],
+        "CF": ["el jardín central", "la pradera central", "el center field"],
+        "RF": ["el jardín derecho", "la pradera derecha", "el rigth field"],
+        "C": ["el receptor", "el catcher"],
+        "P": ["el pitcher", "el lanzador"]
     }
 }

@@ -4,6 +4,7 @@ import requests
 from bs4 import Comment
 from bs4 import BeautifulSoup
 import datetime
+from .base import Scrapper
 
 PARSER = 'lxml'
 try:
@@ -36,12 +37,22 @@ nation = {
     'Venezuela': 42
 }
 
-class Scrapper_for_country:
+class Scrapper_for_country(Scrapper):
+    __slots__ = ('_country', '_ss', '_base_url')
     def __init__(self, country = 'all'):
-        self.country = country
+        super().__init__()
+        self._country = country
         self._ss = requests.Session()
         self._ss.headers['User-Agent'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Safari/537.36'
+        self._ss.headers['Accept-Encoding'] = 'gzip, deflate'
         self._base_url = 'https://www.baseball-reference.com'
+
+    @property
+    def country(self):
+        return self._country
+
+    def _scrap(self):
+        return self.get_players()
 
     def get_players(self):
 
@@ -50,28 +61,18 @@ class Scrapper_for_country:
         base_url = self._base_url
 
         year = datetime.date.today().year
-
+        # TODO: cambiar esto para tener en cuanta el país selccionado
         r = session.get(base_url + '/bio/Cuba_born.shtml')
         bsObj = BeautifulSoup(r.text, PARSER)
 
         hitters = bsObj.find('table', {'id': 'bio_batting'}).tbody.find_all('tr')
 
         comments = bsObj.find_all(string=lambda text: isinstance(text, Comment))
-        '''
-        for i in comments:
-            bs = BeautifulSoup(i, PARSER)
-            h = bs.find('table', {'id': 'bio_batting'})
-            if h is not None:
-                print('hitters')
-                hitters = h.tbody.findAll('tr')
-                break
-        '''
 
         for i in comments:
             bs = BeautifulSoup(i, PARSER)
             p = bs.find('table', {'id': 'bio_pitching'})
             if p is not None:
-                #print('pitchers')
                 pitchers = p.tbody.findAll('tr')
                 break
 
@@ -107,8 +108,3 @@ class Scrapper_for_country:
             players_team[p] = team
 
         return players_team
-
-
-#s = Scrapper_for_country('Cuba')
-#s._scrap()
-#s.get_players()

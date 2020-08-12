@@ -1,7 +1,7 @@
 from .base_class import Stats, Entity, Highlights
 from .base_class import Action, EntityCont
 import random
-import utils as u
+from .utils import cardinal, fill_template, number
 
 # Entity
 class Player_name(Entity):
@@ -16,7 +16,7 @@ class Player_name(Entity):
 class Position(Entity):
     def get_text(self):
         pos = self._player_dict['position'].split('-')[0]
-        l_pos = u.player_position[pos]
+        l_pos = self._templates['posicion'][pos]
         return random.choice(l_pos)
 
 # Entity
@@ -52,125 +52,76 @@ class Hits(Action):
     def get_text(self):
         cant = self._player_dict['H']
 
-        text = ''
-        comp = [
-            ['hit', 'hits'],
-            ['imparable', 'imparables'],
-            ['indiscutible', 'indiscutibles']
-        ]
-        i = 1
+        num = number(cant)
+
+        d = {'H': num}
+
+        c = '0'
         if cant == 1:
-            i = 0
+            c = '1'
+        elif cant > 1:
+            c = '>1'
+
+        pos = 'bateador'
+        if self._player_dict['position'] == 'P':
+            pos = 'lanzador'
 
         if self._condition == 'entity':
-            return str(cant) + ' ' + random.choice(comp)[i]
+            return fill_template(random.choice(self._templates['estadisticas']['jugador']['hits']['entidad'][c]), d)
 
         else:
-            if self._player_dict['position'] == 'P':
-                if cant == 0:
-                    text = 'no permitió ' + random.choice(comp)[1]
-                else:
-                    text = 'permitió ' + str(cant) + ' ' + \
-                    random.choice(comp)[i]
-
-            else:
-                act = [
-                    'disparó',
-                    'conectó',
-                    'dió'
-                ]
-                if cant == 0:
-                    text = 'no ' + random.choice(act) + ' ' + \
-                    random.choice(comp)[1]
-                else:
-                    text = random.choice(act) + ' ' + str(cant) + \
-                    ' ' + random.choice(comp)[i]
-
-        return text
+            return fill_template(random.choice(self._templates['estadisticas']['jugador']['hits']['accion'][pos][c]), d)
 
 # Entity, Action
 class Runs(Action):
     def get_text(self):
         cant = self._player_dict['R']
-        comp = [
-            ['carrera', 'carreras'],
-            ['anotación', 'anotaciones']
-        ]
-        comp_batter = [
-            ['carrera anotada', 'carreras anotadas'],
-            ['anotación', 'anotaciones']
-        ]
+        er = 0
+        if 'ER' in self._player_dict:
+            er = self._player_dict['ER']
 
-        l = [
-            'ninguna anotación',
-            'ninguna carrera anotada'
-        ]
-        i = 1
+        num = number(cant)
+
+        d = {'R': num}
+
+        c = '0'
         if cant == 1:
-            i = 0
+            c = '1'
+        elif cant > 1:
+            c = '>1'
 
-        text = ''
+        pos = 'bateador'
+        if self._player_dict['position'] == 'P':
+            pos = 'lanzador'
 
         if self._condition == 'entity':
-            if cant == 0:
-                return random.choice(l)
-            else:
-                text = str(cant) + ' ' + random.choice(comp_batter)[i]
+            return fill_template(random.choice(self._templates['estadisticas']['jugador']['carreras_anotadas']['entidad'][c]), d)
 
         else:
-            if self._player_dict['position'] == 'P':
-                er = self._player_dict['ER']
-                if cant == 0:
-                    c = [
-                        'no toleró ' + random.choice(comp)[1],
-                        'no dejó que entraran ' + random.choice(comp)[1]
-                    ]
-                    text = random.choice(c)
-                    return text
-                else:
-                    text = 'permitió ' + str(cant) + ' ' + random.choice(comp)[1]
-
-                if er == cant:
-                    text += ', todas limpias'
-
-                elif er == 0:
-                    text += ', todas sucias'
-
-                else:
-                    text += ', de ellas ' + str(er) + ' limpias'
-
+            if cant == 0:
+                return fill_template(random.choice(self._templates['estadisticas']['jugador']['carreras_anotadas']['accion'][pos][c]), d)
             else:
-                if cant == 0:
-                    return ''
-                else:
-                    i = 1
-                    if cant == 1:
-                        i = 0
-                    text = 'anotó ' + str(cant) + ' ' + random.choice(comp)[i]
-
-        return text
+                x = 'limpias'
+                if er != cant:
+                    x = 'sucias'
+                return fill_template(random.choice(self._templates['estadisticas']['jugador']['carreras_anotadas']['accion'][pos][c][x]), d)
 
 # Entity
 class BB(Entity):
     def get_text(self):
         cant = self._player_dict['BB']
 
-        comp = [
-            ['base por bola', 'bases por bolas'],
-            ['boleto', 'boletos'],
-        ]
-        i = 1
+        num = number(cant)
+
+        d = {"BB": num}
+
+        c = '0'
         if cant == 1:
-            i = 0
+            c = '1'
+        elif cant > 1:
+            c = '>1'
 
-        if cant == 0:
-            l = [
-                'ninguna base por bola',
-                'ningún boleto'
-            ]
-            return random.choice(l)
-
-        return str(cant) + ' ' + random.choice(comp)[i]
+        return fill_template(random.choice(self._templates['estadisticas']['jugador']['base_por_bolas']['entidad'][c]), d)
 
 
 ###########################################
@@ -180,137 +131,88 @@ class BB(Entity):
 # Complement
 class AB(Entity):
     def get_text(self):
-        ab = self._player_dict['AB']
-        comp = [
-            ['oportunidad al bate', 'oportunidades al bate'],
-            ['aparición en el home', 'apariciones en el home'],
-            ['turno al bate', 'turnos al bate']
-        ]
-        i = 1
-        if ab == 1:
-            i = 0
-        text = 'en ' + str(ab) + ' ' + random.choice(comp)[i]
-        return text
+        cant = self._player_dict['AB']
+
+        num = number(cant)
+
+        d = {"AB": num}
+
+        c = '0'
+        if cant == 1:
+            c = '1'
+        elif cant > 1:
+            c = '>1'
+
+        return fill_template(random.choice(self._templates['estadisticas']['jugador']['turnos_al_bate']['complemento'][c]), d)
 
 # Entity
 class Doubles(Entity):
     def get_text(self):
         cant = self._player_dict['Double']
-        comp = [
-            ['doble', 'dobles'],
-            ['doblete', 'dobletes']
-        ]
-        l = [
-            'ningún doble',
-            'ningún doblete'
-        ]
-        i = 1
+        num = number(cant)
+
+        d = {"2B": num}
+
+        c = '0'
         if cant == 1:
-            i = 0
+            c = '1'
+        elif cant > 1:
+            c = '>1'
 
-        text = ''
-
-        if cant == 0:
-            return random.choice(l)
-        else:
-            text = str(cant) + ' ' + random.choice(comp)[i]
-
-        return text
+        return fill_template(random.choice(self._templates['estadisticas']['jugador']['dobles']['entidad'][c]), d)
 
 # Entity
 class Triples(Entity):
     def get_text(self):
         cant = self._player_dict['Triple']
-        comp = [
-            ['triple', 'triples'],
-            ['triplete', 'tripletes']
-        ]
-        l = [
-            'ningún triple',
-            'ningún triplete'
-        ]
-        i = 1
+        num = number(cant)
+
+        d = {"3B": num}
+
+        c = '0'
         if cant == 1:
-            i = 0
+            c = '1'
+        elif cant > 1:
+            c = '>1'
 
-        text = ''
-
-        if cant == 0:
-            return random.choice(l)
-        else:
-            text = str(cant) + ' ' + random.choice(comp)[i]
-
-        return text
+        return fill_template(random.choice(self._templates['estadisticas']['jugador']['triples']['entidad'][c]), d)
 
 # Entity
 class Home_Runs(Entity):
     def get_text(self):
         cant = self._player_dict['HR']
-        comp = [
-            ['jonrón', 'jonrones'],
-            ['cuadrangular', 'cuadrangulares']
-        ]
-        l = [
-            'ningún jonrón',
-            'ningún cuadrangular'
-        ]
-        i = 1
+        num = number(cant)
+
+        d = {"HR": num}
+
+        c = '0'
         if cant == 1:
-            i = 0
+            c = '1'
+        elif cant > 1:
+            c = '>1'
 
-        text = ''
-
-        if cant == 0:
-            return random.choice(l)
-        else:
-            text = str(cant) + ' ' + random.choice(comp)[i]
-
-        return text
+        return fill_template(random.choice(self._templates['estadisticas']['jugador']['jonrones']['entidad'][c]), d)
 
 # Action, Entity
 class RBI(Action):
-    def __init__(self, player_name, player_dict, condition='action'):
-        super().__init__(player_name, player_dict, condition)
-
     def get_text(self):
         cant = self._player_dict['RBI']
 
-        comp = [
-            ['empujada', 'empujadas'],
-            ['impulsada', 'impulsadas']
-        ]
-        l = [
-            'ninguna carrera empujada',
-            'ninguna carrera impulsada'
-        ]
-        i = 1
+        num = number(cant)
+
+        d = {"RBI": num}
+
+        c = '0'
         if cant == 1:
-            i = 0
+            c = '1'
+        elif cant > 1:
+            c = '>1'
 
-        text = ''
+        condition = 'entidad'
+        if self._condition != 'entity':
+            condition = 'accion'
 
-        if self._condition == 'entity':
-            if cant == 0:
-                text = random.choice(l)
-            else:
-                text = str(cant) + ' ' + random.choice(comp)[i]
-
-        else:
-            if cant == 0:
-                text = 'no impulsó carreras'
-            else:
-                i = 1
-                if cant == 1:
-                    i = 0
-                comp_rbi = ['carrera', 'carreras']
-
-                c = [
-                    'empujó ' + str(cant) + ' ' + comp_rbi[i],
-                    'impulsó ' + str(cant) + ' ' + comp_rbi[i]
-                ]
-                text = random.choice(c)
-
-        return text
+        return fill_template(random.choice(self._templates['estadisticas']['jugador']['carreras_impulsadas'][condition][c]), d)
 
 
 ###########################################
@@ -322,18 +224,13 @@ class IP(Entity):
     def get_text(self):
         ip = self._player_dict['IP']
 
-        comp = [
-            'entradas', 'innings'
-        ]
-        c = [
-            ['lanzadas', 'de labor'],
-            ['lanzados', 'de labor']
-        ]
+        d = {"IP": ip}
 
-        text = 'en ' + ip + ' ' + random.choice(comp) + \
-        ' ' + random.choice(random.choice(c))
+        c = '1'
+        if ip != '1.0':
+            c = 'not_1'
 
-        return text
+        return fill_template(random.choice(self._templates['estadisticas']['jugador']['entradas_lanzadas']['complemento'][c]), d)
 
 # Action, Entity, NO
 class ER(EntityCont):
@@ -344,64 +241,44 @@ class ER(EntityCont):
 class SO(Entity):
     def get_text(self):
         cant = self._player_dict['SO']
-        comp = [
-            ['ponche', 'ponches']
-        ]
-        i = 1
+        num = number(cant)
+
+        d = {"SO": num}
+
+        c = '0'
         if cant == 1:
-            i = 0
+            c = '1'
+        elif cant > 1:
+            c = '>1'
 
-        text = ''
-
-        if cant == 0:
-            return 'ningún ponche'
-        else:
-            text = str(cant) + ' ' + random.choice(comp)[i]
-
-        return text
+        return fill_template(random.choice(self._templates['estadisticas']['jugador']['ponches']['entidad'][c]), d)
 
 # Action
 class Impact(Entity):
     def get_text(self):
         impact = self._player_dict['impact']
 
-        text = ''
-
-        if 'W' in impact:
-            l = [
-                'se apuntó la victoria',
-                'fue el pitcher ganador'
-            ]
-            text = random.choice(l)
-
-        elif 'S' in impact:
-            l = [
-                'se apuntó el salvamento',
-                'salvó el juego para su equipo'
-            ]
-
-        return text
+        if impact != '':
+            return random.choice(self._templates['estadisticas']['jugador']['impacto']['accion'][impact])
+        
+        return ''
 
 # Action
 class Batters_faced(Entity):
     def get_text(self):
         cant = self._player_dict['batters_faced']
 
-        a = [
-            'enfrentó a',
-            'lanzó contra',
-            'hizo lanzamientos contra'
-        ]
+        num = number(cant)
 
-        b = ['bateador', 'bateadores']
+        d = {"bateadores_enfrentados": num}
 
-        i = 1
+        c = '0'
         if cant == 1:
-            i = 0
+            c = '1'
+        elif cant > 1:
+            c = '>1'
 
-        text = random.choice(a) + ' ' + str(cant) + ' ' + b[i]
-
-        return text
+        return fill_template(random.choice(self._templates['estadisticas']['jugador']['bateadores_enfrentados']['accion'][c]), d)
 
 ###########################################
 ############### HIGHLIGHTS ################

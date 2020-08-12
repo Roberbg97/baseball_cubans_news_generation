@@ -4,7 +4,8 @@ from .stats_player import *
 import random
 
 class Player:
-    def __init__(self, player_name, player_dict):
+    def __init__(self, player_name, player_dict, templates):
+        self.templates = templates
         self.dict_classes = {}
         self.player_dict = player_dict
         self.player_name = player_name
@@ -22,16 +23,16 @@ class Player:
             self.second_game = True
             self.player_name = self.player_name.replace('_2', '')
 
-        self.dict_classes['player_name'] = Player_name(self.player_name, self.player_dict)
-        self.dict_classes['position'] = Position(self.player_name, self.player_dict)
-        self.dict_classes['team'] = Team(self.player_name, self.player_dict)
-        self.dict_classes['rival_team'] = Rival_Team(self.player_name, self.player_dict)
-        self.dict_classes['H'] = Hits(self.player_name, self.player_dict, 'Entity')
+        self.dict_classes['player_name'] = Player_name(self.player_name, self.player_dict, self.templates)
+        self.dict_classes['position'] = Position(self.player_name, self.player_dict, self.templates)
+        self.dict_classes['team'] = Team(self.player_name, self.player_dict, self.templates)
+        self.dict_classes['rival_team'] = Rival_Team(self.player_name, self.player_dict, self.templates)
+        self.dict_classes['H'] = Hits(self.player_name, self.player_dict, self.templates, 'Entity')
 
         self.dict_classes['plays'] = []
 
         for play in self.player_dict['plays']:
-            self.dict_classes['plays'].append(Play(self.player_name, self.player_dict, play))
+            self.dict_classes['plays'].append(Play(self.player_name, self.player_dict, play, self.templates))
 
     def _last_name(self):
         n = self.player_name.split()
@@ -64,25 +65,24 @@ class Player:
         self.dict_classes['hits'] = {}
         self.dict_classes['runs'] = {}
 
-        self.dict_classes['hits']['entity'] = Hits(self.player_name, self.player_dict, 'entity')
-        self.dict_classes['hits']['action'] = Hits(self.player_name, self.player_dict)
-        self.dict_classes['runs']['entity'] = Runs(self.player_name, self.player_dict, 'entity')
-        self.dict_classes['runs']['action'] = Runs(self.player_name, self.player_dict)
-        self.dict_classes['BB'] = BB(self.player_name, self.player_dict)
+        self.dict_classes['hits']['entity'] = Hits(self.player_name, self.player_dict, self.templates, 'entity')
+        self.dict_classes['hits']['action'] = Hits(self.player_name, self.player_dict, self.templates)
+        self.dict_classes['runs']['entity'] = Runs(self.player_name, self.player_dict, self.templates, 'entity')
+        self.dict_classes['runs']['action'] = Runs(self.player_name, self.player_dict, self.templates)
+        self.dict_classes['BB'] = BB(self.player_name, self.player_dict, self.templates)
 
         if self.player_dict['position'] != 'P':
 
             self.dict_classes['RBI'] = {}
 
-            self.dict_classes['AB'] = AB(self.player_name, self.player_dict)
-            self.dict_classes['Double'] = Doubles(self.player_name, self.player_dict)
-            self.dict_classes['Triple'] = Triples(self.player_name, self.player_dict)
-            self.dict_classes['HR'] = Home_Runs(self.player_name, self.player_dict)
-            self.dict_classes['RBI']['entity'] = RBI(self.player_name, self.player_dict, 'entity')
-            self.dict_classes['RBI']['action'] = RBI(self.player_name, self.player_dict)
+            self.dict_classes['AB'] = AB(self.player_name, self.player_dict, self.templates)
+            self.dict_classes['Double'] = Doubles(self.player_name, self.player_dict, self.templates)
+            self.dict_classes['Triple'] = Triples(self.player_name, self.player_dict, self.templates)
+            self.dict_classes['HR'] = Home_Runs(self.player_name, self.player_dict, self.templates)
+            self.dict_classes['RBI']['entity'] = RBI(self.player_name, self.player_dict, self.templates, 'entity')
+            self.dict_classes['RBI']['action'] = RBI(self.player_name, self.player_dict, self.templates)
 
             # complement = self.dict_classes['AB'].text
-
             ads = []
             if self.player_dict['HR'] > 0:
                 ads.append(self.dict_classes['HR'])
@@ -111,71 +111,62 @@ class Player:
                     else:
                         text_1 += ', ' + ads[i].text
 
-            text = random.choice(
-                [
-                    last_name + ' ' + self.dict_classes['hits']['action'].text + \
-                    ' ' + self.dict_classes['AB'].text,
-                    last_name + ', ' + self.dict_classes['AB'].text + ', ' + \
-                    self.dict_classes['hits']['action'].text
-                ]
-            )
+            d = {
+                "nombre": last_name,
+                "hits_accion": self.dict_classes['hits']['action'].text,
+                "AB_comp": self.dict_classes['AB'].text,
+                "extrabases_entidad": text_1,
+                "extrabases_accion": "conectó " + text_1,
+                "RBI_R_entidad": rbi_and_runs
+            }
 
             if r > 0 or rbi > 0:
-                text += random.choice(
-                    [
-                        '. Aportó ' + rbi_and_runs + ' a la causa de su equipo',
-                        ', en el juego tuvo ' + rbi_and_runs
-
-                    ]
-                )
-
-            if ads:
-                text += random.choice(
-                    [
-                        '. Además, conectó ' + text_1,
-                        ', con ' + text_1
-                    ]
-                )
+                if ads:
+                    text = fill_template(random.choice(self.templates['noticia_jugador']\
+                    ['estadisticas_generales_jugador']['bateador']['anotadas_o_impulsadas']\
+                    ['extrabases']), d)
+                else:
+                    text = fill_template(random.choice(self.templates['noticia_jugador']\
+                    ['estadisticas_generales_jugador']['bateador']['anotadas_o_impulsadas']\
+                    ['sin_extrabases']), d)
+            else:
+                if ads:
+                    text = fill_template(random.choice(self.templates['noticia_jugador']\
+                    ['estadisticas_generales_jugador']['bateador']['sin_anotadas_ni_impulsadas']\
+                    ['extrabases']), d)
+                else:
+                    text = fill_template(random.choice(self.templates['noticia_jugador']\
+                    ['estadisticas_generales_jugador']['bateador']['sin_anotadas_ni_impulsadas']\
+                    ['sin_extrabases']), d)
 
         else:
-            self.dict_classes['impact'] = Impact(self.player_name, self.player_dict)
-            self.dict_classes['IP'] = IP(self.player_name, self.player_dict)
-            self.dict_classes['SO'] = SO(self.player_name, self.player_dict)
-            self.dict_classes['batters_faced'] = Batters_faced(self.player_name, self.player_dict)
+            self.dict_classes['impact'] = Impact(self.player_name, self.player_dict, self.templates)
+            self.dict_classes['IP'] = IP(self.player_name, self.player_dict, self.templates)
+            self.dict_classes['SO'] = SO(self.player_name, self.player_dict, self.templates)
+            self.dict_classes['batters_faced'] = Batters_faced(self.player_name, self.player_dict, self.templates)
 
+            d = {
+                "IP_comp": self.dict_classes['IP'].text,
+                "nombre": last_name,
+                "bateadores_enfrentados_accion": self.dict_classes['batters_faced'].text,
+                "R_accion": self.dict_classes['runs']['action'].text,
+                "hits_accion": self.dict_classes['hits']['action'].text,
+                "SO_entidad": self.dict_classes['SO'].text,
+                "BB_entidad": self.dict_classes['BB'].text,
+                "impacto_accion": self.dict_classes['impact'].text
+            }
 
-            text = self.dict_classes['IP'].text + ' ' + self._last_name() + ' ' + \
-            self.dict_classes['batters_faced'].text + ', ' + \
-            self.dict_classes['runs']['action'].text + ', ' + \
-            self.dict_classes['hits']['action'].text + ', con ' + \
-            self.dict_classes['SO'].text + ' y ' + self.dict_classes['BB'].text
-
-            impact = self.dict_classes['impact'].text
-            if impact != '':
-                text += ', y ' + impact
-
-            '''
-            fc = text[0]
-            text = text[1:]
-            fc = fc.upper()
-            text = fc + text
-            '''
+            if self.dict_classes['impact'].text != '':
+                text = fill_template(random.choice(self.templates['noticia_jugador']\
+                    ['estadisticas_generales_jugador']['lanzador']['con_impacto_en_juego']), d)
+            else:
+                text = fill_template(random.choice(self.templates['noticia_jugador']\
+                    ['estadisticas_generales_jugador']['lanzador']['sin_impacto_en_juego']), d)
 
         return text
 
     def get_initial_sentence(self, i):
         text = ''
-        l = [
-            'tuvo una destacada labor en su encuentro, ',
-            'destacó entre los demás jugadores en el juego, ',
-            'tuvo una buena actuación en el juego, '
-        ]
-        against = [
-            'frente a',
-            'contra',
-            'ante',
-            'enfrentado a'
-        ]
 
         wl = self.player_dict['result']
 
@@ -185,54 +176,46 @@ class Player:
         self.player_dict['game_details'][self.player_dict['rival_team']]['season_score']
         season_score = self.player_dict['game_details'][self.player_dict['team']]['season_score']
 
-        text2 = str(score_team) + ' por ' + str(score_rival_team) + ' ' + \
-        random.choice(against) + ' ' + self.player_dict['rival_team'] + ' (' + \
-        season_rival_score + '). '
+        d = {
+            "nombre": self.player_name,
+            "equipo": self.player_dict['team'] + ' (' + season_score + ')',
+            "carreras_equipo": str(score_team),
+            "equipo_rival": self.player_dict['rival_team'] + ' (' + season_rival_score + ')',
+            "carreras_equipo_rival": str(score_rival_team)
+        }
 
         if wl == 'win':
-            act = [
-                'apoyar', 'favorecer'
-            ]
-            ww = [
-                'en la victoria de ' + self.player_dict['team'] + ' (' + season_score + ')',
-                'en el triunfo de ' + self.player_dict['team'] + ' (' + season_score + ')'
-            ]
-
-            text = self.player_name + ' ' + random.choice(l) + 'para ' + \
-            random.choice(act) + ' ' + random.choice(ww) + ' ' + \
-            text2
+            if self.first_game:
+                text = fill_template(random.choice(self.templates['noticia_jugador']['oracion_inicial']\
+                ['victoria']['primero_del_doble']), d)
+            elif self.second_game:
+                text = fill_template(random.choice(self.templates['noticia_jugador']['oracion_inicial']\
+                ['victoria']['segundo_del_doble']), d)
+            else:
+                text = fill_template(random.choice(self.templates['noticia_jugador']['oracion_inicial']\
+                ['victoria']['juego_unico']), d)
 
         else:
-            act = [
-                'no pudo evitar',
-                'no evitó'
-            ]
-
-            ll = [
-                'la derrota de ' + self.player_dict['team'] + ' (' + season_score + ')',
-                'que cayera ' + self.player_dict['team'] + ' (' + season_score + ')'
-            ]
-
-            text = self.player_name + ' ' + random.choice(l) + 'pero ' + \
-            random.choice(act) + ' ' + random.choice(ll) + ' ' + \
-            text2
-
-        if self.first_game:
-            text = text[:-2]
-            text += ', en el primer juego de los dos celebrados por su equipo en la jornada. '
-
-        if self.second_game:
-            text = text[:-2]
-            text += ', en el segundo juego de los dos celebrados por su equipo en la jornada. '
+            if self.first_game:
+                text = fill_template(random.choice(self.templates['noticia_jugador']['oracion_inicial']\
+                ['derrota']['primero_del_doble']), d)
+            elif self.second_game:
+                text = fill_template(random.choice(self.templates['noticia_jugador']['oracion_inicial']\
+                ['derrota']['segundo_del_doble']), d)
+            else:
+                text = fill_template(random.choice(self.templates['noticia_jugador']['oracion_inicial']\
+                ['derrota']['juego_unico']), d)
 
         if i > 0:
-            text = random.choice(
-                [
-                    'En este juego también se destacó ' + self.player_name + '. ',
-                    self.player_name + \
-                    ' fue otro de los jugadores cubanos que se destacó en este encuentro. '
-                ]
-            )
+            text = fill_template(random.choice(self.templates['noticia_jugador']['oracion_inicial']\
+                ['segundo_destacado_del_juego']), d)
+
+        c = text[0]
+        c = c.upper()
+        text = text[1:]
+        text = c + text
+
+        text += '. '
 
         return text
 
@@ -324,8 +307,9 @@ class Player:
         return text
 
 class Play:
-    def __init__(self, player_name, player_dict, play_dict):
+    def __init__(self, player_name, player_dict, play_dict, templates):
         #super().__init__(player_name, player_dict)
+        self.templates = templates
         self.player_name = player_name
         self.player_dict = player_dict
         self.play_dict = play_dict
@@ -338,35 +322,35 @@ class Play:
         return self.wpa < play.wpa
 
     def init_c(self):
-        self.dict_classes['player_name'] = Player_name(self.player_name, self.player_dict)
-        self.dict_classes['position'] = Position(self.player_name, self.player_dict)
-        self.dict_classes['team'] = Team(self.player_name, self.player_dict)
-        self.dict_classes['rival_team'] = Rival_Team(self.player_name, self.player_dict)
+        self.dict_classes['player_name'] = Player_name(self.player_name, self.player_dict, self.templates)
+        self.dict_classes['position'] = Position(self.player_name, self.player_dict, self.templates)
+        self.dict_classes['team'] = Team(self.player_name, self.player_dict, self.templates)
+        self.dict_classes['rival_team'] = Rival_Team(self.player_name, self.player_dict, self.templates)
         self.dict_classes['referring'] = Referring([self.dict_classes['player_name'].text, \
         self.dict_classes['position'].text, 'el cubano'])
 
     def init_classes(self):
         self.dict_classes['play_desc'] = {}
-        self.dict_classes['inning'] = Inning(self.player_name, self.player_dict, self.play_dict)
+        self.dict_classes['inning'] = Inning(self.player_name, self.player_dict, self.templates, self.play_dict)
         self.dict_classes['current_score'] = \
-        Current_Score(self.player_name, self.player_dict, self.play_dict)
-        self.dict_classes['outs'] = Outs(self.player_name, self.player_dict, self.play_dict)
-        self.dict_classes['rob'] = ROB(self.player_name, self.player_dict, self.play_dict)
+        Current_Score(self.player_name, self.player_dict, self.templates, self.play_dict)
+        self.dict_classes['outs'] = Outs(self.player_name, self.player_dict, self.templates, self.play_dict)
+        self.dict_classes['rob'] = ROB(self.player_name, self.player_dict, self.templates, self.play_dict)
         self.dict_classes['pitcher'] = \
-        Current_Pitcher(self.player_name, self.player_dict, self.play_dict)
+        Current_Pitcher(self.player_name, self.player_dict, self.templates, self.play_dict)
         self.dict_classes['play_desc']['direction'] = \
-        Direction(self.player_name, self.player_dict, self.play_dict)
+        Direction(self.player_name, self.player_dict, self.templates, self.play_dict)
         self.dict_classes['play_desc']['event'] = \
-        Event(self.player_name, self.player_dict, self.play_dict)
+        Event(self.player_name, self.player_dict, self.templates, self.play_dict)
         self.dict_classes['play_desc']['RBI'] = {}
         self.dict_classes['play_desc']['RBI']['action'] = \
-        RBI_Result(self.player_name, self.player_dict, self.play_dict, 'action')
+        RBI_Result(self.player_name, self.player_dict, self.templates, self.play_dict, 'action')
         self.dict_classes['play_desc']['RBI']['reaction'] = \
-        RBI_Result(self.player_name, self.player_dict, self.play_dict, 'reaction')
+        RBI_Result(self.player_name, self.player_dict,  self.templates, self.play_dict, 'reaction')
         self.dict_classes['outs_play_result'] = \
-        Out_Play_Results(self.player_name, self.player_dict, self.play_dict)
+        Out_Play_Results(self.player_name, self.player_dict, self.templates, self.play_dict)
         self.dict_classes['score_result'] = \
-        Runs_Play_Result(self.player_name, self.player_dict, self.play_dict)
+        Runs_Play_Result(self.player_name, self.player_dict, self.templates, self.play_dict)
 
     def get_text_play(self):
         if self.player_dict['position'] != 'P':
@@ -396,17 +380,6 @@ class Play:
 
             comp_after_event = self.dict_classes['play_desc']['direction'].text
 
-            react = [
-                'para',
-                'y logró',
-                'para conseguir'
-            ]
-
-            b = [
-                'Gracias a ello consiguió',
-                'Esto le permitió'
-            ]
-
         else:
             entity = self.dict_classes['referring'].text
 
@@ -430,44 +403,28 @@ class Play:
                 self.dict_classes['outs_play_result'].text
             ]
 
-
             while '' in reaction:
                 reaction.remove('')
 
             comp_after_event = self.dict_classes['play_desc']['direction'].text
+        
+        d = {
+            "jugador": entity,
+            "comp_1": comp[0],
+            "comp_2": comp[1],
+            "inning": inning,
+            "accion": action,
+            "direccion": comp_after_event,
+            "reaccion": random.choice(reaction)
+        }
 
-            react = [
-                'para',
-                'y logró',
-                'para conseguir'
-            ]
+        text = fill_template(random.choice(self.templates['noticia_jugador']['texto_jugada']), d)
 
-            b = [
-                'Gracias a ello consiguió',
-                'Esto le permitió'
-            ]
-
-        text = [
-            entity + ', ' + comp[1] + ', ' + action + ' ' + comp_after_event + \
-            ' ' + random.choice(react) + ' ' + \
-            random.choice(reaction) + ', ' + comp[0] + ' ' + \
-            inning + '. ',
-            inning + ' y ' + comp[0] + ', ' + entity + ' ' + action + ' ' + \
-            comp_after_event + ' ' + random.choice(react) + ' ' + \
-            random.choice(reaction) + '. ',
-            entity + ', ' + comp[0] + ', ' + action + \
-            ' ' + comp_after_event + ' ' + random.choice(react) + ' ' + \
-            random.choice(reaction) + ' ' + inning + '. ',
-            comp[0] + ', ' + entity + ' ' + action + ' ' + comp_after_event + ' ' + \
-            inning + '. ' + random.choice(b) + ' ' + \
-            random.choice(reaction) + ', ' + comp[1] + '. '
-        ]
-
-        return_text = random.choice(text)
+        return_text = text
 
         fc = return_text[0].upper()
 
         return_text = return_text[1:]
-        return_text = fc + return_text
+        return_text = fc + return_text + '. '
 
         return return_text
