@@ -280,7 +280,6 @@ class Impact(Entity):
 
         if g != '':
             return random.choice(self._templates['estadisticas']['jugador']['impacto']['accion'][g])
-
         return ''
 
 # Action
