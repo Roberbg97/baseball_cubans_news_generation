@@ -1,9 +1,6 @@
-import json
-from typing import Dict, List, Union
 import requests
 from bs4 import Comment
 from bs4 import BeautifulSoup
-import re
 
 PARSER = 'lxml'
 try:
@@ -11,12 +8,14 @@ try:
 except ImportError:
     PARSER = 'html.parser'
 
-def _get_date():
-    ss = requests.Session()
-    base_url = 'https://baseball-reference.com'
-    r = ss.get(base_url)
-    bsObj = BeautifulSoup(r.text, PARSER)
-    date = bsObj.find('div', {'id': 'scores'}).h2.a['href']
+def get_date():
+    with requests.Session() as ss:
+        ss.headers['User-Agent'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Safari/537.36'
+        ss.headers['Accept-Encoding'] = 'gzip, deflate'
+        base_url = 'https://baseball-reference.com'
+        r = ss.get(base_url)
+        bsObj = BeautifulSoup(r.text, PARSER)
+        date = bsObj.find('div', {'id': 'scores'}).h2.a['href']
     return date.replace('/boxes/?date=', '')
 
-print(_get_date())
+#print(get_date())

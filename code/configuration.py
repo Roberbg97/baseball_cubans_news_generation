@@ -1,4 +1,5 @@
-from notice_pipeline import *
+from notice_pipeline import Configuration
+from notice_pipeline.date import get_date
 import json
 import datetime
 import os
@@ -9,18 +10,6 @@ except:
 
 class Armandobot(Configuration):
     __slots__ = ()
-
-    # def _instanciate_country(self):
-    #     return Scrapper_for_country(self._config.get('country', 'country'))
-
-    # def _instanciate_scraping(self):
-    #     return Scrapper_BR([])
-
-    # def _instanciate_clasification(self):
-    #     return Outstandings_LR()
-
-    # def _instanciate_generation(self, player_details, sorted_for_outstandings, games_details, players_teams, templates):
-    #     return New_Templates(player_details, sorted_for_outstandings, games_details, players_teams, templates)
 
     def _before_run(self, *args, **kwargs):
         today = datetime.date.today()
@@ -48,6 +37,9 @@ class Armandobot(Configuration):
             with open('UPDATED','w') as f:
                 f.write('1')
             return False
+        br_date = get_date()
+        ## exribir aquí el código para comparar
+        
         with open('UPDATED','w') as f:
                 f.write('0')
         return True
