@@ -1,3 +1,4 @@
+import json
 import random
 from .base import News
 from .notice_generator import Player, Play
@@ -10,7 +11,7 @@ class New_Templates(News):
     __slots__ = ()
     def __init__(self, player_details, sorted_for_outstandings, games_details, players_teams, templates):
         super().__init__(player_details, sorted_for_outstandings, games_details, players_teams, templates)
-        self._templates = json.load(templates)
+        self._templates = json.load(open(templates))
 
     def _get_first_paragraph(self):
         outstandings = self._sorted_for_outstandings

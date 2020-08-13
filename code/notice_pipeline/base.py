@@ -33,12 +33,12 @@ class Scrapper(metaclass=abc.ABCMeta):
 class ScrapperGames(Scrapper, metaclass=abc.ABCMeta):
     __slots__ = ()
 
-    @abc.abstractmethod
-    def __call__(self, country_results):
-        """
-        This class is call  with the result of the previous stage in the pipeline
-        """
-        raise NotImplementedError
+    # @abc.abstractmethod
+    # def __call__(self, country_results):
+    #     """
+    #     This class is call  with the result of the previous stage in the pipeline
+    #     """
+    #     raise NotImplementedError
 
     @property
     def allGamesDetails(self):
@@ -121,7 +121,6 @@ class Configuration(metaclass=abc.ABCMeta):
         c = class_()
         return c
 
-    @abc.abstractmethod
     def _instanciate_generation(self, player_details, sorted_for_outstandings, games_details, players_teams):
         gen_module = self._config.get('generation', 'module')
         gen_class = self._config.get('generation', 'class')
