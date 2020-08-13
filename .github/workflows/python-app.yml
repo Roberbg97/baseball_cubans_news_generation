@@ -49,7 +49,7 @@ jobs:
         cat code/UPDATED
         echo ${{env.UPDATED}}
     - name: Update html with new
-      if: ${{env.UPDATED}}
+      if: ${{env.UPDATED}}==0
       run: |
         python code/configuration.py
         git config --global user.name 'Roberbg97'
