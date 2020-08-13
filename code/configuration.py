@@ -36,8 +36,8 @@ class Armandobot(Configuration):
         if name in past_news:
             with open('REASON','w') as f:
                 f.write('DATA UPDATED')
-            with open('UPDATE','w') as f:
-                f.write('false')
+            with open('UPDATED','w') as f:
+                f.write('1')
             return False
 
         d = get_date()
@@ -45,14 +45,14 @@ class Armandobot(Configuration):
         if name != d:
             with open('REASON','w') as f:
                 f.write('baseball-reference.com isn\'t  updated yet.')
-            with open('UPDATE','w') as f:
-                f.write('false')
+            with open('UPDATED','w') as f:
+                f.write('1')
             return False
 
         with open('REASON','w') as f:
             f.write('UPDATING')
-        with open('UPDATE','w') as f:
-            f.write('true')
+        with open('UPDATED','w') as f:
+            f.write('0')
         return True
 
     def _after_run(self, *args, **kwargs):
