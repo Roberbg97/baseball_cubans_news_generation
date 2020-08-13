@@ -34,13 +34,15 @@ class Armandobot(Configuration):
             past_news = {}
 
         if name in past_news:
+            print('DATA UPDATED')
             with open('UPDATED','w') as f:
                 f.write('1')
             return False
 
         d = get_date()
 
-        if name == d:
+        if name != d:
+            print('baseball-reference.com isn\'t  updated yet.')
             with open('UPDATED','w') as f:
                 f.write('1')
             return False
