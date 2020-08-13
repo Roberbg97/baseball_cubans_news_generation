@@ -39,9 +39,15 @@ class Armandobot(Configuration):
             return False
         br_date = get_date()
         ## exribir aquí el código para comparar
+        d = get_date()
+
+        if name == d:
+            with open('UPDATED','w') as f:
+                f.write('1')
+            return False
         
         with open('UPDATED','w') as f:
-                f.write('0')
+            f.write('0')
         return True
 
     def _after_run(self, *args, **kwargs):
@@ -72,6 +78,8 @@ class Armandobot(Configuration):
         past_news[name] = res
 
         json.dump(past_news, open('past_news.json', 'w'), indent=2)
+
+        
 
         #r.render()
 
