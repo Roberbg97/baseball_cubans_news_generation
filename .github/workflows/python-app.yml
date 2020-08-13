@@ -38,7 +38,7 @@ jobs:
     - name: show reasosn
       run: |
         ls
-        cat REASON
+        cat code/REASON
     - name: Update env var
       uses: allenevans/set-env@v1.0.0
       with:
