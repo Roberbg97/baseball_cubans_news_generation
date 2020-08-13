@@ -51,7 +51,6 @@ jobs:
     - name: Update html with new
       if: ${{env.UPDATED}}==0
       run: |
-        python code/configuration.py
         git config --global user.name 'Roberbg97'
         git config --global user.email roberbg97@gmail.com
         git add .
