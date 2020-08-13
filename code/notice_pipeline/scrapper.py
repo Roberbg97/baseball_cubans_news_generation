@@ -34,6 +34,9 @@ class Scrapper_BR(ScrapperGames):
             self._players = list(country_results.keys())
         self._players = country_results
 
+    def _get_date(self, bsObj):
+        date = bsObj.find('div', {'id': 'scores'}).h2.a['href']
+        return date.replace('/boxes/?date=', '')
 
     def _get_game_score(self, bsObj):
 
