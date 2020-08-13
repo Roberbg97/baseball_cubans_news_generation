@@ -9,6 +9,8 @@ on:
 
 jobs:
   build:
+    env:
+      UPDATED: 0
 
     runs-on: ubuntu-latest
 
@@ -38,12 +40,17 @@ jobs:
     - name: Update env var
       uses: allenevans/set-env@v1.0.0
       with:
-        UPDATED: python -c "import os;print(open('UPDATED').read());os.remove('UPDATED')"
         overwrite: true
-    - name: Update html with new
-      if: ${{env.UPDATED==0}}
+        UPDATE: $(python -c "import os;print(open('code/UPDATE').read(),end='')")
+    - name: show reasosn
       run: |
-        python code/configuration.py
+        ls
+        cat code/REASON
+        cat code/UPDATE
+        echo ${{env.UPDATE}}
+    - name: Update html with new
+      if: ${{env.UPDATE}}
+      run: |
         git config --global user.name 'Roberbg97'
         git config --global user.email roberbg97@gmail.com
         git add .
