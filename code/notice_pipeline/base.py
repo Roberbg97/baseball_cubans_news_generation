@@ -61,13 +61,12 @@ class Outstandings(metaclass=abc.ABCMeta):
 class News(metaclass=abc.ABCMeta):
     __slots__ = ('_player_details', '_sorted_for_outstandings', '_games_details',
                  '_players_teams', '_text', '_templates')
-    def __init__(self, player_details, sorted_for_outstandings, games_details, players_teams, templates):
+    def __init__(self, player_details, sorted_for_outstandings, games_details, players_teams):
         self._player_details = player_details
         self._sorted_for_outstandings = sorted_for_outstandings
         self._games_details = games_details
         self._players_teams = players_teams
         self._text = None
-        self._templates = templates
 
     @abc.abstractmethod
     def _get_text(self)->Dict[str, Any]:
@@ -126,8 +125,7 @@ class Configuration(metaclass=abc.ABCMeta):
         gen_class = self._config.get('generation', 'class')
         module = import_module(gen_module)
         class_ = getattr(module, gen_class)
-        templates = self._config.get('generation', 'templates')
-        c = class_(player_details, sorted_for_outstandings, games_details, players_teams, templates)
+        c = class_(player_details, sorted_for_outstandings, games_details, players_teams)
         return c
 
     @abc.abstractmethod

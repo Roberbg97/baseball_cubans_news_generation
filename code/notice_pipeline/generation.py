@@ -1,3 +1,4 @@
+import os
 import json
 import random
 from .base import News
@@ -7,13 +8,16 @@ from .notice_generator.utils import get_yesterday_date as gyd, fill_template
 from gensim.summarization import summarize
 from .notice_generator.stats_player import Hits, Home_Runs, RBI, Runs
 
+try:
+    MODULE = os.path.dirname(os.path.realpath(__file__))
+except:
+    MODULE = ""
+
 class New_Templates(News):
     __slots__ = ()
-    def __init__(self, player_details, sorted_for_outstandings, games_details, players_teams, templates):
-        super().__init__(player_details, sorted_for_outstandings, games_details, players_teams, templates)
-        import os
-        print(os.listdir())
-        self._templates = json.load(open(templates))
+    def __init__(self, player_details, sorted_for_outstandings, games_details, players_teams):
+        super().__init__(player_details, sorted_for_outstandings, games_details, players_teams)
+        self._templates = json.load(open(os.path.join(MODULE,'templates.json')))
 
     def _get_first_paragraph(self):
         outstandings = self._sorted_for_outstandings
