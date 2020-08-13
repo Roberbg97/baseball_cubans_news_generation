@@ -93,21 +93,43 @@ class Configuration(metaclass=abc.ABCMeta):
         self._clasification = None
         self._generation = None
 
-    @abc.abstractmethod
     def _instanciate_country(self):
-        raise NotImplementedError
+        scraping_players_module = self._config.get('country', 'module')
+        scraping_players_class = self._config.get('country', 'class')
+        scraping_players_country = self._config.get('country', 'country')
+        module = import_module(scraping_players_module)
+        class_ = getattr(module, scraping_players_class)
+        c = class_(scraping_players_country)
+        return c
 
-    @abc.abstractmethod
-    def _instanciate_scraping(self):
-        raise NotImplementedError
+    def _instanciate_scraping(self, country):
+        scraping_module = self._config.get('scraping', 'module')
+        scraping_class = self._config.get('scraping', 'class')
+        module = import_module(scraping_module)
+        class_ = getattr(module, scraping_class)
+        if self._config.get('scraping','receiveCountry') == 'True':
+            c = class_(country)
+        else:
+            c = class_()
+        return c
 
-    @abc.abstractmethod
     def _instanciate_clasification(self):
-        raise NotImplementedError
+        clasification_module = self._config.get('clasification', 'module')
+        clasification_class = self._config.get('clasification', 'class')
+        module = import_module(clasification_module)
+        class_ = getattr(module, clasification_class)
+        c = class_()
+        return c
 
     @abc.abstractmethod
-    def _instanciate_generation(self, player_details, sorted_for_outstandings, games_details, players_teams, templates):
-        raise NotImplementedError
+    def _instanciate_generation(self, player_details, sorted_for_outstandings, games_details, players_teams):
+        gen_module = self._config.get('generation', 'module')
+        gen_class = self._config.get('generation', 'class')
+        module = import_module(gen_module)
+        class_ = getattr(module, gen_class)
+        templates = self._config.get('generation', 'templates')
+        c = class_(player_details, sorted_for_outstandings, games_details, players_teams, templates)
+        return c
 
     @abc.abstractmethod
     def _after_run(self, *args, **kwargs):
@@ -136,10 +158,8 @@ class Configuration(metaclass=abc.ABCMeta):
         players = self._country.data
 
         if self._scraping is None:
-            self._scraping = self._instanciate_scraping()
+            self._scraping = self._instanciate_scraping(players)
             assert issubclass(type(self._scraping), ScrapperGames)
-
-        self._scraping(players)
 
         if self._clasification is None:
             self._clasification = self._instanciate_clasification()
@@ -147,15 +167,12 @@ class Configuration(metaclass=abc.ABCMeta):
 
         sfo = self._clasification.get_sorted_outstandings(self._scraping.gameDayData)
 
-        templates = json.load(open(os.path.join(MODULE, '..', 'templates.json'), 'r'))
-
         if self._generation is None:
             self._generation = self._instanciate_generation(
                 self._scraping.gameDayData,
                 sfo,
                 self._scraping.allGamesDetails,
                 players,
-                templates
             )
             assert issubclass(type(self._generation), News)
         result = self._generation.text

@@ -19,6 +19,9 @@ class Scrapper_BR(ScrapperGames):
     __slots__ = ('_players', '_ss', '_base_url')
     def __init__(self, players: List[str]):
         super().__init__()
+        if isinstance(players, dict):
+            self._players = list(players.keys())
+        self._players = players
         self._players = players
         self._ss = requests.Session()
         self._ss.headers['User-Agent'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Safari/537.36'
@@ -31,10 +34,10 @@ class Scrapper_BR(ScrapperGames):
         self._data['players_details']['hitters'] = {}
         self._data['players_details']['pitchers'] = {}
 
-    def __call__(self, country_results):
-        if isinstance(country_results, dict):
-            self._players = list(country_results.keys())
-        self._players = country_results
+    # def __call__(self, country_results):
+    #     if isinstance(country_results, dict):
+    #         self._players = list(country_results.keys())
+    #     self._players = country_results
 
     def _get_game_score(self, bsObj):
 
