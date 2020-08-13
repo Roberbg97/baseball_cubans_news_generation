@@ -110,6 +110,6 @@ def fill_template(template, d):
     return template
 
 def number(n):
-    if n >= 2 and n <= 9:
+    if 2 <= n <= 9:
         return cardinal[n]
     return str(n)

@@ -1,7 +1,7 @@
 import random
-from .base_class import Stats, Entity, Highlights
+from .base_class import Entity, Highlights
 from .base_class import Action, EntityCont
-from .utils import cardinal, fill_template, number
+from .utils import fill_template, number
 
 # Entity
 class Player_name(Entity):
@@ -96,16 +96,14 @@ class Runs(Action):
         if self._condition == 'entity':
             return fill_template(random.choice(self._templates['estadisticas']['jugador']['carreras_anotadas']['entidad'][c]), d)
 
-        else:
-            if cant == 0:
-                return fill_template(random.choice(self._templates['estadisticas']['jugador']['carreras_anotadas']['accion'][pos][c]), d)
-            elif pos == 'bateador':
-                return fill_template(random.choice(self._templates['estadisticas']['jugador']['carreras_anotadas']['accion'][pos][c]), d)
-            else:
-                x = 'limpias'
-                if er != cant:
-                    x = 'sucias'
-                return fill_template(random.choice(self._templates['estadisticas']['jugador']['carreras_anotadas']['accion'][pos][c][x]), d)
+        if cant == 0:
+            return fill_template(random.choice(self._templates['estadisticas']['jugador']['carreras_anotadas']['accion'][pos][c]), d)
+        if pos == 'bateador':
+            return fill_template(random.choice(self._templates['estadisticas']['jugador']['carreras_anotadas']['accion'][pos][c]), d)
+        x = 'limpias'
+        if er != cant:
+            x = 'sucias'
+        return fill_template(random.choice(self._templates['estadisticas']['jugador']['carreras_anotadas']['accion'][pos][c][x]), d)
 
 # Entity
 class BB(Entity):
@@ -295,7 +293,7 @@ class Batters_faced(Entity):
 
 class Highlights_Player(Highlights):
     def __init__(self, player_name, player_dict):
-        super().__init__(player_name, player_dict)
+        super().__init__(player_name, player_dict, '')
 
     def get_dict_of_texts(self):
         name = self._player_name.replace('_1', '')
