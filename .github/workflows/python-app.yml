@@ -35,6 +35,10 @@ jobs:
     - name: Run program
       run: |
         cd code && python configuration.py
+    - name: show reasosn
+        run: |
+          ls
+          cat REASON
     - name: Update env var
       uses: allenevans/set-env@v1.0.0
       with:
