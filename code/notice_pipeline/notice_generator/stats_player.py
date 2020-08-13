@@ -96,15 +96,6 @@ class Runs(Action):
         if self._condition == 'entity':
             return fill_template(random.choice(self._templates['estadisticas']['jugador']['carreras_anotadas']['entidad'][c]), d)
 
-<<<<<<< HEAD
-        if cant == 0:
-            return fill_template(random.choice(self._templates['estadisticas']['jugador']['carreras_anotadas']['accion'][pos][c]), d)
-
-        x = 'limpias'
-        if er != cant:
-            x = 'sucias'
-        return fill_template(random.choice(self._templates['estadisticas']['jugador']['carreras_anotadas']['accion'][pos][c][x]), d)
-=======
         else:
             if cant == 0:
                 return fill_template(random.choice(self._templates['estadisticas']['jugador']['carreras_anotadas']['accion'][pos][c]), d)
@@ -115,7 +106,6 @@ class Runs(Action):
                 if er != cant:
                     x = 'sucias'
                 return fill_template(random.choice(self._templates['estadisticas']['jugador']['carreras_anotadas']['accion'][pos][c][x]), d)
->>>>>>> e9d81c6d142a14818a8f183dde77b39d4afa7392
 
 # Entity
 class BB(Entity):
