@@ -9,6 +9,8 @@ on:
 
 jobs:
   build:
+    env:
+      UPDATED: 0
 
     runs-on: ubuntu-latest
 
@@ -35,16 +37,17 @@ jobs:
     - name: Run program
       run: |
         cd code && python configuration.py
+    - name: Update env var
+      uses: allenevans/set-env@v1.0.0
+      with:
+        overwrite: true
+        UPDATED: cd code && python -c "import os;print(open('UPDATED').read());os.remove('UPDATED')"
     - name: show reasosn
       run: |
         ls
         cat code/REASON
         cat code/UPDATED
-    - name: Update env var
-      uses: allenevans/set-env@v1.0.0
-      with:
-        UPDATED: cd code && python -c "import os;print(open('UPDATED').read());os.remove('UPDATED')"
-        overwrite: true
+        echo ${{env.UPDATED}}
     - name: Update html with new
       if: ${{env.UPDATED==0}}
       run: |
