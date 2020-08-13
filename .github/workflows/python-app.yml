@@ -41,7 +41,7 @@ jobs:
       uses: allenevans/set-env@v1.0.0
       with:
         overwrite: true
-        UPDATE: $(python -c "import os;print(open('code/UPDATE').read())")
+        UPDATE: $(python -c "import os;print(open('code/UPDATE').read(),end='')")
     - name: show reasosn
       run: |
         ls
