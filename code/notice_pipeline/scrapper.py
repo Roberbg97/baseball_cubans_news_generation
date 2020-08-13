@@ -13,6 +13,8 @@ except ImportError:
     PARSER = 'html.parser'
 
 
+
+
 class Scrapper_BR(ScrapperGames):
     __slots__ = ('_players', '_ss', '_base_url')
     def __init__(self, players: List[str]):
@@ -33,10 +35,6 @@ class Scrapper_BR(ScrapperGames):
         if isinstance(country_results, dict):
             self._players = list(country_results.keys())
         self._players = country_results
-
-    def _get_date(self, bsObj):
-        date = bsObj.find('div', {'id': 'scores'}).h2.a['href']
-        return date.replace('/boxes/?date=', '')
 
     def _get_game_score(self, bsObj):
 
