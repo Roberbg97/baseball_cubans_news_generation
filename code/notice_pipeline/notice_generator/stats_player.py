@@ -96,6 +96,7 @@ class Runs(Action):
         if self._condition == 'entity':
             return fill_template(random.choice(self._templates['estadisticas']['jugador']['carreras_anotadas']['entidad'][c]), d)
 
+<<<<<<< HEAD
         if cant == 0:
             return fill_template(random.choice(self._templates['estadisticas']['jugador']['carreras_anotadas']['accion'][pos][c]), d)
 
@@ -103,6 +104,18 @@ class Runs(Action):
         if er != cant:
             x = 'sucias'
         return fill_template(random.choice(self._templates['estadisticas']['jugador']['carreras_anotadas']['accion'][pos][c][x]), d)
+=======
+        else:
+            if cant == 0:
+                return fill_template(random.choice(self._templates['estadisticas']['jugador']['carreras_anotadas']['accion'][pos][c]), d)
+            elif pos == 'bateador':
+                return fill_template(random.choice(self._templates['estadisticas']['jugador']['carreras_anotadas']['accion'][pos][c]), d)
+            else:
+                x = 'limpias'
+                if er != cant:
+                    x = 'sucias'
+                return fill_template(random.choice(self._templates['estadisticas']['jugador']['carreras_anotadas']['accion'][pos][c][x]), d)
+>>>>>>> e9d81c6d142a14818a8f183dde77b39d4afa7392
 
 # Entity
 class BB(Entity):
@@ -256,8 +269,17 @@ class Impact(Entity):
     def get_text(self):
         impact = self._player_dict['impact']
 
-        if impact != '':
-            return random.choice(self._templates['estadisticas']['jugador']['impacto']['accion'][impact])
+        g = ''
+
+        if "W" in impact:
+            g = 'W'
+        elif 'L' in impact:
+            g = 'L'
+        elif "S" in impact:
+            g = 'S'
+
+        if g != '':
+            return random.choice(self._templates['estadisticas']['jugador']['impacto']['accion'][g])
 
         return ''
 

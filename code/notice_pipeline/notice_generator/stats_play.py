@@ -242,6 +242,8 @@ class RBI_Result(Stats):
             c = '1'
         elif cant > 1:
             c = '>1'
+        else:
+            return ''
 
         if self._act_or_react == 'action':
             return fill_template(random.choice(self._templates['estadisticas']['jugada']['impulsadas_en_jugada']['accion'][c]), d)
