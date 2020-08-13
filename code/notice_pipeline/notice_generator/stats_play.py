@@ -90,31 +90,29 @@ class Runs_Play_Result(Stats):
             if result_rival_score > current_score:
                 return fill_template(random.choice(self._templates['estadisticas']['jugada']['carreras_en_jugada']['reaccion']['lanzador']['pierde']), d)
 
-            elif result_rival_score == current_score:
+            if result_rival_score == current_score:
                 return fill_template(random.choice(self._templates['estadisticas']['jugada']['carreras_en_jugada']['reaccion']['lanzador']['empata']), d)
 
-            else:
-                return fill_template(random.choice(self._templates['estadisticas']['jugada']['carreras_en_jugada']['reaccion']['lanzador']['gana']), d)
-        else:
-            if runs_play_result == 0:
-                if sb and tb:
-                    return fill_template(random.choice(self._templates['estadisticas']['jugada']['carreras_en_jugada']['reaccion']['bateador']['0']['2_en_pos_anotadora']), d)
-                elif sb or tb:
-                    return fill_template(random.choice(self._templates['estadisticas']['jugada']['carreras_en_jugada']['reaccion']['bateador']['0']['1_en_pos_anotadora']), d)
-                else:
-                    return fill_template(random.choice(self._templates['estadisticas']['jugada']['carreras_en_jugada']['reaccion']['bateador']['0']['otro']), d)
+            return fill_template(random.choice(self._templates['estadisticas']['jugada']['carreras_en_jugada']['reaccion']['lanzador']['gana']), d)
 
-            if result_score < current_rival_score:
-                return fill_template(random.choice(self._templates['estadisticas']['jugada']['carreras_en_jugada']['reaccion']['bateador']['>=1']['pierde']), d)
+        if runs_play_result == 0:
+            if sb and tb:
+                return fill_template(random.choice(self._templates['estadisticas']['jugada']['carreras_en_jugada']['reaccion']['bateador']['0']['2_en_pos_anotadora']), d)
+            if sb or tb:
+                return fill_template(random.choice(self._templates['estadisticas']['jugada']['carreras_en_jugada']['reaccion']['bateador']['0']['1_en_pos_anotadora']), d)
 
-            elif result_score == current_rival_score:
-                return fill_template(random.choice(self._templates['estadisticas']['jugada']['carreras_en_jugada']['reaccion']['bateador']['>=1']['empata']), d)
+            return fill_template(random.choice(self._templates['estadisticas']['jugada']['carreras_en_jugada']['reaccion']['bateador']['0']['otro']), d)
 
-            elif current_score <= current_rival_score:
-                return fill_template(random.choice(self._templates['estadisticas']['jugada']['carreras_en_jugada']['reaccion']['bateador']['>=1']['remonta']), d)
+        if result_score < current_rival_score:
+            return fill_template(random.choice(self._templates['estadisticas']['jugada']['carreras_en_jugada']['reaccion']['bateador']['>=1']['pierde']), d)
 
-            else:
-                return fill_template(random.choice(self._templates['estadisticas']['jugada']['carreras_en_jugada']['reaccion']['bateador']['>=1']['aumenta_ventaja']), d)
+        if result_score == current_rival_score:
+            return fill_template(random.choice(self._templates['estadisticas']['jugada']['carreras_en_jugada']['reaccion']['bateador']['>=1']['empata']), d)
+
+        if current_score <= current_rival_score:
+            return fill_template(random.choice(self._templates['estadisticas']['jugada']['carreras_en_jugada']['reaccion']['bateador']['>=1']['remonta']), d)
+
+        return fill_template(random.choice(self._templates['estadisticas']['jugada']['carreras_en_jugada']['reaccion']['bateador']['>=1']['aumenta_ventaja']), d)
 
 # Reaction
 class Out_Play_Results(Stats):
