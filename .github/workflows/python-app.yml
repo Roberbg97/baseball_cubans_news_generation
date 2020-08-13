@@ -34,7 +34,7 @@ jobs:
         pip install -r requirements.txt
     - name: Run program
       run: |
-        python configuration.py
+        cd code && python configuration.py
     - name: Update env var
       uses: allenevans/set-env@v1.0.0
       with:
