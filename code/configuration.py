@@ -37,15 +37,14 @@ class Armandobot(Configuration):
             with open('UPDATED','w') as f:
                 f.write('1')
             return False
-        br_date = get_date()
-        ## exribir aquí el código para comparar
+
         d = get_date()
 
         if name == d:
             with open('UPDATED','w') as f:
                 f.write('1')
             return False
-        
+
         with open('UPDATED','w') as f:
             f.write('0')
         return True
