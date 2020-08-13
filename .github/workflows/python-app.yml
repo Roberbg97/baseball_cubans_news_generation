@@ -39,10 +39,11 @@ jobs:
       run: |
         ls
         cat code/REASON
+        cat code/UPDATED
     - name: Update env var
       uses: allenevans/set-env@v1.0.0
       with:
-        UPDATED: python -c "import os;print(open('UPDATED').read());os.remove('UPDATED')"
+        UPDATED: cd code && python -c "import os;print(open('UPDATED').read());os.remove('UPDATED')"
         overwrite: true
     - name: Update html with new
       if: ${{env.UPDATED==0}}
