@@ -41,7 +41,7 @@ jobs:
       uses: allenevans/set-env@v1.0.0
       with:
         overwrite: true
-        UPDATED: cd code && python -c "import os;print(open('UPDATED').read());os.remove('UPDATED')"
+        UPDATED: python -c "import os;print(open('code/UPDATED').read());os.remove('UPDATED')"
     - name: show reasosn
       run: |
         ls
