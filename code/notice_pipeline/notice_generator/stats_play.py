@@ -74,7 +74,7 @@ class Runs_Play_Result(Stats):
         # fb = self._play_dict['play_desc']['on_bases']['1B']
         sb = self._play_dict['play_desc']['on_bases']['2B']
         tb = self._play_dict['play_desc']['on_bases']['3B']
-        result_score = current_score + runs_play_result
+        #result_score = current_score + runs_play_result
 
         d = {
             "marcador_equipo": str(result_score),
@@ -85,7 +85,6 @@ class Runs_Play_Result(Stats):
         }
 
         if self._player_dict['position'] == 'P':
-            result_rival_score = current_rival_score + runs_play_result
 
             if result_rival_score > current_score:
                 return fill_template(random.choice(self._templates['estadisticas']['jugada']['carreras_en_jugada']['reaccion']['lanzador']['pierde']), d)
