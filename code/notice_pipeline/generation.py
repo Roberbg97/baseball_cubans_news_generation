@@ -33,7 +33,7 @@ class New_Templates(News):
 
         d = {
             'fecha': date,
-            'cant_jugadores': str(len(s)),
+            'cant_jugadores': str(len(outstandings)),
             'cant_juegos': str(len(games_details))
         }
 
@@ -582,7 +582,7 @@ class New_Templates(News):
     def _get_text(self):
         player_details = self._player_details
         games_details = self._games_details
-        players_teams = self._players_teams
+        players_teams = self._players_teams['current_year_list']
 
         paragraphs = []
 

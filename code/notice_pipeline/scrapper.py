@@ -19,10 +19,7 @@ class Scrapper_BR(ScrapperGames):
     __slots__ = ('_players', '_ss', '_base_url')
     def __init__(self, players: List[str]):
         super().__init__()
-        if isinstance(players, dict):
-            self._players = list(players.keys())
-        self._players = players
-        self._players = players
+        self._players = players['complete_list']
         self._ss = requests.Session()
         self._ss.headers['User-Agent'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Safari/537.36'
         self._ss.headers['Accept-Encoding'] = 'gzip, deflate'
@@ -371,7 +368,7 @@ class Scrapper_BR(ScrapperGames):
         # get links games
         games_links = []
         r = session.get(base_url)
-        #r = session.get(base_url + '/boxes/?month=7&day=28&year=2020')
+        #r = session.get(base_url + '/boxes/?month=8&day=10&year=2020')
         bsObj = BeautifulSoup(r.text, PARSER)
         scores = bsObj.find('div', {'id': 'scores'})
         #scores = bsObj.find('div', {'class': 'game_summaries'})
