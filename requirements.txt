@@ -4,7 +4,7 @@ chardet==3.0.4
 idna==2.10
 jinja2==2.11.2
 joblib==0.13.2
-lxml==4.5.2
+lxml==4.9.1
 markupsafe==1.1.1
 numpy==1.19.1
 requests==2.24.0
